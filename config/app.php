@@ -163,6 +163,7 @@ return [
         PAQUETES NUESTROS
         */
         Collective\Html\HtmlServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
         Laraveles\Spanish\SpanishServiceProvider::class,
 
 
