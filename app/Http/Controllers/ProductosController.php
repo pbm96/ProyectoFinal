@@ -16,7 +16,8 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        return view('productos.index');
+      $productos= Producto::orderBy('created_at','desc')->paginate(12);
+        return view('productos.index')->with('productos',$productos);
     }
 
     /**
