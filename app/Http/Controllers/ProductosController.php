@@ -16,6 +16,7 @@ class ProductosController extends Controller
      */
     public function index()
     {
+        // se muestran los productos ordenados por fecha de añadido
       $productos= Producto::orderBy('created_at','desc')->paginate(12);
         return view('productos.index')->with('productos',$productos);
     }
@@ -27,6 +28,7 @@ class ProductosController extends Controller
      */
     public function create()
     {
+        // se crea el select de las categorias para los productos
         $categorias=Categoria::orderBy('nombre','ASC')->pluck('nombre','id');
         return view('productos.crear_producto')->with('categorias',$categorias);
 
@@ -38,6 +40,7 @@ class ProductosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -51,7 +54,9 @@ class ProductosController extends Controller
             $path=public_path().'/imagenes/productos/';
             $file->move($path,$nombre_imagen);
         }
+
         $producto = new Producto($request->all());
+        // introducir id de usuario autentificado en tabla productos
         $producto->user_id=\Auth::user()->id;
         $producto->save();
 
@@ -59,6 +64,7 @@ class ProductosController extends Controller
 
         $imagen = new Imagen();
         $imagen->nombre= $nombre_imagen;
+        // llamar a metodo producto en modelo 'Imagen' y asociarle el producto al que pertenece esa imagen
         $imagen->producto()->associate($producto);
         $imagen->save();
         return redirect()->route('home');
