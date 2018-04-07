@@ -10,18 +10,23 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//ruta home principal
 Route::get('/', array('as' => 'home', 'uses' => 'ProductosController@index'));
 
+//rutas autentificacion (login/registro)
 Auth::routes();
 
+        //rutas de los productos. para acceder hay que autentificarse
+        Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
+             Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
+            Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
+            Route::get('{id}/borrar',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
+            Route::get('{id}/editar',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
 
-        Route::group(['prefix'=>'productos'],function () {
-            Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
-        Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
+        });
+        Route::group(['prefix'=>'usuario'],function () {
 
-
-});
+        });
 
 
 

@@ -89,7 +89,7 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -108,10 +108,17 @@ class ProductosController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy($id)
     {
-        //
+        $producto= Producto::find($id);
+        if ($producto!=null) {
+            $producto->delete();
+        }
+        else {
+            return (' no hay productos');
+        }
+
     }
 }
