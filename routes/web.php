@@ -31,7 +31,6 @@ Auth::routes();
 
 
 //Route::resource('productos','ProductosController');
-//R    oute::get('home', array('as' => 'home', 'uses' => 'ProductosController@index'));
 
 
 

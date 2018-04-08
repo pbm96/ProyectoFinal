@@ -1,7 +1,7 @@
 <!-- include del nav y de los enlaces de estilos-->
 @extends('templates.main')
 
-@section('pageTitle', 'Home')
+@section('titulo_pagina', 'Home')
 
 @section('estilos')
     <style></style>
