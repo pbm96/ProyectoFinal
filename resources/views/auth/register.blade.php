@@ -12,14 +12,53 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="nombre" type="text" class="form-control{{ $errors->has('nombre') ? ' is-invalid' : '' }}" name="nombre" value="{{ old('nombre') }}" required autofocus>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('nombre'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('nombre') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apellido1" class="col-md-4 col-form-label text-md-right">{{ __('Primer apelido') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="apellido1" type="text" class="form-control{{ $errors->has('apellido1') ? ' is-invalid' : '' }}" name="apellido1" value="{{ old('apellido1') }}" required autofocus>
+
+                                @if ($errors->has('apellido1'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('apellido1') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apellido2" class="col-md-4 col-form-label text-md-right">{{ __('Segundo apellido') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="apellido2" type="text" class="form-control{{ $errors->has('apellido2') ? ' is-invalid' : '' }}" name="apellido2" value="{{ old('apellido2') }}" required autofocus>
+
+                                @if ($errors->has('apellido2'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('apellido2') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nombre_usuario" class="col-md-4 col-form-label text-md-right">{{ __('Nombre Usuario') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="nombre_usuario" type="text" class="form-control{{ $errors->has('nombre_usuario') ? ' is-invalid' : '' }}" name="nombre_usuario" value="{{ old('nombre_usuario') }}" required autofocus>
+
+                                @if ($errors->has('nombre_usuario'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('nombre_usuario') }}</strong>
                                     </span>
                                 @endif
                             </div>

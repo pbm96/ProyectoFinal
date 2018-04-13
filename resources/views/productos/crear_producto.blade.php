@@ -12,7 +12,6 @@
     {!! Form::label('descripcion','Descripcion') !!}
     {!! Form::textarea('descripcion',null,['class'=>' ','required','placeholder'=>'Descripcion Producto']) !!}
 </div>
-
 <div class="form-group">
     {!! Form::label('imagen','Imagen') !!}
     {!! Form::File('imagen',['class'=>'form-control','required']) !!}
