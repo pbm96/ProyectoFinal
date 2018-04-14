@@ -30,7 +30,7 @@ class ProductosController extends Controller
     {
         // se crea el select de las categorias para los productos
         $categorias=Categoria::orderBy('nombre','ASC')->pluck('nombre','id');
-        return view('productos.crear_producto')->with('categorias',$categorias);
+        return view('productos.crear-producto.index')->with('categorias',$categorias);
 
     }
 
@@ -113,7 +113,8 @@ class ProductosController extends Controller
     public function  ver_producto_completo($id){
         //prueba de buscar un producto
         $producto=Producto::find($id);
-        dd($producto->nombre);
+
+        return view('productos.ver-producto-individual.index')->with('producto',$producto);
 
 
 }

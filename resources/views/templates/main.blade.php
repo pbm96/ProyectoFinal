@@ -15,7 +15,7 @@
 <header>
     @include('templates.assets.header')
 </header>
-<main>
+<main class="container mt-4">
 @yield('contenido')
 
 
