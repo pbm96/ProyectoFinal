@@ -22,8 +22,8 @@ class ProductosController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * Funcion para llamar a la vista de crear un producto
+     *e.
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -35,7 +35,7 @@ class ProductosController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Funcion para guardar un producto
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -43,6 +43,7 @@ class ProductosController extends Controller
 
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'imagen' => 'required|image'
 
@@ -70,23 +71,8 @@ class ProductosController extends Controller
         return redirect()->route('home');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
 
@@ -112,6 +98,7 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
+        //prueba de borrar un producto
         $producto= Producto::find($id);
         if ($producto!=null) {
             $producto->delete();
@@ -121,4 +108,13 @@ class ProductosController extends Controller
         }
 
     }
+
+
+    public function  ver_producto_completo($id){
+        //prueba de buscar un producto
+        $producto=Producto::find($id);
+        dd($producto->nombre);
+
+
+}
 }
