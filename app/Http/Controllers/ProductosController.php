@@ -18,7 +18,7 @@ class ProductosController extends Controller
     {
         // se muestran los productos ordenados por fecha de añadido
       $productos= Producto::orderBy('created_at','desc')->paginate(12);
-        return view('productos.index')->with('productos',$productos);
+        return view('index')->with('productos',$productos);
     }
 
     /**
