@@ -11,7 +11,7 @@
 |
 */
 //ruta home principal
-Route::get('/', array('as' => 'home', 'uses' => 'ProductosController@index'));
+Route::get('/', array('as' => 'index', 'uses' => 'ProductosController@index'));
 
 //rutas autentificacion (login/registro)
 Auth::routes();
