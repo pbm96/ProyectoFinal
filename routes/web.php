@@ -25,7 +25,7 @@ Auth::routes();
 
             Route::get('{id}/editar',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
 
-            Route::get('mostrar-producto/{id}',array('as'=>'ver_producto','uses'=>'ProductosController@ver_producto_completo'));
+            Route::get('ver-producto/{id}',array('as'=>'ver_producto','uses'=>'ProductosController@ver_producto_completo'));
 
 
         });
