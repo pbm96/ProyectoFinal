@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('templates.main')
 
-@section('content')
+@section('contenido')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -95,7 +96,7 @@
                             <label for="direccion" class="col-md-4 col-form-label text-md-right">{{ __('Direccion') }}</label>
 
                             <div class="col-md-6">
-                                <input id="direccion" type="text" class="form-control{{ $errors->has('direccion') ? ' is-invalid' : '' }}" name="direccion" value="{{ old('direccion') }}" required>
+                                <input id="direccion" type="text" class="form-control{{ $errors->has('direccion') ? ' is-invalid' : '' }}" value="{{ old('direccion') }} "name="direccion" required >
 
                                 @if ($errors->has('direccion'))
                                     <span class="invalid-feedback">
@@ -139,4 +140,16 @@
         </div>
     </div>
 </div>
+
 @endsection
+@section('scripts')
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCG7G5aANtgkHs8FRZ6kyEsUOCwd4DG5QM&libraries=places" ></script>
+    <script type="application/javascript">
+            var input=document.getElementById('direccion');
+            autocomplete = new google.maps.places.Autocomplete(input);
+
+    </script>
+    @endsection
+
+
+
