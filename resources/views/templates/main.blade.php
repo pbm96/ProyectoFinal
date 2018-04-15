@@ -14,6 +14,12 @@
 <body>
 <header>
     @include('templates.assets.header')
+    <div class="container mt-4 text-center">
+        <div class="row justify-content-sm-center">
+        @include('flash::message')
+        </div>
+    </div>
+
 </header>
 <main class="container mt-4">
 @yield('contenido')

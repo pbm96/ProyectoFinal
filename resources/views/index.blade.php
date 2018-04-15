@@ -11,6 +11,8 @@
 
 @section('contenido')
 
+
+
     @foreach($productos as $producto)
         {{$producto->nombre}}
         <br>
