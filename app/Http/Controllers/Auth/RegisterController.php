@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Laracasts\Flash\Flash;
 
 class RegisterController extends Controller
 {
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -56,7 +57,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:191|unique:users',
             'password' => 'required|string|min:6|confirmed|max:191',
             'direccion' => 'required|string',
-            'telefono' => 'numeric|digits:9|unique:users',
+            'telefono' => 'numeric|digits:9',
             //falta imagen
 
         ]);
@@ -70,6 +71,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Flash::success('Bienvenido a Fakeapop'.$data['nombre_usuario']);
         return User::create([
             'nombre' => $data['nombre'],
             'apellido1' => $data['apellido1'],
