@@ -7,10 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('titulo_pagina') -Fakeapop</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link href="https://fonts.googleapis.com/css?family=Coustard" rel="stylesheet">
     @yield('estilos')
-
 </head>
+<style>
+    body{
+        font-family: Coustard;
+    }
+</style>
 <body>
 <header>
     @include('templates.assets.header')
