@@ -6,6 +6,7 @@ use App\Categoria;
 use App\Imagen;
 use App\Producto;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 
 class ProductosController extends Controller
 {
@@ -45,9 +46,10 @@ class ProductosController extends Controller
     {
 
         $this->validate($request, [
-            'imagen' => 'required|image'
+            'imagen' => 'image'
 
         ]);
+        $nombre_imagen='';
 //        manipular imagenes
         if($request->file('imagen')){
             $file=$request->file('imagen');
@@ -61,14 +63,15 @@ class ProductosController extends Controller
         $producto->user_id=\Auth::user()->id;
         $producto->save();
 
-
-
+        if($nombre_imagen!=""){
         $imagen = new Imagen();
         $imagen->nombre= $nombre_imagen;
         // llamar a metodo producto en modelo 'Imagen' y asociarle el producto al que pertenece esa imagen
         $imagen->producto()->associate($producto);
         $imagen->save();
-        return redirect()->route('home');
+            }
+        Flash::success('tu producto '.$producto->nombre." se ha creado correctamente");
+        return redirect()->route('index');
     }
 
 
@@ -114,7 +117,12 @@ class ProductosController extends Controller
         //prueba de buscar un producto
         $producto=Producto::find($id);
 
-        return view('productos.ver-producto-individual.index')->with('producto',$producto);
+       $imagenes=$producto->imagen ;
+
+
+
+
+        return view('productos.ver-producto-individual.index')->with('producto',$producto)->with('imagenes',$imagenes);
 
 
 }

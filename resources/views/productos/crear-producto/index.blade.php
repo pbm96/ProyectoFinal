@@ -14,7 +14,7 @@
 </div>
 <div class="form-group">
     {!! Form::label('imagen','Imagen') !!}
-    {!! Form::File('imagen',['class'=>'form-control','required']) !!}
+    {!! Form::File('imagen',['class'=>'form-control']) !!}
 </div>
 <div class="form-group">
     {!!Form::submit('Agregar articulo',['class'=>'btn btn-primary'])!!}
