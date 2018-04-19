@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->decimal('telefono',9,0)->nullable();
             $table->string('imagen')->nullable();
 
-            $table->foreign('direccion_id')->references('id')->on('direcciones');
+            $table->foreign('direccion_id')->references('id')->on('direcciones')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });
