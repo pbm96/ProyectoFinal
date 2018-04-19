@@ -27,20 +27,16 @@
                         {{ $producto->nombre }}
                     </div>
                     <div class="card-body">
-                        <a href="#" class="btn btn-primary">Detalles</a>
+                    <a href="ver-producto/{{ $producto->id }}" class="btn btn-primary">Detalles</a>
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
     @endforeach
-        <div class="render mx-auto text-center">{{ $productos->render() }}</div>
+        <div class="">{{ $productos->render() }}</div>
 @endsection
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
-    <script>
-        onload = function(){
-            $('.render').find('.pagination').addClass('mx-auto text-center')
-        }
-    </script>
+    
 @endsection

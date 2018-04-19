@@ -73,21 +73,31 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         Flash::success('Bienvenido a Fakeapop'.$data['nombre_usuario']);
-        $id_direccion= self::direccion($data['direccion']);
+        $id_direccion= self::direccion($data['direccion'],$data['cityLat'],$data['cityLng']);
         return User::create([
             'nombre' => $data['nombre'],
             'apellido1' => $data['apellido1'],
             'apellido2' => $data['apellido2'],
             'nombre_usuario'=> $data['nombre_usuario'],
             'password' => Hash::make($data['password']),
-            'direccion'=>$data['direccion'],
+            'direccion_id'=> $id_direccion,
             'telefono'=>$data['telefono'],
             'email'=>$data['email'],
+
+
             //falta imagen
         ]);
     }
-    protected function direccion($direccion){
-        dd($direccion);
+    protected function direccion($direccion, $latitud,$longitud){
+        if($direccion!="") {
+           $direccion= Direccion::firstOrCreate([
+                'nombre' => $direccion,
+                'latitud' => $latitud,
+                'longitud' => $longitud,
+            ]);
+            return $direccion->id;
+        }
+
 
     }
 }

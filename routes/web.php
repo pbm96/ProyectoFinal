@@ -13,20 +13,27 @@
 //ruta home principal
 Route::get('/', array('as' => 'index', 'uses' => 'ProductosController@index'));
 
+Route::get('/About', ['as' => 'about', 'uses' => 'HomeController@about']);
+
+Route::get('/Contact', ['as' => 'contact', 'uses' => 'HomeController@contact']);
+
+Route::get('/MapaWeb', ['as' => 'mapa', 'uses' => 'HomeController@mapaweb']);
+
+Route::get('ver-producto/{id}',array('as'=>'ver_producto','uses'=>'ProductosController@ver_producto_completo'));
+
 //rutas autentificacion (login/registro)
 Auth::routes();
 
         //rutas de los productos. para acceder hay que autentificarse
         Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
-             Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
-            Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
 
-            Route::get('{id}/borrar',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
+        Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
 
-            Route::get('{id}/editar',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
+        Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
 
-            Route::get('ver-producto/{id}',array('as'=>'ver_producto','uses'=>'ProductosController@ver_producto_completo'));
+        Route::get('{id}/borrar',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
 
+        Route::get('{id}/editar',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
 
         });
         Route::group(['prefix'=>'usuario'],function () {

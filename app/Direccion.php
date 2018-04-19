@@ -11,6 +11,6 @@ class Direccion extends Model
         'nombre','latitud','longitud'
     ];
     public function user(){
-        return $this->hasOne('App\User');
+        return $this->hasMany('App\User');
     }
 }
