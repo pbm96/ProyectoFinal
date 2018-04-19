@@ -112,6 +112,9 @@
                                 @endif
                             </div>
                         </div>
+                        <input type="hidden" id="city2" name="city2" />
+                        <input type="hidden" id="cityLat" name="cityLat" />
+                        <input type="hidden" id="cityLng" name="cityLng" />
                         <div class="form-group row">
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
@@ -148,6 +151,12 @@
     <script type="application/javascript">
             var input=document.getElementById('direccion');
             autocomplete = new google.maps.places.Autocomplete(input);
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('city2').value = place.name;
+                document.getElementById('cityLat').value = place.geometry.location.lat();
+                document.getElementById('cityLng').value = place.geometry.location.lng();});
 
     </script>
     @endsection
