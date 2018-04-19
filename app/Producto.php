@@ -8,7 +8,7 @@ class Producto extends Model
 {
     protected $table="productos";
     protected $fillable = [
-        'nombre','descripcion','fecha','user_id','categoria_id'
+        'nombre','descripcion','fecha','user_id','categoria_id','precio'
     ];
     public function categoria(){
         return $this->belongsTo('App\Categoria');

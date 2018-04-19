@@ -30,7 +30,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Producto');
     }
     public function direccion(){
-        return $this->hasMany('App\Direcciones');
+        return $this->belongsTo('App\Direccion');
     }
     public function producto_favorito(){
         return $this->belongsToMany('App\ProductoFavorito');

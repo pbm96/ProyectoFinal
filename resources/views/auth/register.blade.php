@@ -103,7 +103,7 @@
                             <label for="direccion" class="col-md-4 col-form-label text-md-right">{{ __('Direccion*') }}</label>
 
                             <div class="col-md-6">
-                                <input id="direccion" type="text" class="form-control{{ $errors->has('Direccion*') ? ' is-invalid' : '' }}" value="{{ old('direccion') }} "name="direccion"  required >
+                                <input id="direccion" type="text" class="form-control{{ $errors->has('Direccion*') ? ' is-invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off"  required >
 
                                 @if ($errors->has('direccion'))
                                     <span class="invalid-feedback">
@@ -113,8 +113,8 @@
                             </div>
                         </div>
                         <input type="hidden" id="city2" name="city2" />
-                        <input type="hidden" id="cityLat" name="cityLat" />
-                        <input type="hidden" id="cityLng" name="cityLng" />
+                        <input type="hidden" id="cityLat" name="cityLat" value="{{ old('cityLat') }} " />
+                        <input type="hidden" id="cityLng" name="cityLng" value="{{ old('cityLng') }} " />
                         <div class="form-group row">
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
@@ -157,6 +157,8 @@
                 document.getElementById('city2').value = place.name;
                 document.getElementById('cityLat').value = place.geometry.location.lat();
                 document.getElementById('cityLng').value = place.geometry.location.lng();});
+
+
 
     </script>
     @endsection
