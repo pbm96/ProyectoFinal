@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Direccion;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +73,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         Flash::success('Bienvenido a Fakeapop'.$data['nombre_usuario']);
+        $id_direccion= self::direccion($data['direccion']);
         return User::create([
             'nombre' => $data['nombre'],
             'apellido1' => $data['apellido1'],
@@ -83,5 +85,9 @@ class RegisterController extends Controller
             'email'=>$data['email'],
             //falta imagen
         ]);
+    }
+    protected function direccion($direccion){
+        dd($direccion);
+
     }
 }

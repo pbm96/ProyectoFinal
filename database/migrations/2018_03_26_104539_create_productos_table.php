@@ -16,9 +16,11 @@ class CreateProductosTable extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->integer('precio');
             $table->string('descripcion');
             $table->integer('user_id')->unsigned();
             $table->integer('categoria_id')->unsigned();
+
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
