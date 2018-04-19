@@ -5,6 +5,10 @@
     {!! Form::Text('nombre',null,['class'=>'','required','placeholder'=>'Nombre Producto']) !!}
 </div>
 <div class="form-group">
+    {!! Form::label('precio','Precio') !!}
+    {!! Form::Text('precio',null,['class'=>'','required','placeholder'=>'Precio Producto']) !!}
+</div>
+<div class="form-group">
     {!! Form::label('categoria_id','Categoria') !!}
     {!! Form::select('categoria_id',$categorias,null,['class'=>'','required']) !!}
 </div>
