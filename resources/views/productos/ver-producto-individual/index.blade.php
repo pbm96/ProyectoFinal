@@ -4,7 +4,8 @@
 @section('titulo_pagina', 'ver-'.$producto->nombre)
 
 @section('estilos')
-    <style></style>
+    
+
 @endsection
 
 
@@ -17,15 +18,40 @@
 
     <div class="container mt-3">
         <div class=" row justify-content-sm-center  ">
-            <div class="col-sm-5 table-bordered  ">
-
-                @foreach($imagenes as $imagen)
-            <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-thumbnail img-responsive">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @foreach( $imagenes as $imagen => $value )
+                        <li data-target="#carouselExampleIndicators"  data-slide-to="{{$imagen}}" class="{{ $loop->first ? 'active' : '' }}"></li>
                     @endforeach
-            </div>
+                </ol>
 
-         </div>
+                @if($imagenes!=null)
+                    <div class="carousel-inner">
+                    @foreach($imagenes as $imagen)
+
+                            <div class="carousel-item {{ $loop->first ? ' active' : '' }}" >
+                                <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-thumbnail img-responsive " >
+                            </div>
+
+                    @endforeach
+                    </div>
+                 @else
+                    <img src="/imagenes/productos/fakeapop_default.png" class="img-thumbnail img-responsive " >
+                @endif
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+        </div>
+
     </div>
+
 
 <div class="container col-sm-8 mt-5">
     <nav>
@@ -67,14 +93,14 @@
 
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
+
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG7G5aANtgkHs8FRZ6kyEsUOCwd4DG5QM"></script>
     <script>
         initMap();
         function initMap() {
         {{$latitud=$producto->user->direccion->latitud}}
                 {{$longitud=$producto->user->direccion->longitud}}
-        console.log(parseFloat({{$latitud}}));
-            console.log(parseFloat({{$longitud}}));
         var myLatLng = {lat: parseFloat({{$latitud}}), lng: parseFloat({{$longitud}})};
 
             var map = new google.maps.Map(document.getElementById('googleMap'), {
@@ -86,6 +112,10 @@
             map: map,
             title: 'Hello World!'
         });}
+
+        $('.carousel').carousel({
+            interval:false
+        })
 
 
     </script>
