@@ -4,21 +4,21 @@
 @section('titulo_pagina', 'ver-'.$producto->nombre)
 
 @section('estilos')
-    
-
+<style>
+    .carousel{
+        box-shadow: #aeb9cc 5px 5px;
+    }
+</style>
 @endsection
 
 
 @section('contenido')
 
     @if($producto!=null)
-    <div class="container ">
-        <h3 class=" text-center ">{{$producto->nombre}}</h3>
-    </div>
-
-    <div class="container mt-3">
-        <div class=" row justify-content-sm-center  ">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<div class="container principal col-sm-8">
+    <div class="container">
+        <div class=" row justify-content-sm-center">
+            <div id="carouselExampleIndicators" class="carousel slide img-thumbnail  " data-ride="carousel">
                 <ol class="carousel-indicators">
                     @foreach( $imagenes as $imagen => $value )
                         <li data-target="#carouselExampleIndicators"  data-slide-to="{{$imagen}}" class="{{ $loop->first ? 'active' : '' }}"></li>
@@ -30,13 +30,14 @@
                     @foreach($imagenes as $imagen)
 
                             <div class="carousel-item {{ $loop->first ? ' active' : '' }}" >
-                                <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-thumbnail img-responsive " >
+                                <img src="/imagenes/productos/{{$imagen->nombre}}" class=" img-responsive   " width="500" height="300
+" >
                             </div>
 
                     @endforeach
                     </div>
                  @else
-                    <img src="/imagenes/productos/fakeapop_default.png" class="img-thumbnail img-responsive " >
+                    <img src="/imagenes/productos/fakeapop_default.png" class="img-thumbnail img-responsive  " >
                 @endif
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -51,9 +52,17 @@
         </div>
 
     </div>
+    <div class="container col-sm-8 mt-1">
+    <hr>
+    </div>
+    <div class="container  mt-4">
+        <div class="col-sm-4  row">
+            <h3 class=" ">{{$producto->nombre}}</h3>
 
-
-<div class="container col-sm-8 mt-5">
+            <h6 class="  ">añadir a favoritos</h6>
+        </div>
+    </div>
+<div class="container col-sm-8 mt-3">
     <nav>
         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#descripcion" role="tab" aria-controls="descripcion" aria-selected="true">Descripcion</a>
@@ -87,6 +96,7 @@
             <h3>No se ha encontrado el  producto</h3>
             </div>
         </div>
+</div>
     @endif
 @endsection
 
