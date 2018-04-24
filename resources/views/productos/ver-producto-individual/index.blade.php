@@ -4,30 +4,67 @@
 @section('titulo_pagina', 'ver-'.$producto->nombre)
 
 @section('estilos')
-    <style></style>
+<style>
+    .carousel{
+        box-shadow: #aeb9cc 5px 5px 5px;
+    }
+    h4{
+        display: inline;
+    }
+</style>
 @endsection
 
 
 @section('contenido')
 
     @if($producto!=null)
-    <div class="container ">
-        <h3 class=" text-center ">{{$producto->nombre}}</h3>
-    </div>
-
-    <div class="container mt-3">
-        <div class=" row justify-content-sm-center  ">
-            <div class="col-sm-5 table-bordered  ">
-
-                @foreach($imagenes as $imagen)
-            <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-thumbnail img-responsive">
+<div class="container principal col-sm-8">
+            <h3 class="row mt-4 justify-content-sm-center">{{$producto->nombre}}</h3>
+    <div class="container">
+        <div class=" row justify-content-sm-center">
+            <div id="carouselExampleIndicators" class="carousel slide img-thumbnail  " data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @foreach( $imagenes as $imagen => $value )
+                        <li data-target="#carouselExampleIndicators"  data-slide-to="{{$imagen}}" class="{{ $loop->first ? 'active' : '' }}"></li>
                     @endforeach
+                </ol>
+
+                @if($imagenes!=null)
+                    <div class="carousel-inner">
+                    @foreach($imagenes as $imagen)
+
+                            <div class="carousel-item {{ $loop->first ? ' active' : '' }}" >
+                                <img src="/imagenes/productos/{{$imagen->nombre}}" class=" img-responsive   " width="500" height="300
+" >
+                            </div>
+
+                    @endforeach
+                    </div>
+                 @else
+                    <img src="/imagenes/productos/fakeapop_default.png" class="img-thumbnail img-responsive  " >
+                @endif
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
             </div>
+        </div>
 
-         </div>
     </div>
+    <div class="container col-sm-8 mt-1">
+    <hr>
+    </div>
+    <div class="container  mt-4">
 
-<div class="container col-sm-8 mt-5">
+            <h4 class=" col-sm-9">{{$producto->precio}}€</h4>
+            <h4 class="  text-right">{{$producto->precio}}€</h4>
+    </div>
+<div class="container col-sm-8 mt-3">
     <nav>
         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#descripcion" role="tab" aria-controls="descripcion" aria-selected="true">Descripcion</a>
@@ -61,20 +98,21 @@
             <h3>No se ha encontrado el  producto</h3>
             </div>
         </div>
+</div>
     @endif
 @endsection
 
 
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
+
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG7G5aANtgkHs8FRZ6kyEsUOCwd4DG5QM"></script>
     <script>
         initMap();
         function initMap() {
         {{$latitud=$producto->user->direccion->latitud}}
                 {{$longitud=$producto->user->direccion->longitud}}
-        console.log(parseFloat({{$latitud}}));
-            console.log(parseFloat({{$longitud}}));
         var myLatLng = {lat: parseFloat({{$latitud}}), lng: parseFloat({{$longitud}})};
 
             var map = new google.maps.Map(document.getElementById('googleMap'), {
@@ -86,6 +124,10 @@
             map: map,
             title: 'Hello World!'
         });}
+
+        $('.carousel').carousel({
+            interval:false
+        })
 
 
     </script>
