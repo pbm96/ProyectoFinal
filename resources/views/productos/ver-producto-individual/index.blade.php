@@ -6,7 +6,10 @@
 @section('estilos')
 <style>
     .carousel{
-        box-shadow: #aeb9cc 5px 5px;
+        box-shadow: #aeb9cc 5px 5px 5px;
+    }
+    h4{
+        display: inline;
     }
 </style>
 @endsection
@@ -16,6 +19,7 @@
 
     @if($producto!=null)
 <div class="container principal col-sm-8">
+            <h3 class="row mt-4 justify-content-sm-center">{{$producto->nombre}}</h3>
     <div class="container">
         <div class=" row justify-content-sm-center">
             <div id="carouselExampleIndicators" class="carousel slide img-thumbnail  " data-ride="carousel">
@@ -56,11 +60,9 @@
     <hr>
     </div>
     <div class="container  mt-4">
-        <div class="col-sm-4  row">
-            <h3 class=" ">{{$producto->nombre}}</h3>
 
-            <h6 class="  ">añadir a favoritos</h6>
-        </div>
+            <h4 class=" col-sm-9">{{$producto->precio}}€</h4>
+            <h4 class="  text-right">{{$producto->precio}}€</h4>
     </div>
 <div class="container col-sm-8 mt-3">
     <nav>
