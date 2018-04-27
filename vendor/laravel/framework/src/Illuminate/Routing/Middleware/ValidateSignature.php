@@ -18,7 +18,7 @@ class ValidateSignature
      */
     public function handle($request, Closure $next)
     {
-        if ($request->hasValidSignature()) {
+        if ($request->hasValidSignature($request)) {
             return $next($request);
         }
 

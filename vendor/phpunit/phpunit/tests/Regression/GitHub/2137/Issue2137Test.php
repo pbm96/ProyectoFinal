@@ -1,12 +1,4 @@
 <?php
-/*
- * This file is part of PHPUnit.
- *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 class Issue2137Test extends PHPUnit\Framework\TestCase
 {
     /**
@@ -19,10 +11,11 @@ class Issue2137Test extends PHPUnit\Framework\TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testBrandService($provided, $expected): void
+    public function testBrandService($provided, $expected)
     {
         $this->assertSame($provided, $expected);
     }
+
 
     public function provideBrandService()
     {
@@ -31,6 +24,7 @@ class Issue2137Test extends PHPUnit\Framework\TestCase
             new stdClass() // not valid
         ];
     }
+
 
     /**
      * @dataProvider provideBrandService
@@ -42,7 +36,7 @@ class Issue2137Test extends PHPUnit\Framework\TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testSomethingElseInvalid($provided, $expected): void
+    public function testSomethingElseInvalid($provided, $expected)
     {
         $this->assertSame($provided, $expected);
     }
