@@ -5,7 +5,6 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Laracasts\Flash\Flash;
 
 trait AuthenticatesUsers
 {
@@ -116,8 +115,7 @@ trait AuthenticatesUsers
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
-    {
-
+  
     }
 
     /**
@@ -156,7 +154,8 @@ trait AuthenticatesUsers
         $this->guard()->logout();
 
         $request->session()->invalidate();
-        return redirect('index');
+
+        return redirect('/');
     }
 
     /**
