@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ProyectoFinal/.idea/ProyectoFinal.iml" filepath="$PROJECT_DIR$/../ProyectoFinal/.idea/ProyectoFinal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ProyectoFinal_Master.iml" filepath="$PROJECT_DIR$/.idea/ProyectoFinal_Master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ProyectoFinal/.idea/ProyectoFinal_Mio.iml" filepath="$PROJECT_DIR$/../ProyectoFinal/.idea/ProyectoFinal_Mio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../proyectoF/.idea/proyectoFinal.iml" filepath="$PROJECT_DIR$/../proyectoF/.idea/proyectoFinal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../vue/.idea/vue.iml" filepath="$PROJECT_DIR$/../vue/.idea/vue.iml" />
+    </modules>
+  </component>
+</project>
