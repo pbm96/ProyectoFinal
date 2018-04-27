@@ -229,7 +229,7 @@ class RedisQueue extends Queue implements QueueContract
     {
         $rawBody = $this->getConnection()->blpop($queue, $this->blockFor);
 
-        if (! empty($rawBody)) {
+        if (! is_null($rawBody)) {
             $payload = json_decode($rawBody[1], true);
 
             $payload['attempts']++;

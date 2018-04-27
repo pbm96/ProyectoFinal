@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
-use Illuminate\Foundation\Testing\Constraints\SeeInOrder;
 
 /**
  * @mixin \Illuminate\Http\Response
@@ -281,7 +280,7 @@ class TestResponse
      */
     public function assertSee($value)
     {
-        PHPUnit::assertContains((string) $value, $this->getContent());
+        PHPUnit::assertContains($value, $this->getContent());
 
         return $this;
     }
@@ -294,7 +293,20 @@ class TestResponse
      */
     public function assertSeeInOrder(array $values)
     {
-        PHPUnit::assertThat($values, new SeeInOrder($this->getContent()));
+        $position = 0;
+
+        foreach ($values as $value) {
+            $valuePosition = mb_strpos($this->getContent(), $value, $position);
+
+            if ($valuePosition === false || $valuePosition < $position) {
+                PHPUnit::fail(
+                    'Failed asserting that \''.$this->getContent().
+                    '\' contains "'.$value.'" in specified order.'
+                );
+            }
+
+            $position = $valuePosition + mb_strlen($value);
+        }
 
         return $this;
     }
@@ -307,7 +319,7 @@ class TestResponse
      */
     public function assertSeeText($value)
     {
-        PHPUnit::assertContains((string) $value, strip_tags($this->getContent()));
+        PHPUnit::assertContains($value, strip_tags($this->getContent()));
 
         return $this;
     }
@@ -320,7 +332,20 @@ class TestResponse
      */
     public function assertSeeTextInOrder(array $values)
     {
-        PHPUnit::assertThat($values, new SeeInOrder(strip_tags($this->getContent())));
+        $position = 0;
+
+        foreach ($values as $value) {
+            $valuePosition = mb_strpos(strip_tags($this->getContent()), $value, $position);
+
+            if ($valuePosition === false || $valuePosition < $position) {
+                PHPUnit::fail(
+                    'Failed asserting that \''.strip_tags($this->getContent()).
+                    '\' contains "'.$value.'" in specified order.'
+                );
+            }
+
+            $position = $valuePosition + mb_strlen($value);
+        }
 
         return $this;
     }
@@ -333,7 +358,7 @@ class TestResponse
      */
     public function assertDontSee($value)
     {
-        PHPUnit::assertNotContains((string) $value, $this->getContent());
+        PHPUnit::assertNotContains($value, $this->getContent());
 
         return $this;
     }
@@ -346,7 +371,7 @@ class TestResponse
      */
     public function assertDontSeeText($value)
     {
-        PHPUnit::assertNotContains((string) $value, strip_tags($this->getContent()));
+        PHPUnit::assertNotContains($value, strip_tags($this->getContent()));
 
         return $this;
     }
