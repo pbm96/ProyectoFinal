@@ -115,8 +115,7 @@ trait AuthenticatesUsers
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
-    {
-        //
+  
     }
 
     /**
