@@ -47,7 +47,7 @@
                     @endforeach
                     </div>
                  @else
-                    <img src="/imagenes/productos/fakeapop_default.png" class="img-responsive " width="500" height="300>
+                    <img src="/imagenes/productos/fakeapop_default.png" class="img-responsive " width="500" height="300">
                 @endif
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
