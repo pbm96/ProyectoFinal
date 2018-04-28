@@ -18,7 +18,8 @@ class ProductosController extends Controller
     public function index()
     {
         // se muestran los productos ordenados por fecha de añadido
-      $productos= Producto::orderBy('created_at','desc')->paginate(8);
+      $productos=Producto::orderBy('created_at','desc')->paginate(8);
+
         return view('index')->with('productos',$productos);
     }
 
@@ -46,30 +47,45 @@ class ProductosController extends Controller
     {
 
         $this->validate($request, [
-            'imagen' => 'image'
+            'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048'
 
         ]);
-        $nombre_imagen='';
-//        manipular imagenes
-        if($request->file('imagen')){
-            $file=$request->file('imagen');
-            $nombre_imagen='fakeapop_'.time().'.'.$file->getClientOriginalExtension();
-            $path=public_path().'/imagenes/productos/';
-            $file->move($path,$nombre_imagen);
-        }
-
         $producto = new Producto($request->all());
         // introducir id de usuario autentificado en tabla productos
         $producto->user_id=\Auth::user()->id;
         $producto->save();
 
-        if($nombre_imagen!=""){
-        $imagen = new Imagen();
-        $imagen->nombre= $nombre_imagen;
-        // llamar a metodo producto en modelo 'Imagen' y asociarle el producto al que pertenece esa imagen
-        $imagen->producto()->associate($producto);
-        $imagen->save();
+
+//        manipular imagenes
+        if($request->hasFile('imagen')){
+            $contador_imagenes=0;
+            $nombre_imagen='';
+            foreach ($request->file('imagen') as $imagen){
+                //pongo nombre a la imagen
+                $nombre_imagen='fakeapop_'.time().$contador_imagenes.'.'.$imagen->getClientOriginalExtension();
+
+                // se guarda en la carpeta de public
+                $path=public_path().'/imagenes/productos/';
+                $imagen->move($path,$nombre_imagen);
+
+                //contador para si hay varias imagenes que se llamen diferente
+                $contador_imagenes=$contador_imagenes+1;
+
+                //se guardan las imagenes en la base de datos
+                $imagen = new Imagen();
+                $imagen->nombre= $nombre_imagen;
+                // llamar a metodo producto en modelo 'Imagen' y asociarle el producto al que pertenece esa imagen
+                $imagen->producto()->associate($producto);
+                $imagen->save();
             }
+
+        }
+
+
+
+
+
+
         Flash::success('tu producto '.$producto->nombre." se ha creado correctamente");
         return redirect()->route('index');
     }
@@ -116,6 +132,11 @@ class ProductosController extends Controller
     public function  ver_producto_completo($id){
         //prueba de buscar un producto
         $producto=Producto::find($id);
+
+        if(empty($producto)){
+            Flash::error('El producto no existe');
+            return redirect()->route('index');
+        }
 
        $imagenes=$producto->imagen ;
 

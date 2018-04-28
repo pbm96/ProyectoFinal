@@ -117,9 +117,7 @@ trait AuthenticatesUsers
      */
     protected function authenticated(Request $request, $user)
     {
-        Flash::success("Bienvenido ".$user->nombre);
 
-        return redirect()->route('index');
     }
 
     /**

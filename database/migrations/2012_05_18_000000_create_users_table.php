@@ -21,12 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('nombre_usuario','15')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('direccion');
+            $table->integer('direccion_id')->unsigned()->nullable();
             $table->decimal('telefono',9,0)->nullable();
             $table->string('imagen')->nullable();
 
-
-
+            $table->foreign('direccion_id')->references('id')->on('direcciones')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });

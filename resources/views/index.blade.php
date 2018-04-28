@@ -21,8 +21,13 @@
             <div class="col-lg-3 col-md-6 col-sm-12 mb-5">
                 <div class="card">
                         <div class="card-header">
-                        <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="img-responsive">
+                            @if(count($producto->imagen)>0)
+
+                                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"  class="img-responsive">
+                           @else
+                                 <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="img-responsive">
                         </div>
+                    @endif
                     <div class="card-title container text-center h5">
                         {{ $producto->nombre }}
                     </div>
