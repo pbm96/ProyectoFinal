@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Laracasts\Flash\Flash;
+use Exception;
 
 class UserController extends Controller
 {
@@ -20,7 +21,9 @@ class UserController extends Controller
 
 
         if(auth()->user()==$usuario ){
+
             $direccion=$usuario->direccion;
+
             return view('usuarios.administar-perfil')->with('usuario',$usuario)->with('direccion',$direccion);
 
         }else{
@@ -35,7 +38,8 @@ class UserController extends Controller
      */
     public function guardar_perfil(Request $request,$id){
       $usuario= User::find($id);
-        if ($usuario) {
+
+        try{
 
             $usuario->direccion_id=self::direccion($request->direccion,$request->cityLat,$request->cityLng);
             $usuario->fill($request->all());
@@ -47,12 +51,9 @@ class UserController extends Controller
                 Flash::success('El perfil se actualizo correctamente');
                 return redirect()->route('index');
 
-            } else {
-                Flash::info('no se modificaron datos del usuario');
-                return redirect()->route('index');
             }
 
-        }else{
+        }catch (Exception $exception){
             Flash::error('no se ha podido actualizar el perfil');
             return redirect()->route('index');
         }
@@ -78,4 +79,29 @@ class UserController extends Controller
 
 
     }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function borrar_perfil($id){
+        $usuario=User::find($id);
+        try{
+        $usuario->destroy($usuario->id);
+
+            Flash::info('El usuario se borro correctamente :(');
+
+            return redirect()->route('index');
+
+        }catch (Exception $exception){
+
+            Flash::error('El usuario NO se borro correctamente :(');
+
+            return redirect()->route('index');
+        }
+    }
+
+
+
+
 }

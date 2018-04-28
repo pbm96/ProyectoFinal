@@ -38,11 +38,17 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
 });
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
+
         Route::get('administrar-perfil/{id}',['as'=>'administrar_perfil','uses'=>'UserController@modificar_perfil']);
         Route::put('guardar-perfil/{id}',['as'=>'guardar_perfil','uses'=>'UserController@guardar_perfil']);
 
+         Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+
+
+
 
 });
+
 Route::group(['prefix'=>'errores'],function () {
     Route::get('403',['as'=>'error_403','uses'=>'ErrorsController@error_403']);
     Route::get('404',['as'=>'error_404','uses'=>'ErrorsController@error_404']);
