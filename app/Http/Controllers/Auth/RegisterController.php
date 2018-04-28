@@ -89,12 +89,14 @@ class RegisterController extends Controller
         ]);
     }
     protected function direccion($direccion, $latitud,$longitud){
+        dd('hola');
         if($direccion!="") {
            $direccion= Direccion::firstOrCreate([
                 'nombre' => $direccion,
                 'latitud' => $latitud,
                 'longitud' => $longitud,
             ]);
+
             return $direccion->id;
         }
 
