@@ -1,4 +1,5 @@
 @extends('templates.main')
+@section('titulo_pagina', 'Editar-datos '.$usuario->nombre_usuario)
 @section('contenido')
 
 {!! Form::Open(['route'=>['guardar_perfil',$usuario->id],'method'=>'PUT','files'=>true]) !!}
@@ -21,21 +22,30 @@
 </div>
 <div class="form-group">
     {!! Form::label('direccion','Direccion') !!}
-    {!! Form::Text('direccion',$direccion->nombre,['id'=>'direccion','class'=>' ','required','placeholder'=>'Nombre Usuario']) !!}
+    {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>' ','required','placeholder'=>'Introduce Ubicacion']) !!}
 </div>
 
-<input type="text" id="cityLat" name="cityLat" value="{{$direccion->latitud}} " />
-<input type="text" id="cityLng" name="cityLng" value="{{$direccion->longitud}} " />
+<input type="hidden" id="cityLat" name="cityLat" value="{{isset($direccion->latitud)?$direccion->latitud:null}} " />
+<input type="hidden" id="cityLng" name="cityLng" value="{{isset($direccion->longitud)?$direccion->latitud:null}} " />
+
+
 
 <div class="form-group">
     {!!Form::submit('Modificar Perfil',['class'=>'btn btn-primary'])!!}
+</div>
+{!! Form::close() !!}
+
+{!! Form::Open(['route'=>['borrar_perfil',$usuario->id],'method'=>'DELETE','files'=>true]) !!}
+<div class="form-group">
+    {!!Form::submit('Borrar Perfil',['class'=>'btn btn-danger confirm','data-confirm' => 'Seguro que quieres borrar el Usuario? NO HABRA VUELTA ATRÁS'])!!}
+
 </div>
 {!! Form::close() !!}
 @endsection
 @section('scripts')
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCG7G5aANtgkHs8FRZ6kyEsUOCwd4DG5QM&libraries=places" ></script>
-<script type="application/javascript">
+<script >
     var input=document.getElementById('direccion');
     autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -46,5 +56,8 @@
 
 
 
+    $('.confirm').on('click', function (e) {
+        return !!confirm($(this).data('confirm'));
+    });
 </script>
     @endsection
