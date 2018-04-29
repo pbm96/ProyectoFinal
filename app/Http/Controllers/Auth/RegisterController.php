@@ -57,8 +57,8 @@ class RegisterController extends Controller
             'nombre_usuario'=>'required|alpha_num|max:30|unique:users',
             'email' => 'required|string|email|max:191|unique:users',
             'password' => 'required|string|min:6|confirmed|max:191',
-            'direccion' => 'required|string',
-            'telefono' => 'numeric|digits:9',
+            'direccion' => 'nullable|string',
+            'telefono' => 'numeric|digits:9|nullable',
             //falta imagen
 
         ]);
@@ -95,6 +95,7 @@ class RegisterController extends Controller
                 'latitud' => $latitud,
                 'longitud' => $longitud,
             ]);
+
             return $direccion->id;
         }
 

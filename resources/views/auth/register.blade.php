@@ -103,7 +103,7 @@
                             <label for="direccion" class="col-md-4 col-form-label text-md-right">{{ __('Direccion*') }}</label>
 
                             <div class="col-md-6">
-                                <input id="direccion" type="text" class="form-control{{ $errors->has('Direccion*') ? ' is-invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off"  required >
+                                <input id="direccion" type="text" class="form-control{{ $errors->has('Direccion*') ? ' is-invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off"   >
 
                                 @if ($errors->has('direccion'))
                                     <span class="invalid-feedback">
