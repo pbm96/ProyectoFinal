@@ -156,7 +156,7 @@ trait AuthenticatesUsers
         $this->guard()->logout();
 
         $request->session()->invalidate();
-        return redirect('index');
+        return redirect('/');
     }
 
     /**

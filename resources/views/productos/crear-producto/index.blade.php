@@ -1,3 +1,4 @@
+
 @extends('templates.main')
 @section('estilos')
 <style>
@@ -37,3 +38,4 @@
         {!! Form::close() !!}
     </div>
 @endsection
+

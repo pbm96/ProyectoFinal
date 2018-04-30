@@ -38,6 +38,7 @@
                             <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-responsive" style="max-width:100%">
                         </div>
                     @endforeach
+
                 </div>
             @else
                 <img src="/imagenes/productos/fakeapop_default.png" class="img-fluid">
@@ -50,6 +51,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
+
         </div>
     </div>
     <hr>
