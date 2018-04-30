@@ -18,7 +18,8 @@ class ProductosController extends Controller
     public function index()
     {
         // se muestran los productos ordenados por fecha de añadido
-      $productos= Producto::orderBy('created_at','desc')->paginate(8);
+      $productos=Producto::orderBy('created_at','desc')->paginate(8);
+
         return view('index')->with('productos',$productos);
     }
 
@@ -46,7 +47,6 @@ class ProductosController extends Controller
     {
 
         $this->validate($request, [
-            'imagen' => 'required',
             'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048'
 
         ]);

@@ -24,12 +24,18 @@
         <div class=" row justify-content-sm-center">
             <div id="carouselExampleIndicators" class="carousel slide img-thumbnail  " data-ride="carousel">
                 <ol class="carousel-indicators">
+
+                    @if(count($imagenes)>0)
                     @foreach( $imagenes as $imagen => $value )
                         <li data-target="#carouselExampleIndicators"  data-slide-to="{{$imagen}}" class="{{ $loop->first ? 'active' : '' }}"></li>
                     @endforeach
+                        @else
+                        <li data-target="#carouselExampleIndicators"  data-slide-to="1" class="active"></li>
+
+                    @endif
                 </ol>
 
-                @if($imagenes!=null)
+                @if(count($imagenes)>0)
                     <div class="carousel-inner">
                     @foreach($imagenes as $imagen)
 
@@ -41,7 +47,7 @@
                     @endforeach
                     </div>
                  @else
-                    <img src="/imagenes/productos/fakeapop_default.png" class="img-thumbnail img-responsive  " >
+                    <img src="/imagenes/productos/fakeapop_default.png" class="img-responsive " width="500" height="300">
                 @endif
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

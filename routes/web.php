@@ -25,20 +25,36 @@ Route::get('ver-producto/{id}',array('as'=>'ver_producto','uses'=>'ProductosCont
 Auth::routes();
 
         //rutas de los productos. para acceder hay que autentificarse
-        Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
+Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
         Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
 
         Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
 
-        Route::get('{id}/borrar',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
+        Route::delete('borrar-producto/{id}',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
 
-        Route::get('{id}/editar',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
+        Route::get('editar-producto/{id}',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
+        Route::put('modificar-producto',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
 
-        });
-        Route::group(['prefix'=>'usuario'],function () {
+});
+Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
 
-        });
+        Route::get('administrar-perfil/{id}',['as'=>'administrar_perfil','uses'=>'UserController@modificar_perfil']);
+        Route::put('guardar-perfil/{id}',['as'=>'guardar_perfil','uses'=>'UserController@guardar_perfil']);
+
+         Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+
+
+
+
+});
+
+Route::group(['prefix'=>'errores'],function () {
+    Route::get('403',['as'=>'error_403','uses'=>'ErrorsController@error_403']);
+    Route::get('404',['as'=>'error_404','uses'=>'ErrorsController@error_404']);
+
+});
+
 
 
 
