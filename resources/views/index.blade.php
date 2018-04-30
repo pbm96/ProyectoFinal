@@ -5,7 +5,13 @@
 @section('titulo_pagina', 'Home')
 
 @section('estilos')
-    <style></style>
+    <style>
+        .card-title{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
 @endsection
 
 
@@ -23,16 +29,16 @@
                         <div class="card-header">
                             @if(count($producto->imagen)>0)
 
-                                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"  class="img-responsive">
-                           @else
-                                 <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="img-responsive">
+                                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"  class="card-img-top">
+                            @else
+                                <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">
+                            @endif
                         </div>
-                    @endif
-                    <div class="card-title container text-center h5">
-                        {{ $producto->nombre }}
-                    </div>
+                    
                     <div class="card-body">
-                    <a href="ver-producto/{{ $producto->id }}" class="btn btn-primary">Detalles</a>
+                        <h4 class="card-title"> {{ $producto->nombre }} </h4>
+                        <p class="card-text h3"> {{ $producto->precio }} €</p>
+                        <a href="ver-producto/{{ $producto->id }}" class="btn btn-outline-info"> Mas datos </a>
                     </div>
                 </div>
             </div>
