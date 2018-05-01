@@ -26,7 +26,7 @@
 </div>
 
 <input type="hidden" id="cityLat" name="cityLat" value="{{isset($direccion->latitud)?$direccion->latitud:null}} " />
-<input type="hidden" id="cityLng" name="cityLng" value="{{isset($direccion->longitud)?$direccion->latitud:null}} " />
+<input type="hidden" id="cityLng" name="cityLng" value="{{isset($direccion->longitud)?$direccion->longitud:null}}" />
 
 
 
@@ -42,6 +42,7 @@
 </div>
 {!! Form::close() !!}
 @endsection
+
 @section('scripts')
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCG7G5aANtgkHs8FRZ6kyEsUOCwd4DG5QM&libraries=places" ></script>

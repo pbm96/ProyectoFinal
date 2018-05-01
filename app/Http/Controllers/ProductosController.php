@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use App\Imagen;
 use App\Producto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
+use function MongoDB\BSON\fromJSON;
 
 class ProductosController extends Controller
 {
@@ -18,7 +20,57 @@ class ProductosController extends Controller
     public function index()
     {
         // se muestran los productos ordenados por fecha de añadido
-      $productos=Producto::orderBy('created_at','desc')->paginate(8);
+
+          $diferencia_fecha_producto=[];
+
+        $productos=Producto::orderBy('created_at','desc')->paginate(8);
+
+             $fecha_actual= Carbon::now();
+
+      foreach ($productos as $producto){
+
+          $fecha_producto=$producto->created_at;
+
+
+          $diferencia = $fecha_actual->diff($fecha_producto);
+
+
+          switch ($diferencia){
+              case $diferencia->y>0:
+
+                   $diferencia->y>1?$producto->diferencia=$diferencia->y." años":$producto->diferencia=$diferencia->y." año";
+                  break;
+
+              case $diferencia->m>0:
+
+                  $diferencia->m>1?$producto->diferencia=$diferencia->m." meses":$producto->diferencia=$diferencia->m." mes";
+                  break;
+
+              case $diferencia->d>0:
+                  $diferencia->d>1?$producto->diferencia=$diferencia->d." dias":$producto->diferencia=$diferencia->d." dia";
+
+                  break;
+
+              case $diferencia->h>0:
+                  $diferencia->h>1?$producto->diferencia=$diferencia->h." horas":$producto->diferencia=$diferencia->h." hora";
+                  break;
+
+              case $diferencia->i>0:
+                  $diferencia->i>1?$producto->diferencia=$diferencia->i." minutos":$producto->diferencia=$diferencia->i." minuto";
+
+                  break;
+
+              case $diferencia->s>0:
+                  $diferencia->s>1?$producto->diferencia=$diferencia->s." segundos":$producto->diferencia=$diferencia->s." segundo";
+                  break;
+              case $diferencia->f<0:
+                 $producto->diferencia=" 1 segundo";
+                  break;
+
+          }
+
+      }
+
 
         return view('index')->with('productos',$productos);
     }
@@ -132,6 +184,7 @@ class ProductosController extends Controller
     public function  ver_producto_completo($id){
         //prueba de buscar un producto
         $producto=Producto::find($id);
+
 
         if(empty($producto)){
             Flash::error('El producto no existe');
