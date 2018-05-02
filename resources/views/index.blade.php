@@ -20,8 +20,7 @@
     <div class="jumbotron text-center">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima aliquam, nesciunt quasi enim pariatur suscipit neque quas minus ipsum quia dolorem obcaecati dicta! Aut voluptate dolor exercitationem et, aspernatur fuga.
     </div>
-
-    <p style="display: none">{{$cont=0}}</p>
+    
     @foreach($productos->chunk(4) as $productChunk)
 
     <div class="row">
