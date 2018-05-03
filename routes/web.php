@@ -34,7 +34,7 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
         Route::delete('borrar-producto/{id}',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
 
         Route::get('editar-producto/{id}',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
-        Route::put('modificar-producto',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
+        Route::put('modificar-producto/{id}',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
 
 });
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
@@ -42,7 +42,10 @@ Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
         Route::get('administrar-perfil/{id}',['as'=>'administrar_perfil','uses'=>'UserController@modificar_perfil']);
         Route::put('guardar-perfil/{id}',['as'=>'guardar_perfil','uses'=>'UserController@guardar_perfil']);
 
-         Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+        Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+
+        Route::get('mis-productos/{id}',['as'=>'ver_productos_usuario','uses'=>'ProductosController@ver_productos_usuario']);
+
 
 
 

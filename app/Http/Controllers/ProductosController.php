@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use App\Imagen;
 use App\Producto;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
-use function MongoDB\BSON\fromJSON;
+use Exception;
 
 class ProductosController extends Controller
 {
@@ -21,56 +22,10 @@ class ProductosController extends Controller
     {
         // se muestran los productos ordenados por fecha de añadido
 
-          $diferencia_fecha_producto=[];
+
 
         $productos=Producto::orderBy('created_at','desc')->paginate(8);
-
-             $fecha_actual= Carbon::now();
-
-      foreach ($productos as $producto){
-
-          $fecha_producto=$producto->created_at;
-
-
-          $diferencia = $fecha_actual->diff($fecha_producto);
-
-
-          switch ($diferencia){
-              case $diferencia->y>0:
-
-                   $diferencia->y>1?$producto->diferencia=$diferencia->y." años":$producto->diferencia=$diferencia->y." año";
-                  break;
-
-              case $diferencia->m>0:
-
-                  $diferencia->m>1?$producto->diferencia=$diferencia->m." meses":$producto->diferencia=$diferencia->m." mes";
-                  break;
-
-              case $diferencia->d>0:
-                  $diferencia->d>1?$producto->diferencia=$diferencia->d." dias":$producto->diferencia=$diferencia->d." dia";
-
-                  break;
-
-              case $diferencia->h>0:
-                  $diferencia->h>1?$producto->diferencia=$diferencia->h." horas":$producto->diferencia=$diferencia->h." hora";
-                  break;
-
-              case $diferencia->i>0:
-                  $diferencia->i>1?$producto->diferencia=$diferencia->i." minutos":$producto->diferencia=$diferencia->i." minuto";
-
-                  break;
-
-              case $diferencia->s>0:
-                  $diferencia->s>1?$producto->diferencia=$diferencia->s." segundos":$producto->diferencia=$diferencia->s." segundo";
-                  break;
-              case $diferencia->f<0:
-                 $producto->diferencia=" 1 segundo";
-                  break;
-
-          }
-
-      }
-
+        self::creado_desde($productos);
 
         return view('index')->with('productos',$productos);
     }
@@ -146,6 +101,18 @@ class ProductosController extends Controller
 
     public function edit($id)
     {
+        $producto= Producto::find($id);
+
+        $categorias=Categoria::orderBy('nombre','ASC')->pluck('nombre','id');
+
+        if (auth()->user()->id==$producto->user_id){
+
+            return view('productos.editar-producto.index')->with('producto',$producto)->with('categorias',$categorias);
+        }else{
+
+            return redirect()->route('error_403');
+        }
+
 
     }
 
@@ -156,9 +123,27 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function modificar_producto(Request $request, $id)
     {
-        //
+        try{
+
+            $producto= Producto::find($id);
+
+            $producto->fill($request->all());
+
+            if ($producto->isDirty()) {
+
+                $producto->save();
+
+                Flash::success('El Producto '.$producto->nombre.' se actualizo correctamente');
+                return redirect()->route('index');
+
+            }
+
+        }catch (Exception $exception){
+            Flash::error('no se ha podido actualizar el Producto');
+            return redirect()->route('index');
+        }
     }
 
     /**
@@ -169,20 +154,21 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        //prueba de borrar un producto
-        $producto= Producto::find($id);
-        if ($producto!=null) {
+        try{
+            $producto= Producto::find($id);
             $producto->delete();
+
         }
-        else {
-            return (' no hay productos');
+        catch (Exception $exception) {
+            Flash::error(' No se ha podido eliminar el producto ');
+            return redirect()->route('index');
+
         }
 
     }
 
 
     public function  ver_producto_completo($id){
-        //prueba de buscar un producto
         $producto=Producto::find($id);
 
 
@@ -193,11 +179,77 @@ class ProductosController extends Controller
 
        $imagenes=$producto->imagen ;
 
-
-
-
         return view('productos.ver-producto-individual.index')->with('producto',$producto)->with('imagenes',$imagenes);
 
 
-}
+    }
+
+    public function ver_productos_usuario($id){
+
+        $productos= Producto::where('user_id','=',$id)->orderBy('created_at', 'desc')->paginate(8);
+        self::creado_desde($productos);
+        if(count($productos)>0){
+
+            return view('productos.productos-usuario.index')->with('productos',$productos);
+        }else{
+
+            Flash::error(' No tienes ningún producto subido');
+            return redirect()->route('index');
+        }
+    }
+
+
+    /**
+     * @param $productos
+     * @return mixed
+     */
+
+    public function creado_desde($productos){
+        $fecha_actual= Carbon::now();
+
+        foreach ($productos as $producto){
+
+            $fecha_producto=$producto->created_at;
+
+
+            $diferencia = $fecha_actual->diff($fecha_producto);
+
+
+            switch ($diferencia){
+                case $diferencia->y>0:
+
+                    $diferencia->y>1?$producto->diferencia=$diferencia->y." años":$producto->diferencia=$diferencia->y." año";
+                    break;
+
+                case $diferencia->m>0:
+
+                    $diferencia->m>1?$producto->diferencia=$diferencia->m." meses":$producto->diferencia=$diferencia->m." mes";
+                    break;
+
+                case $diferencia->d>0:
+                    $diferencia->d>1?$producto->diferencia=$diferencia->d." dias":$producto->diferencia=$diferencia->d." dia";
+
+                    break;
+
+                case $diferencia->h>0:
+                    $diferencia->h>1?$producto->diferencia=$diferencia->h." horas":$producto->diferencia=$diferencia->h." hora";
+                    break;
+
+                case $diferencia->i>0:
+                    $diferencia->i>1?$producto->diferencia=$diferencia->i." minutos":$producto->diferencia=$diferencia->i." minuto";
+
+                    break;
+
+                case $diferencia->s>0:
+                    $diferencia->s>1?$producto->diferencia=$diferencia->s." segundos":$producto->diferencia=$diferencia->s." segundo";
+                    break;
+                case $diferencia->f<0:
+                    $producto->diferencia=" 1 segundo";
+                    break;
+
+            }
+
+        }
+        return $productos;
+    }
 }
