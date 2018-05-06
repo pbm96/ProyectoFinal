@@ -31,9 +31,10 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
         Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
 
-        Route::delete('borrar-producto/{id}',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
+        Route::get('borrar-producto/{id}',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
 
         Route::get('editar-producto/{id}',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
+
         Route::put('modificar-producto/{id}',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
 
 });

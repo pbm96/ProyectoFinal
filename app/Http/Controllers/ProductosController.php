@@ -131,18 +131,16 @@ class ProductosController extends Controller
 
             $producto->fill($request->all());
 
-            if ($producto->isDirty()) {
-
                 $producto->save();
 
                 Flash::success('El Producto '.$producto->nombre.' se actualizo correctamente');
-                return redirect()->route('index');
 
-            }
+                return redirect()->route('ver_productos_usuario',$producto->user_id);
 
-        }catch (Exception $exception){
+            }catch (Exception $exception){
+
             Flash::error('no se ha podido actualizar el Producto');
-            return redirect()->route('index');
+            return redirect()->route('ver_productos_usuario');
         }
     }
 
@@ -154,16 +152,32 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        try{
-            $producto= Producto::find($id);
-            $producto->delete();
+        try {
 
-        }
-        catch (Exception $exception) {
+            $producto = Producto::find($id);
+
+            $user_id = $producto->user_id;
+
+            if (auth()->user()->id == $user_id) {
+
+                $producto->delete();
+
+                Flash::success(' El producto se ha eliminado correctamente ');
+
+                return redirect()->route('ver_productos_usuario', auth()->user()->id);
+
+            }else{
+
+                return redirect()->route('error_403');
+            }
+        } catch (Exception $exception) {
+
             Flash::error(' No se ha podido eliminar el producto ');
-            return redirect()->route('index');
+
+            return redirect()->route('ver_productos_usuario', auth()->user()->id);
 
         }
+
 
     }
 
@@ -172,29 +186,50 @@ class ProductosController extends Controller
         $producto=Producto::find($id);
 
 
-        if(empty($producto)){
+        if(!empty($producto)){
+
+            $imagenes = $producto->imagen;
+
+            return view('productos.ver-producto-individual.index')->with('producto', $producto)->with('imagenes', $imagenes);
+        }else {
             Flash::error('El producto no existe');
+
             return redirect()->route('index');
         }
-
-       $imagenes=$producto->imagen ;
-
-        return view('productos.ver-producto-individual.index')->with('producto',$producto)->with('imagenes',$imagenes);
 
 
     }
 
+    /**
+     * @param $id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function ver_productos_usuario($id){
+        if (auth()->user()->id==$id) {
 
-        $productos= Producto::where('user_id','=',$id)->orderBy('created_at', 'desc')->paginate(8);
-        self::creado_desde($productos);
-        if(count($productos)>0){
+            try {
+                $productos = Producto::where('user_id', '=', $id)->orderBy('created_at', 'desc')->paginate(8);
 
-            return view('productos.productos-usuario.index')->with('productos',$productos);
+                self::creado_desde($productos);
+
+                if (count($productos) > 0) {
+
+                    return view('productos.productos-usuario.index')->with('productos', $productos);
+                } else {
+
+                    Flash::error(' No tienes ningún producto subido');
+
+                    return view('productos.productos-usuario.index');
+                }
+            }catch (Exception $exception){
+
+                Flash::error(' Ha ocurrido un error');
+                return redirect()->route('index');
+            }
+
         }else{
 
-            Flash::error(' No tienes ningún producto subido');
-            return redirect()->route('index');
+            return redirect()->route('error_403');
         }
     }
 

@@ -2,7 +2,7 @@
 <!-- include del nav y de los enlaces de estilos-->
 @extends('templates.main')
 
-@section('titulo_pagina', 'Home')
+@section('titulo_pagina', 'Mis productos')
 
 @section('estilos')
     <style>
@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <h4 class="card-title"> {{ $producto->nombre }} </h4>
                             <p class="card-text h3"> {{ $producto->precio }} €</p>
-                            <a href="{{route('ver_producto',$producto->id)}}" class="btn btn-outline-info"> Mas datos </a>
+                            <a href="{{route('editar_producto',$producto->id)}}" class="btn btn-outline-info"> Editar Producto</a>
 
                             <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
 
