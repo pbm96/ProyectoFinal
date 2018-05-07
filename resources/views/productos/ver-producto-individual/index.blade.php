@@ -56,6 +56,11 @@
     </div>
     <hr>
     <h4 class="col-sm-9">{{$producto->precio}}€</h4>
+@if($producto_favorito==true)
+    <a  href="{{route('poner_favorito',$producto->id)}}" class="far fa-2x fa-heart  text-danger"></a>
+    @else
+        <a href="{{route('poner_favorito',$producto->id)}}" class="far fa-2x fa-heart text-dark"></a>
+    @endif
     <div class="col-lg-12 mt-3">
         <nav>
             <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">

@@ -37,6 +37,8 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
         Route::put('modificar-producto/{id}',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
 
+    Route::get('poner-favorito/{id}',array( 'as' =>'poner_favorito','uses'=>'ProductosController@producto_favorito'));
+
 });
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
 
