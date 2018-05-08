@@ -37,6 +37,8 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
         Route::put('modificar-producto/{id}',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
 
+    Route::get('poner-favorito/{id}',array( 'as' =>'poner_favorito','uses'=>'ProductosController@producto_favorito'));
+
 });
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
 
@@ -46,6 +48,9 @@ Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
         Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
 
         Route::get('mis-productos/{id}',['as'=>'ver_productos_usuario','uses'=>'ProductosController@ver_productos_usuario']);
+
+         Route::get('mis-productos-favoritos/{id}',['as'=>'ver_productos_usuario_favoritos','uses'=>'ProductosController@ver_productos_usuario_favoritos']);
+
 
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use App\Imagen;
 use App\Producto;
+use App\ProductoFavorito;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class ProductosController extends Controller
 
 
         $productos=Producto::orderBy('created_at','desc')->paginate(8);
+
         self::creado_desde($productos);
 
         return view('index')->with('productos',$productos);
@@ -185,12 +187,23 @@ class ProductosController extends Controller
     public function  ver_producto_completo($id){
         $producto=Producto::find($id);
 
+        $user=auth()->user();
+
+        if($user){
+
+             $producto_favorito= self::comprobar_producto_favorito($producto,$user);
+
+        }else{
+
+            $producto_favorito=false;
+        }
+
 
         if(!empty($producto)){
 
             $imagenes = $producto->imagen;
 
-            return view('productos.ver-producto-individual.index')->with('producto', $producto)->with('imagenes', $imagenes);
+            return view('productos.ver-producto-individual.index')->with('producto', $producto)->with('imagenes', $imagenes)->with('producto_favorito',$producto_favorito);
         }else {
             Flash::error('El producto no existe');
 
@@ -210,9 +223,8 @@ class ProductosController extends Controller
             try {
                 $productos = Producto::where('user_id', '=', $id)->orderBy('created_at', 'desc')->paginate(8);
 
-                self::creado_desde($productos);
-
                 if (count($productos) > 0) {
+                    self::creado_desde($productos);
 
                     return view('productos.productos-usuario.index')->with('productos', $productos);
                 } else {
@@ -234,6 +246,86 @@ class ProductosController extends Controller
     }
 
 
+    public function producto_favorito($id){
+         try {
+
+            $comprobar_favorito = ProductoFavorito::where('producto_id', '=', $id)->first();
+
+            $producto = Producto::find($id);
+
+            $user_id = auth()->user()->id;
+
+              if ($comprobar_favorito == null && $producto->user_id!=$user_id) {
+
+                 $producto_favorito = new ProductoFavorito;
+
+                 $producto_favorito->user_id = $user_id;
+
+                 $producto_favorito->producto_id = $producto->id;
+
+                 $producto_favorito->save();
+
+                 Flash::success('Se ha añadido correctamente el producto a favoritos');
+                 /*modificar*/
+                  return back();
+
+             } else if ($comprobar_favorito != null && $producto->user_id!=$user_id) {
+                  $producto_favorito = ProductoFavorito::find($comprobar_favorito->id);
+
+                  $producto_favorito->delete();
+
+                  Flash::info('Se ha eliminado el producto de favoritos');
+                  /*modificar*/
+                  return back();
+
+             }else{
+                  return back();
+              }
+
+        }catch (Exception $exception){
+             Flash::error('Ha ocurriodo un error');
+             /*modificar*/
+             return back();
+
+    }
+    }
+    public function ver_productos_usuario_favoritos($id){
+        if (auth()->user()->id==$id) {
+
+            try {
+        $productos_favoritos= ProductoFavorito::where('user_id','=',$id)->get();
+
+                if (count($productos_favoritos) > 0) {
+                    foreach ($productos_favoritos as $producto_favorito) {
+
+                        $productos = Producto::where('id','=',$producto_favorito->producto_id)->orderby('created_at','desc')->paginate(8);
+
+                    }
+                    self::creado_desde($productos);
+
+                    return view('productos.productos-usuario-favoritos.index')->with('productos', $productos)->with('productos_favoritos', $productos_favoritos);
+
+                } else {
+
+                    return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
+                }
+            }catch (Exception $exception){
+                dd($exception);
+                Flash::error(' Ha ocurrido un error');
+                return redirect()->route('index');
+            }
+
+        }else{
+
+            return redirect()->route('error_403');
+        }
+    }
+
+
+
+
+
+
     /**
      * @param $productos
      * @return mixed
@@ -241,7 +333,6 @@ class ProductosController extends Controller
 
     public function creado_desde($productos){
         $fecha_actual= Carbon::now();
-
         foreach ($productos as $producto){
 
             $fecha_producto=$producto->created_at;
@@ -287,4 +378,17 @@ class ProductosController extends Controller
         }
         return $productos;
     }
+    public function comprobar_producto_favorito($producto,$user){
+
+
+        $producto_favorito= ProductoFavorito::where('producto_id','=',$producto->id,'and','user_id','=',$user->id)->first();
+
+        if($producto_favorito!=null){
+
+            return $producto_favorito=true;
+        }
+        return $producto_favorito=false;
+    }
+
+
 }

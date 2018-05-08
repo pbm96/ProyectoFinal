@@ -18,6 +18,7 @@
                 <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
                 @else
                         <a class="nav-link text-light" href="{{ route('ver_productos_usuario',auth()->user()->id)}}">Mis Productos</a>
+                    <a class="nav-link text-light" href="{{ route('ver_productos_usuario_favoritos',auth()->user()->id)}}">Mis Favoritos</a>
                         <a class="nav-link text-light" href="{{ route('administrar_perfil',auth()->user()->id)}}">Editar Perfil</a>
 
                         <a href="{{ route('logout')}}"  class="nav-link text-light" onclick="event.preventDefault();
