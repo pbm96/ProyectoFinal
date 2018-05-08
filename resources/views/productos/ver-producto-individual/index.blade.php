@@ -62,12 +62,14 @@
         </div>
     </div>
     <hr>
-    <h4 class="col-sm-9">{{$producto->precio}}€</h4>
+    <div class="row">
+    <h3 class="col-sm-9">{{$producto->precio}}€</h3>
 @if($producto_favorito==true)
-    <a  href="{{route('poner_favorito',$producto->id)}}" class="text-muted"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar de favoritos</a>
+    <a  href="{{route('poner_favorito',$producto->id)}}" class="text-muted col align-self-end"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar favorito</a>
     @else
-        <a href="{{route('poner_favorito',$producto->id)}}"class="text-muted"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
+        <a href="{{route('poner_favorito',$producto->id)}}" class="text-muted justify-content-end"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
     @endif
+    </div>
     <div class="col-lg-12 mt-3">
         <nav>
             <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
@@ -116,7 +118,7 @@
         var marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
-            title: 'Hello World!'
+            title: 'Hello World!',
         });}
 
         $('.carousel').carousel({

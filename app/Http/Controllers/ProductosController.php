@@ -279,6 +279,7 @@ class ProductosController extends Controller
                   return back();
 
              }else{
+                  Flash::info('No puedes poner tu propio producto en favoritos');
                   return back();
               }
 

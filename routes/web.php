@@ -53,9 +53,6 @@ Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
 
 
 
-
-
-
 });
 
 Route::group(['prefix'=>'errores'],function () {
@@ -64,10 +61,6 @@ Route::group(['prefix'=>'errores'],function () {
 
 });
 
-
-
-
-//Route::resource('productos','ProductosController');
 
 
 
