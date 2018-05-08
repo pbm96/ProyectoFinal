@@ -10,6 +10,13 @@
     }
     h4{
         display: inline;
+
+    }
+    .icono-negro:hover{
+        color: #ff3547 !important;
+    }
+    .icono-rojo:hover{
+        color: #000000 !important;
     }
 </style>
 @endsection
@@ -57,9 +64,9 @@
     <hr>
     <h4 class="col-sm-9">{{$producto->precio}}€</h4>
 @if($producto_favorito==true)
-    <a  href="{{route('poner_favorito',$producto->id)}}" class="far fa-2x fa-heart  text-danger"></a>
+    <a  href="{{route('poner_favorito',$producto->id)}}" class="text-muted"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar de favoritos</a>
     @else
-        <a href="{{route('poner_favorito',$producto->id)}}" class="far fa-2x fa-heart text-dark"></a>
+        <a href="{{route('poner_favorito',$producto->id)}}"class="text-muted"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
     @endif
     <div class="col-lg-12 mt-3">
         <nav>

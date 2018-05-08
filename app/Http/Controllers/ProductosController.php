@@ -26,6 +26,7 @@ class ProductosController extends Controller
 
 
         $productos=Producto::orderBy('created_at','desc')->paginate(8);
+
         self::creado_desde($productos);
 
         return view('index')->with('productos',$productos);
@@ -188,7 +189,14 @@ class ProductosController extends Controller
 
         $user=auth()->user();
 
-       $producto_favorito= self::comprobar_producto_favorito($producto,$user);
+        if($user){
+
+             $producto_favorito= self::comprobar_producto_favorito($producto,$user);
+
+        }else{
+
+            $producto_favorito=false;
+        }
 
 
         if(!empty($producto)){
@@ -215,9 +223,8 @@ class ProductosController extends Controller
             try {
                 $productos = Producto::where('user_id', '=', $id)->orderBy('created_at', 'desc')->paginate(8);
 
-                self::creado_desde($productos);
-
                 if (count($productos) > 0) {
+                    self::creado_desde($productos);
 
                     return view('productos.productos-usuario.index')->with('productos', $productos);
                 } else {
@@ -248,7 +255,7 @@ class ProductosController extends Controller
 
             $user_id = auth()->user()->id;
 
-              if ($comprobar_favorito == null) {
+              if ($comprobar_favorito == null && $producto->user_id!=$user_id) {
 
                  $producto_favorito = new ProductoFavorito;
 
@@ -262,7 +269,7 @@ class ProductosController extends Controller
                  /*modificar*/
                   return back();
 
-             } else if ($comprobar_favorito != null) {
+             } else if ($comprobar_favorito != null && $producto->user_id!=$user_id) {
                   $producto_favorito = ProductoFavorito::find($comprobar_favorito->id);
 
                   $producto_favorito->delete();
@@ -271,7 +278,9 @@ class ProductosController extends Controller
                   /*modificar*/
                   return back();
 
-             }
+             }else{
+                  return back();
+              }
 
         }catch (Exception $exception){
              Flash::error('Ha ocurriodo un error');
@@ -280,6 +289,41 @@ class ProductosController extends Controller
 
     }
     }
+    public function ver_productos_usuario_favoritos($id){
+        if (auth()->user()->id==$id) {
+
+            try {
+        $productos_favoritos= ProductoFavorito::where('user_id','=',$id)->get();
+
+                if (count($productos_favoritos) > 0) {
+                    foreach ($productos_favoritos as $producto_favorito) {
+
+                        $productos = Producto::where('id','=',$producto_favorito->producto_id)->orderby('created_at','desc')->paginate(8);
+
+                    }
+                    self::creado_desde($productos);
+
+                    return view('productos.productos-usuario-favoritos.index')->with('productos', $productos)->with('productos_favoritos', $productos_favoritos);
+
+                } else {
+
+                    return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
+                }
+            }catch (Exception $exception){
+                dd($exception);
+                Flash::error(' Ha ocurrido un error');
+                return redirect()->route('index');
+            }
+
+        }else{
+
+            return redirect()->route('error_403');
+        }
+    }
+
+
+
+
 
 
     /**
@@ -289,7 +333,6 @@ class ProductosController extends Controller
 
     public function creado_desde($productos){
         $fecha_actual= Carbon::now();
-
         foreach ($productos as $producto){
 
             $fecha_producto=$producto->created_at;
@@ -337,9 +380,11 @@ class ProductosController extends Controller
     }
     public function comprobar_producto_favorito($producto,$user){
 
+
         $producto_favorito= ProductoFavorito::where('producto_id','=',$producto->id,'and','user_id','=',$user->id)->first();
 
         if($producto_favorito!=null){
+
             return $producto_favorito=true;
         }
         return $producto_favorito=false;

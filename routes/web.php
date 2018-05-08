@@ -49,6 +49,9 @@ Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
 
         Route::get('mis-productos/{id}',['as'=>'ver_productos_usuario','uses'=>'ProductosController@ver_productos_usuario']);
 
+         Route::get('mis-productos-favoritos/{id}',['as'=>'ver_productos_usuario_favoritos','uses'=>'ProductosController@ver_productos_usuario_favoritos']);
+
+
 
 
 
