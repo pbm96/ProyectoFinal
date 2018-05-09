@@ -6,6 +6,7 @@ use App\Categoria;
 use App\Imagen;
 use App\Producto;
 use App\ProductoFavorito;
+use App\ProductoVendido;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class ProductosController extends Controller
 
 
 
-        $productos=Producto::orderBy('created_at','desc')->paginate(8);
+        $productos=Producto::where('vendido','=','false')->orderBy('created_at','desc')->paginate(8);
 
         self::creado_desde($productos);
 
@@ -221,7 +222,7 @@ class ProductosController extends Controller
         if (auth()->user()->id==$id) {
 
             try {
-                $productos = Producto::where('user_id', '=', $id)->orderBy('created_at', 'desc')->paginate(8);
+                $productos = Producto::where('user_id', '=', $id)->where('vendido','=','false')->orderBy('created_at', 'desc')->paginate(8);
 
                 if (count($productos) > 0) {
                     self::creado_desde($productos);
@@ -231,7 +232,7 @@ class ProductosController extends Controller
 
                     Flash::error(' No tienes ningún producto subido');
 
-                    return view('productos.productos-usuario.index');
+                    return view('productos.productos-usuario.index')->with('productos', $productos);
                 }
             }catch (Exception $exception){
 
@@ -382,13 +383,105 @@ class ProductosController extends Controller
     public function comprobar_producto_favorito($producto,$user){
 
 
-        $producto_favorito= ProductoFavorito::where('producto_id','=',$producto->id,'and','user_id','=',$user->id)->first();
+        $producto_favorito= ProductoFavorito::where('producto_id','=',$producto->id)->where('user_id','=',$user->id)->first();
 
         if($producto_favorito!=null){
 
             return $producto_favorito=true;
         }
         return $producto_favorito=false;
+    }
+
+    public function vender_producto($id){
+        try {
+
+            $producto = Producto::find($id);
+
+            if ($producto != null) {
+                if (auth()->user()->id ==$producto->user_id) {
+
+                    return view('productos.vender-producto.index')->with('producto', $producto);
+
+                }else{
+
+                    return redirect()->route('error_403');
+
+                }
+            } else {
+
+                Flash::error('no se encontro el producto');
+
+                return back();
+            }
+        }catch (Exception $exception){
+
+            Flash::error('ha ocurrido un error');
+            return redirect()->route('index');
+        }
+
+
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function guardar_venta_producto(Request $request,$id)
+    {
+        try {
+
+            $producto = Producto::find($id);
+            if($producto!=null ) {
+
+                if(auth()->user()->id==$producto->user_id) {
+                    // saca el usuario al que le vende el producto
+                    $user_venta = User::where('nombre_usuario', '=', $request->nombre_usuario)->first();
+                    if ($user_venta != null) {
+
+                        //añade los valores a la tabla de articulos vendidos
+                        $producto_vendido = new ProductoVendido();
+
+                        $producto_vendido->producto_id = $id;
+
+                        $producto_vendido->user_id = auth()->user()->id;
+
+                        $producto_vendido->vendido_a = $user_venta->id;
+
+                        $producto_vendido->valoracion_venta = $request->valoracion_venta;
+
+                        $producto_vendido->comentario_venta = $request->comentario_venta;
+
+                        $producto_vendido->precio_venta = $request->precio_venta;
+
+                        $producto_vendido->save();
+
+                        // cambia el valor
+                        $producto->vendido='true';
+                        $producto->save();
+
+
+                        Flash::success('venta guardada correctamente');
+
+                        return redirect()->route('ver_productos_usuario', auth()->user()->id);
+                    } else {
+                        Flash::error('no existe el usuario');
+                        return back()->withInput();
+                    }
+                }else{
+                    return redirect()->route('error_403');
+                }
+            }else{
+                Flash::error('no existe el poducto');
+                return redirect()->route('ver_productos_usuario', auth()->user()->id);
+            }
+
+        }catch (Exception $exception){
+            dd($exception);
+            Flash::error('ha ocurrido un error');
+            return redirect()->route('index');
+        }
     }
 
 

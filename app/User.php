@@ -35,4 +35,11 @@ class User extends Authenticatable
     public function producto_favorito(){
         return $this->belongsToMany('App\ProductoFavorito');
     }
+    public function vendedor(){
+        return $this->hasMany('App\ProductoVendido');
+    }
+    public function vendido_a(){
+        return $this->hasMany('App\ProductoVendido');
+    }
+
 }
