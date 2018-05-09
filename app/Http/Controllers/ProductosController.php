@@ -423,6 +423,11 @@ class ProductosController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function guardar_venta_producto(Request $request,$id)
     {
         try {
@@ -431,10 +436,11 @@ class ProductosController extends Controller
             if($producto!=null ) {
 
                 if(auth()->user()->id==$producto->user_id) {
-
+                    // saca el usuario al que le vende el producto
                     $user_venta = User::where('nombre_usuario', '=', $request->nombre_usuario)->first();
                     if ($user_venta != null) {
 
+                        //añade los valores a la tabla de articulos vendidos
                         $producto_vendido = new ProductoVendido();
 
                         $producto_vendido->producto_id = $id;
@@ -451,6 +457,7 @@ class ProductosController extends Controller
 
                         $producto_vendido->save();
 
+                        // cambia el valor
                         $producto->vendido='true';
                         $producto->save();
 
