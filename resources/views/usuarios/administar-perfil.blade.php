@@ -1,5 +1,5 @@
 @extends('templates.main')
-@section('titulo_pagina', 'Editar-datos '.$usuario->nombre_usuario)
+@section('titulo_pagina', 'Editar-datos '.$usuario->nombre_usuario.'-Fakeapop')
 @section('contenido')
 
 {!! Form::Open(['route'=>['guardar_perfil',$usuario->id],'method'=>'PUT','files'=>true]) !!}
