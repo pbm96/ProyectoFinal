@@ -5,12 +5,7 @@
     .media .avatar {
     width: 64px;
     }
-    .shadow-textarea textarea.form-control::placeholder {
-    font-weight: 300;
-    }
-    .shadow-textarea textarea.form-control {
-    padding-left: 0.8rem;
-    }
+
     </style>
     @endsection
 @section('contenido')
@@ -58,7 +53,7 @@
             </div>
             <hr>
             <!-- Quotation -->
-            <p><i class="fa fa-quote-left"></i> Usuario desde {{$usuario->created_at}}</p>
+            <p><i class="fa fa-quote-left"></i> Usuario desde {{$fecha_user}}</p>
         </div>
 
     </div>
@@ -83,6 +78,7 @@
         <!--Panel 1-->
         <div class="tab-pane fade in show active" id="panel5" role="tabpanel">
             <br>
+            @if(count($productos_user)>0)
             @foreach($productos_user->chunk(4) as $productChunk)
 
                 <div class="row">
@@ -112,12 +108,17 @@
                     @endforeach
                 </div>
             @endforeach
+
             <div class="">{{ $productos_user->render() }}</div>
+            @else
+                <h2>{{$usuario->nombre}} No tiene ningun producto subido</h2>
+            @endif
         </div>
         <!--/.Panel 1-->
         <!--Panel 2-->
         <div class="tab-pane fade" id="panel6" role="tabpanel">
             <br>
+            @if(count($productos_vendidos_user)>0)
             @foreach($productos_vendidos_user->chunk(4) as $productChunk)
 
                 <div class="row">
@@ -147,7 +148,11 @@
                     @endforeach
                 </div>
             @endforeach
-            <div class="">{{ $productos_vendidos_user->render() }}</div>
+
+                @else
+                <br>
+                <h2>{{$usuario->nombre}} No ha vendido ningún producto</h2>
+            @endif
         </div>
         <!--/.Panel 2-->
         <!--Panel 3-->
@@ -155,24 +160,26 @@
 
 
         <div class="tab-pane fade" id="panel7" role="tabpanel">
-
+            @if($datos_user_venta!='')
             @foreach($datos_user_venta as $key=>$vendido_a)
             <br>
-                <div class="media">
+                <div class="media col-sm-8">
                 <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="Avatar">
                 <div class="media-body">
                    <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$vendido_a->nombre_usuario}}</h5> <div class="ml-3"><i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> </div></div>
-                    {{$datos_venta_producto[$key]->comentario_venta}}
+                       {{$datos_venta_producto[$key]->comentario_venta}}
                 </div>
                 </div>
-
-   @endforeach
+            @endforeach
+            @else
+                <h2>{{$usuario->nombre}} No tiene ninguna valoracion</h2>
+            @endif
 
         </div>
         <!--/.Panel 3-->
         <div class="tab-pane fade" id="panel8" role="tabpanel">
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus reiciendis molestiae placeat unde eos molestias. Quisquam aperiam, pariatur. Tempora, placeat ratione porro voluptate odit minima.</p>
+            <div id="googleMap" style="width:100%;height:400px;"></div>
         </div>
     </div>
 
@@ -188,4 +195,28 @@
 @section('scripts')
 
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG7G5aANtgkHs8FRZ6kyEsUOCwd4DG5QM"></script>
+    <script>
+        initMap();
+        function initMap() {
+                    {{$latitud=$direccion->latitud}}
+                    {{$longitud=$direccion->longitud}}
+            var myLatLng = {lat: parseFloat({{$latitud}}), lng: parseFloat({{$longitud}})};
+
+            var map = new google.maps.Map(document.getElementById('googleMap'), {
+                zoom: 14,
+                center: myLatLng
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Hello World!',
+            });}
+
+        $('.carousel').carousel({
+            interval:false
+        })
+
+
+    </script>
 @endsection
