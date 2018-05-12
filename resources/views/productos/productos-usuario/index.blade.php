@@ -16,7 +16,7 @@
 
 
 @section('contenido')
-
+@if(count($productos)>0)
     @foreach($productos->chunk(4) as $productChunk)
 
         <div class="row">
@@ -36,6 +36,7 @@
                             <h4 class="card-title"> {{ $producto->nombre }} </h4>
                             <p class="card-text h3"> {{ $producto->precio }} €</p>
                             <a href="{{route('editar_producto',$producto->id)}}" class="btn btn-outline-info"> Editar Producto</a>
+                            <a href="{{route('venta_producto',$producto->id)}}" class="btn btn-outline-info"> Vendido</a>
 
                             <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
 
@@ -47,6 +48,9 @@
         </div>
     @endforeach
     <div class="">{{ $productos->render() }}</div>
+    @else
+    <h1>No tienes productos</h1>
+    @endif
 @endsection
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
