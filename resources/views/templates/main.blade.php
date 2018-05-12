@@ -14,6 +14,36 @@
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function ()
+        {
+            var route= "{{route('notificaciones')}}";
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: route,
+                success: function(data) {
+                    if(data!=='') {
+                        var cont = 0;
+                        for (i = 0; i < data.length; i++) {
+                            cont++;
+                            $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light'><i class='fa fa-shopping-basket mr-2'></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a>")
+                        }
+
+                        $('#numero_notificaciones').text(cont)
+                    }else{
+                        $('#descripcion_notificacion').append(" <span class='text-light ml-2 row '>No tienes notificaciones</span>")
+
+                    }
+                }
+            })
+
+        })
+
+    </script>
     @yield('estilos')
 </head>
 <style>
@@ -35,8 +65,7 @@
 @yield('contenido')
 </main>
 @include('templates.assets.footer')
-<!-- JQuery -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
@@ -45,5 +74,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
             
 @yield('scripts')
+
+
 </body>
 </html>

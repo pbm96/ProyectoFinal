@@ -4,6 +4,21 @@
     <!-- Navbar brand -->
     <a class="navbar-brand" href="{{ route('index') }}">Fakeapop</a>
     <ul class="nav navbar-rigth mr-5 list-group-flush">
+        @guest
+            @else
+                <li class="nav-item dropdown notifications-nav show text-white mr-5">
+
+                     <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="badge bg-secondary" id="numero_notificaciones"></span>
+
+                    <i class="fa fa-bell"></i>
+                </a>
+                <div class="dropdown-menu dropdown-info " aria-labelledby="navbarDropdownMenuLink" id="descripcion_notificacion">
+
+                </div>
+
+                </li>
+                @endguest
         <a class="btn-floating btn-lg text-white light-blue darken-4" href="{{route('crear_producto')}}"><i class="fa fa-plus"></i></a>
         <li class="nav-item dropdown">
             @guest

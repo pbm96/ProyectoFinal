@@ -1,5 +1,5 @@
 @extends('templates.main')
-@section('titulo_pagina', 'Perfil de'.$usuario->nombre_usuario.'-Fakeapop')
+@section('titulo_pagina', 'Perfil de '.$usuario->nombre_usuario)
 @section('estilos')
     <style>
     .media .avatar {
@@ -162,14 +162,26 @@
         <div class="tab-pane fade" id="panel7" role="tabpanel">
             @if($datos_user_venta!='')
             @foreach($datos_user_venta as $key=>$vendido_a)
+
+            @if($datos_venta_producto[$key]->comentario_venta_comprador!=null || $datos_venta_producto[$key]->valoracion_venta_comprador!=null)
+
             <br>
                 <div class="media col-sm-8">
                 <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="Avatar">
                 <div class="media-body">
-                   <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$vendido_a->nombre_usuario}}</h5> <div class="ml-3"><i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> </div></div>
-                       {{$datos_venta_producto[$key]->comentario_venta}}
+                   <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$vendido_a->nombre_usuario}}</h5>
+                           @if($datos_venta_producto[$key]->valoracion_venta_comprador!=null)
+                           <div class="ml-3"> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> </div>
+                        @endif
+                   </div>
+                    @if($datos_venta_producto[$key]->comentario_venta_comprador!=null)
+
+                       {{$datos_venta_producto[$key]->comentario_venta_comprador}}
+                    @endif
                 </div>
                 </div>
+                    @endif
+
             @endforeach
             @else
                 <h2>{{$usuario->nombre}} No tiene ninguna valoracion</h2>
