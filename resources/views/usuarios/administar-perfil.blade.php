@@ -18,15 +18,18 @@
                 <div class="card profile-card">
 
                     <!--Avatar-->
-                    <div class=" mt-3 mb-4">
+
+                    <div class=" mt-3 mb-4 ">
                         <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg" class="rounded-circle" alt="First sample avatar image">
                     </div>
+
+
 
                     <div class="card-body pt-0 mt-0">
                         <!--Name-->
                         <h3 class="mb-3 font-weight-bold"><strong>{{$usuario->nombre_usuario}}</strong></h3>
                         <div class="row ">
-                            <h6 class="font-weight-bold cyan-text mb-4 ml-3 mr-5">Valoracion</h6>
+                            <h6 class="font-weight-bold cyan-text mb-4 ml-3 mr-5">Valoración</h6>
                             <i class="far fa-star"></i>
                             <i class="far fa-star"></i>
                             <i class="far fa-star"></i>
@@ -35,18 +38,20 @@
                         </div>
 
                         <div class="row ">
-                            <h6 class="font-weight-bold cyan-text mb-4 ml-3 mr-5">Valoracion</h6>
+                            <h6 class="font-weight-bold cyan-text mb-4 ml-3 mr-5 ">Productos Subidos</h6>
+                            <h6 class="font-weight-bold ">{{count($productos)}}</h6>
 
                         </div>
                         <div class="row ">
-                            <h6 class="font-weight-bold cyan-text mb-4 ml-3 mr-5">Valoracion</h6>
+                            <h6 class="font-weight-bold cyan-text mb-4 ml-3 mr-5">Productos Vendidos</h6>
+                            <h6 class="font-weight-bold ">{{count($productos_vendidos)}}</h6>
 
                         </div>
                         <div class="row justify-content-end ">
 
                             {!! Form::Open(['route'=>['borrar_perfil',$usuario->id],'method'=>'DELETE','files'=>true]) !!}
 
-                            {!!Form::submit('Borrar Perfil',['class'=>'btn btn-danger confirm ','data-confirm' => 'Seguro que quieres borrar el Usuario? NO HABRA VUELTA ATRÁS'])!!}
+                            {!!Form::submit('Borrar Perfil',['class'=>'btn btn-outline-danger   waves-effect confirm ','data-confirm' => 'Seguro que quieres borrar el Usuario? NO HABRA VUELTA ATRÁS'])!!}
 
                             {!! Form::close() !!}
                         </div>
@@ -81,6 +86,7 @@
                             <div class="col-lg-4">
 
                                 <div class="md-form form-sm mb-0">
+
                                     {!! Form::label('nombre','Nombre') !!}
                                     {!! Form::Text('nombre',$usuario->nombre,['class'=>'form-control form-control-sm','required','placeholder'=>'Introducir Nombre']) !!}
                                 </div>

@@ -25,10 +25,16 @@ class UserController extends Controller
 
 
         if(auth()->user()==$usuario ){
+            $productos_vendidos= Producto::where('user_id','=',$usuario->id)->where('vendido','=','true')->get();
+
+            $productos = Producto::where('user_id','=',$usuario->id)->get();
 
             $direccion=$usuario->direccion;
 
-            return view('usuarios.administar-perfil')->with('usuario',$usuario)->with('direccion',$direccion);
+            return view('usuarios.administar-perfil')->with('usuario',$usuario)
+                                                            ->with('direccion',$direccion)
+                                                            ->with('productos_vendidos',$productos_vendidos)
+                                                            ->with('productos',$productos);
 
         }else{
             return redirect()->route('error_403');
