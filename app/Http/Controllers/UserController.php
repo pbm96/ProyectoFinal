@@ -41,23 +41,30 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function guardar_perfil(Request $request,$id){
-      $usuario= User::find($id);
+
 
         try{
+            $usuario= User::find($id);
 
             $usuario->direccion_id=self::direccion($request->direccion,$request->cityLat,$request->cityLng);
+
             $usuario->fill($request->all());
+
 
             if ($usuario->isDirty()) {
 
                 $usuario->save();
 
                 Flash::success('El perfil se actualizo correctamente');
-                return redirect()->route('index');
+                return redirect()->route('administrar_perfil',auth()->user());
 
+            }else{
+                Flash::success('El perfil se actualizo correctamente');
+                return redirect()->route('administrar_perfil',auth()->user());
             }
 
         }catch (Exception $exception){
+
             Flash::error('no se ha podido actualizar el perfil');
             return redirect()->route('index');
         }
@@ -71,8 +78,9 @@ class UserController extends Controller
      * @param $longitud
      * @return mixed
      */
-    public function direccion($direccion, $latitud,$longitud){
+    public function direccion($direccion, $latitud, $longitud){
         if($direccion!="") {
+
             $direccion= Direccion::firstOrCreate([
                 'nombre' => $direccion,
                 'latitud' => $latitud,
