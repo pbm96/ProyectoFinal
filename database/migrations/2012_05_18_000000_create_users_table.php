@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('direccion_id')->unsigned()->nullable();
+            $table->integer('valoracion')->default(5);
             $table->decimal('telefono',9,0)->nullable();
             $table->string('imagen')->nullable();
 
