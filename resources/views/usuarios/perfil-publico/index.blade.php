@@ -193,8 +193,9 @@
 
             @endif
             @endforeach
+                @endif
+               @if($productos_comprados_user!='')
 
-                @elseif($productos_comprados_user!='')
                 @foreach($productos_comprados_user as $key=>$producto)
                     <br>
                     <div class="media col-sm-8">
@@ -219,8 +220,7 @@
                         </div>
                     </div>
                     @endforeach
-            @else
-                <h2>{{$usuario->nombre}} No tiene ninguna valoracion</h2>
+
             @endif
 
 

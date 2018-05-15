@@ -178,6 +178,7 @@ class UserController extends Controller
 
 
 
+
        return view('usuarios.perfil-publico.index')->with('usuario',$usuario)
                                                         ->with('productos_user',$productos_user)
                                                         ->with('productos_vendidos_user',$productos_vendidos_user)

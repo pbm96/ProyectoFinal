@@ -19,7 +19,7 @@
 
                 </li>
                 @endguest
-        <a class="btn-floating btn-lg text-white light-blue darken-4" href="{{route('crear_producto')}}"><i class="fa fa-plus"></i></a>
+        <a class="btn-floating btn-lg text-white light-blue darken-4"  data-toggle="tooltip" data-placement="bottom" title="Crear Producto" href="{{route('crear_producto')}}"><i class="fa fa-plus"></i></a>
         <li class="nav-item dropdown">
             @guest
                 <a class="text-white nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrar Usuario</a>
