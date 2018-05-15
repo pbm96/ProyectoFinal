@@ -27,9 +27,10 @@ class HomeController extends Controller
     public function notificaciones()
     {
         $notificaciones = ProductoVendido::where('vendido_a', '=', auth()->user()->id)->where('notificacion', '=', 'true')->get();
+
         foreach ($notificaciones as $notificacion) {
 
-            $producto = Producto::find($notificacion->id);
+            $producto = Producto::find($notificacion->producto_id);
 
             $notificacion->nombre_producto =$producto->nombre;
         }

@@ -23,6 +23,7 @@ class ProductosController extends Controller
     public function index()
     {
         // se muestran los productos ordenados por fecha de añadido
+
         $productos=Producto::where('vendido','=','false')->orderBy('created_at','desc')->paginate(8);
 
         self::creado_desde($productos);

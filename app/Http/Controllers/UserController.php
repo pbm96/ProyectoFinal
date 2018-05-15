@@ -17,6 +17,12 @@ use App\Http\Controllers\ProductosController;
 class UserController extends Controller
 {
 
+    public function __construct(ProductosController $productosController
+                              )
+    {
+        $this->productosController = $productosController;
+
+    }
     /**
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
