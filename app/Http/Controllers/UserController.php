@@ -139,10 +139,15 @@ class UserController extends Controller
         //productos del usuario que se han vendido
         $productos_vendidos_user =   Producto::where('user_id', '=', $id)->where('vendido','=','true')->orderBy('created_at', 'desc')->paginate(12);
 
+        $productos_comprados_user=ProductoVendido::where('vendido_a','=',$usuario->id)->get();
+
+
+
         $this->productosController->creado_desde($productos_vendidos_user);
 
 
         //sacar los datos de la venta de los productos
+
             if(count($productos_vendidos_user)>0) {
                 $datos_venta_producto = $usuario->vendedor;
 
@@ -156,13 +161,30 @@ class UserController extends Controller
                 $datos_venta_producto=null;
                 $datos_user_venta='';
             }
+            if(count( $productos_comprados_user)>0){
+
+                foreach ( $productos_comprados_user as $producto) {
+
+                    $datos_user_compra[] = User::where('id', '=', $producto->user_id)->first();
+                }
+            }else{
+                $productos_comprados_user='';
+                $datos_user_compra='';
+            }
+
+
+
+
+
 
 
        return view('usuarios.perfil-publico.index')->with('usuario',$usuario)
                                                         ->with('productos_user',$productos_user)
                                                         ->with('productos_vendidos_user',$productos_vendidos_user)
                                                         ->with('datos_venta_producto',$datos_venta_producto)
+                                                        ->with('productos_comprados_user',$productos_comprados_user)
                                                         ->with('datos_user_venta',$datos_user_venta)
+                                                        ->with('datos_user_compra',$datos_user_compra)
                                                         ->with('direccion',$direccion)
                                                         ->with('fecha_user',$fecha_user);
 

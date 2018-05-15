@@ -40,20 +40,21 @@
 
         <div class="card-body ml-5">
             <!-- Name --><div class="row">
-            <h4 class="card-title ml-5 "><i class="fas fa-user"></i> {{$usuario->nombre}}</h4>
+            <h4 class="card-title ml-5 "><i class="fas fa-user text-primary"></i> {{$usuario->nombre}}</h4>
                 <div class="ml-4">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
+                    @for($i=0;$i<$usuario->valoracion;$i++)
+                    <i class="fas fa-star yellow-text"></i>
+                        @endfor
+                    @for($i=0;$i<5-$usuario->valoracion;$i++)
+                            <i class="far fa-star "></i>
+                        @endfor
 
 
                 </div>
             </div>
             <hr>
             <!-- Quotation -->
-            <p><i class="fa fa-quote-left"></i> Usuario desde {{$fecha_user}}</p>
+            <p class="text-right"><i class="fa fa-clock text-primary"></i> Usuario desde {{$fecha_user}}</p>
         </div>
 
     </div>
@@ -160,7 +161,9 @@
 
 
         <div class="tab-pane fade" id="panel7" role="tabpanel">
+
             @if($datos_user_venta!='')
+
             @foreach($datos_user_venta as $key=>$vendido_a)
 
             @if($datos_venta_producto[$key]->comentario_venta_comprador!=null || $datos_venta_producto[$key]->valoracion_venta_comprador!=null)
@@ -171,7 +174,14 @@
                 <div class="media-body">
                    <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$vendido_a->nombre_usuario}}</h5>
                            @if($datos_venta_producto[$key]->valoracion_venta_comprador!=null)
-                           <div class="ml-3"> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> </div>
+                           <div class="ml-3">
+                               @for($i=0;$i<$datos_venta_producto[$key]->valoracion_venta_comprador;$i++)
+                                   <i class="fas fa-star yellow-text"></i>
+                               @endfor
+                               @for($i=0;$i<5-$datos_venta_producto[$key]->valoracion_venta_comprador;$i++)
+                                   <i class="far fa-star "></i>
+                               @endfor
+                           </div>
                         @endif
                    </div>
                     @if($datos_venta_producto[$key]->comentario_venta_comprador!=null)
@@ -180,12 +190,39 @@
                     @endif
                 </div>
                 </div>
-                    @endif
 
+            @endif
             @endforeach
+
+                @elseif($productos_comprados_user!='')
+                @foreach($productos_comprados_user as $key=>$producto)
+                    <br>
+                    <div class="media col-sm-8">
+                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="Avatar">
+                        <div class="media-body">
+                            <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$datos_user_compra[$key]->nombre_usuario}}</h5>
+                                @if($producto->valoracion_venta_vendedor!=null)
+                                    <div class="ml-3">
+                                        @for($i=0;$i<$producto->valoracion_venta_vendedor;$i++)
+                                            <i class="fas fa-star yellow-text"></i>
+                                        @endfor
+                                        @for($i=0;$i<5-$producto->valoracion_venta_vendedor;$i++)
+                                            <i class="far fa-star "></i>
+                                        @endfor
+                                    </div>
+                                @endif
+                            </div>
+                            @if($producto->comentario_venta_vendedor!=null)
+
+                                {{$producto->comentario_venta_vendedor}}
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
             @else
                 <h2>{{$usuario->nombre}} No tiene ninguna valoracion</h2>
             @endif
+
 
         </div>
         <!--/.Panel 3-->
