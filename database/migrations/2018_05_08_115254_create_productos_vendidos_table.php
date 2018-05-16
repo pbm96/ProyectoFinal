@@ -19,8 +19,11 @@ class CreateProductosVendidosTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('vendido_a')->unsigned();
             $table->integer('precio_venta');
-            $table->integer('valoracion_venta')->default(5);
-            $table->string('comentario_venta')->nullable();
+            $table->integer('valoracion_venta_vendedor')->default(5);
+            $table->integer('valoracion_venta_comprador')->default(5);
+            $table->string('comentario_venta_comprador')->nullable();
+            $table->string('comentario_venta_vendedor')->nullable();
+            $table->string('notificacion')->default('true');
 
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

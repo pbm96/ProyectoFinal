@@ -26,6 +26,7 @@ Auth::routes();
 
         //rutas de los productos. para acceder hay que autentificarse
 Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
+        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'ProductosController@notificaciones'));
 
         Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
 
@@ -41,7 +42,7 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
         Route::get('venta-producto/{id}',array( 'as' =>'venta_producto','uses'=>'ProductosController@vender_producto'));
 
-        Route::post('guardar-venta-producto/{id}',array( 'as' =>'guardar_venta_producto','uses'=>'ProductosController@guardar_venta_producto'));
+        Route::post('guardar-venta-producto/{id}',array( 'as' =>'guardar_venta_producto','uses'=>'ProductosController@guardar_venta_producto_vendedor'));
 
     Route::get('mis-productos/{id}',['as'=>'ver_productos_usuario','uses'=>'ProductosController@ver_productos_usuario']);
 
@@ -53,7 +54,7 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
 });
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
-
+        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'HomeController@notificaciones'));
         Route::get('administrar-perfil/{id}',['as'=>'administrar_perfil','uses'=>'UserController@modificar_perfil']);
         Route::put('guardar-perfil/{id}',['as'=>'guardar_perfil','uses'=>'UserController@guardar_perfil']);
 

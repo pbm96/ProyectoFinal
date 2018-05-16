@@ -24,8 +24,6 @@ class ProductosController extends Controller
     {
         // se muestran los productos ordenados por fecha de añadido
 
-
-
         $productos=Producto::where('vendido','=','false')->orderBy('created_at','desc')->paginate(8);
 
         self::creado_desde($productos);
@@ -266,28 +264,30 @@ class ProductosController extends Controller
 
                  $producto_favorito->save();
 
-                 Flash::success('Se ha añadido correctamente el producto a favoritos');
-                 /*modificar*/
-                  return back();
+                 $respuesta='si';
+
+                  return response()->json($respuesta);
 
              } else if ($comprobar_favorito != null && $producto->user_id!=$user_id) {
                   $producto_favorito = ProductoFavorito::find($comprobar_favorito->id);
 
                   $producto_favorito->delete();
 
-                  Flash::info('Se ha eliminado el producto de favoritos');
-                  /*modificar*/
-                  return back();
+                  $respuesta='no';
+
+                  return response()->json($respuesta);
 
              }else{
                   Flash::info('No puedes poner tu propio producto en favoritos');
-                  return back();
+                  $respuesta='no';
+
+                  return response()->json($respuesta);
               }
 
         }catch (Exception $exception){
              Flash::error('Ha ocurriodo un error');
-             /*modificar*/
-             return back();
+
+             return redirect()->route('index');
 
     }
     }
@@ -400,7 +400,7 @@ class ProductosController extends Controller
             if ($producto != null) {
                 if (auth()->user()->id ==$producto->user_id) {
 
-                    return view('productos.vender-producto.index')->with('producto', $producto);
+                    return view('productos.vender-producto.vendedor.index')->with('producto', $producto);
 
                 }else{
 
@@ -428,7 +428,7 @@ class ProductosController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function guardar_venta_producto(Request $request,$id)
+    public function guardar_venta_producto_vendedor(Request $request,$id)
     {
         try {
 
@@ -449,16 +449,19 @@ class ProductosController extends Controller
 
                         $producto_vendido->vendido_a = $user_venta->id;
 
-                        $producto_vendido->valoracion_venta = $request->valoracion_venta;
+                        $producto_vendido->valoracion_venta_vendedor = $request->valoracion_venta;
 
-                        $producto_vendido->comentario_venta = $request->comentario_venta;
+                        $producto_vendido->comentario_venta_vendedor = $request->comentario_venta;
 
                         $producto_vendido->precio_venta = $request->precio_venta;
+
+                        $producto_vendido->notificacion = "true";
 
                         $producto_vendido->save();
 
                         // cambia el valor
                         $producto->vendido='true';
+
                         $producto->save();
 
 
