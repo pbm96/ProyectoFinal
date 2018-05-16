@@ -63,9 +63,13 @@
     </div>
     <hr>
     <div class="row">
-    <h3 class="col-sm-9">{{$producto->precio}}€</h3>
+    <h3 class="col-sm-8 justify-content-between">{{$producto->precio}}€</h3>
 
-        <a class="text-muted justify-content-end" id="poner_favorito"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
+        @if($producto_favorito==true)
+            <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar de favoritos</a>
+        @else
+            <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
+        @endif
 
     </div>
     <div class="col-lg-12 mt-3">
@@ -135,10 +139,10 @@
                 success: function(data) {
                     if(data!=='' && data=='si') {
                        $('#poner_favorito').empty();
-                       $('#poner_favorito').append("<i class='far fa-2x fa-heart text-danger icono-rojo'></i>Añadir a favoritos</a>")
+                       $('#poner_favorito').append("<i class='far fa-2x fa-heart text-danger icono-rojo'></i>Quitar de  favoritos")
                     }else{
                         $('#poner_favorito').empty();
-                        $('#poner_favorito').append("<i class='far fa-2x fa-heart text-dark icono-negro'></i>Añadir a favoritos</a>")
+                        $('#poner_favorito').append("<i class='far fa-2x fa-heart text-dark icono-negro '></i>Añadir a favoritos")
                     }
 
                 }
