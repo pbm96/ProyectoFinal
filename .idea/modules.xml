@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ProyectoFinal.iml" filepath="$PROJECT_DIR$/.idea/ProyectoFinal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/ProyectoFinal.iml" filepath="$PROJECT_DIR$/.idea/ProyectoFinal.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ProyectoFinal_Master/.idea/ProyectoFinal_Master.iml" filepath="$PROJECT_DIR$/../ProyectoFinal_Master/.idea/ProyectoFinal_Master.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ProyectoFinal_Mio.iml" filepath="$PROJECT_DIR$/.idea/ProyectoFinal_Mio.iml" />
+      <module fileurl="file://D:/Pablo/Tema7 AJAX/.idea/Tema7 AJAX.iml" filepath="D:/Pablo/Tema7 AJAX/.idea/Tema7 AJAX.iml" />
       <module fileurl="file://$PROJECT_DIR$/../proyecto1/.idea/proyecto1.iml" filepath="$PROJECT_DIR$/../proyecto1/.idea/proyecto1.iml" />
       <module fileurl="file://$PROJECT_DIR$/../proyectoF/.idea/proyectoFinal.iml" filepath="$PROJECT_DIR$/../proyectoF/.idea/proyectoFinal.iml" />
       <module fileurl="file://$PROJECT_DIR$/../vue/.idea/vue.iml" filepath="$PROJECT_DIR$/../vue/.idea/vue.iml" />

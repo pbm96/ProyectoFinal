@@ -8,12 +8,12 @@
     <title>@yield('titulo_pagina') -Fakeapop</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
     @yield('estilos')
 </head>
 <style>
@@ -32,9 +32,11 @@
 
 </header>
 <main class="container mt-4">
+    @include('productos.vender-producto.comprador.index')
 @yield('contenido')
 </main>
 @include('templates.assets.footer')
+
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
@@ -44,6 +46,36 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
 
+<script>
+    $(document).ready(function ()
+    {
+        var route= "{{route('notificaciones')}}";
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: route,
+            success: function(data) {
+                if(data!=='') {
+                    var cont = 0;
+                    for (i = 0; i < data.length; i++) {
+                        cont++;
+                        $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light' data-target='#modalSubscriptionForm' data-toggle='modal' ><i class='fa fa-shopping-basket mr-2'></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a>")
+                    }
+                    $('#numero_notificaciones').text(cont)
+                }else{
+                    $('#descripcion_notificacion').append(" <span class='text-light ml-2 row '>No tienes notificaciones</span>")
+
+                }
+            }
+        })
+
+    })
+
+</script>
+
 @yield('scripts')
+
+
 </body>
 </html>
