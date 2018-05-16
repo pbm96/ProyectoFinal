@@ -12,3 +12,4 @@ yarn-error.log
 .env
 *.jpg
 .idea/workspace.xml
+*.xml

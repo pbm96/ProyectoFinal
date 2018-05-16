@@ -91,9 +91,6 @@ class ProductosController extends Controller
 
 
 
-
-
-
         Flash::success('tu producto '.$producto->nombre." se ha creado correctamente");
         return redirect()->route('index');
     }
@@ -481,7 +478,7 @@ class ProductosController extends Controller
             }
 
         }catch (Exception $exception){
-            dd($exception);
+
             Flash::error('ha ocurrido un error');
             return redirect()->route('index');
         }
