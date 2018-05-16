@@ -8,7 +8,7 @@ class ProductoVendido extends Model
 {
     protected $table="productos_vendidos";
     protected $fillable = [
-        'user_id','vendido_a','valoracion_venta','comentario_venta','precio_venta','producto_id'
+        'user_id','vendido_a','valoracion_venta_comprador','valoracion_venta_vendedor','comentario_venta_vendedor','comentario_venta_comprador','precio_venta','producto_id'
     ];
     public function producto(){
         return $this->hasOne('App\Producto');
