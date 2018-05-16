@@ -266,28 +266,30 @@ class ProductosController extends Controller
 
                  $producto_favorito->save();
 
-                 Flash::success('Se ha añadido correctamente el producto a favoritos');
-                 /*modificar*/
-                  return back();
+                 $respuesta='si';
+
+                  return response()->json($respuesta);
 
              } else if ($comprobar_favorito != null && $producto->user_id!=$user_id) {
                   $producto_favorito = ProductoFavorito::find($comprobar_favorito->id);
 
                   $producto_favorito->delete();
 
-                  Flash::info('Se ha eliminado el producto de favoritos');
-                  /*modificar*/
-                  return back();
+                  $respuesta='no';
+
+                  return response()->json($respuesta);
 
              }else{
                   Flash::info('No puedes poner tu propio producto en favoritos');
-                  return back();
+                  $respuesta='no';
+
+                  return response()->json($respuesta);
               }
 
         }catch (Exception $exception){
              Flash::error('Ha ocurriodo un error');
-             /*modificar*/
-             return back();
+
+             return redirect()->route('index');
 
     }
     }
