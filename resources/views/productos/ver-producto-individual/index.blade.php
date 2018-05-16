@@ -64,11 +64,9 @@
     <hr>
     <div class="row">
     <h3 class="col-sm-9">{{$producto->precio}}€</h3>
-@if($producto_favorito==true)
-    <a  href="{{route('poner_favorito',$producto->id)}}" class="text-muted col align-self-end"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar favorito</a>
-    @else
+
         <a href="{{route('poner_favorito',$producto->id)}}" class="text-muted justify-content-end"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
-    @endif
+
     </div>
     <div class="col-lg-12 mt-3">
         <nav>
@@ -123,8 +121,36 @@
 
         $('.carousel').carousel({
             interval:false
-        })
+        });
 
+
+        $('#poner_favorito').ready(function ()
+        {
+            var route= "{{route('poner_favorito',$producto->id)}}";
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: route,
+                success: function(data) {
+                    if(data!=='') {
+                        console.log(data);
+                    }
+                   /* if(data!=='') {
+                        var cont = 0;
+                        for (i = 0; i < data.length; i++) {
+                            cont++;
+                            $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light' data-target='#modalSubscriptionForm' data-toggle='modal' ><i class='fa fa-shopping-basket mr-2'></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a>")
+                        }
+                        $('#numero_notificaciones').text(cont)
+                    }else{
+                        $('#descripcion_notificacion').append(" <span class='text-light ml-2 row '>No tienes notificaciones</span>")
+
+                    }*/
+                }
+            })
+
+        })
 
     </script>
 @endsection
