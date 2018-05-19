@@ -10,6 +10,13 @@
     }
     h4{
         display: inline;
+
+    }
+    .icono-negro:hover{
+        color: #ff3547 !important;
+    }
+    .icono-rojo:hover{
+        color: #000000 !important;
     }
 </style>
 @endsection
@@ -55,7 +62,16 @@
         </div>
     </div>
     <hr>
-    <h4 class="col-sm-9">{{$producto->precio}}€</h4>
+    <div class="row">
+    <h3 class="col-sm-8 justify-content-between">{{$producto->precio}}€</h3>
+
+        @if($producto_favorito==true)
+            <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar de favoritos</a>
+        @else
+            <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
+        @endif
+
+    </div>
     <div class="col-lg-12 mt-3">
         <nav>
             <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
@@ -104,13 +120,35 @@
         var marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
-            title: 'Hello World!'
+            title: 'Hello World!',
         });}
 
         $('.carousel').carousel({
             interval:false
-        })
+        });
 
+
+        $('#poner_favorito').click(function ()
+        {
+            var route= "{{route('poner_favorito',$producto->id)}}";
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: route,
+                success: function(data) {
+                    if(data!=='' && data=='si') {
+                       $('#poner_favorito').empty();
+                       $('#poner_favorito').append("<i class='far fa-2x fa-heart text-danger icono-rojo'></i>Quitar de  favoritos")
+                    }else{
+                        $('#poner_favorito').empty();
+                        $('#poner_favorito').append("<i class='far fa-2x fa-heart text-dark icono-negro '></i>Añadir a favoritos")
+                    }
+
+                }
+            })
+
+        })
 
     </script>
 @endsection

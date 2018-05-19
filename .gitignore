@@ -1,7 +1,7 @@
 /node_modules
 /public/hot
 /storage/*.key
-/.idea
+.idea
 /.vscode
 /.vagrant
 /vendor
@@ -12,3 +12,4 @@ yarn-error.log
 .env
 *.jpg
 .idea/workspace.xml
+*.xml

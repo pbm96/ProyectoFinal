@@ -1,5 +1,6 @@
 
 @extends('templates.main')
+@section('titulo_pagina', 'crear-producto')
 @section('estilos')
 <style>
     

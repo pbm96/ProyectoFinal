@@ -26,23 +26,43 @@ Auth::routes();
 
         //rutas de los productos. para acceder hay que autentificarse
 Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
+        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'ProductosController@notificaciones'));
 
         Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
 
         Route::post('guardar-producto', array('as' => 'guardar_producto', 'uses' => 'ProductosController@store'));
 
-        Route::delete('borrar-producto/{id}',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
+        Route::get('borrar-producto/{id}',array( 'as' =>'borrar_producto','uses'=>'ProductosController@destroy'));
 
         Route::get('editar-producto/{id}',array( 'as' =>'editar_producto','uses'=>'ProductosController@edit'));
-        Route::put('modificar-producto',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
+
+        Route::put('modificar-producto/{id}',array( 'as' =>'modificar_producto','uses'=>'ProductosController@modificar_producto'));
+
+        Route::get('poner-favorito/{id}',array( 'as' =>'poner_favorito','uses'=>'ProductosController@producto_favorito'));
+
+        Route::get('venta-producto/{id}',array( 'as' =>'venta_producto','uses'=>'ProductosController@vender_producto'));
+
+        Route::post('guardar-venta-producto/{id}',array( 'as' =>'guardar_venta_producto','uses'=>'ProductosController@guardar_venta_producto_vendedor'));
+
+    Route::get('mis-productos/{id}',['as'=>'ver_productos_usuario','uses'=>'ProductosController@ver_productos_usuario']);
+
+    Route::get('mis-productos-favoritos/{id}',['as'=>'ver_productos_usuario_favoritos','uses'=>'ProductosController@ver_productos_usuario_favoritos']);
+
+
+
+
 
 });
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
-
+        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'HomeController@notificaciones'));
         Route::get('administrar-perfil/{id}',['as'=>'administrar_perfil','uses'=>'UserController@modificar_perfil']);
         Route::put('guardar-perfil/{id}',['as'=>'guardar_perfil','uses'=>'UserController@guardar_perfil']);
 
-         Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+        Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+
+        Route::get('perfil/{id}',['as'=>'perfil_publico','uses'=>'UserController@perfil_publico']);
+
+
 
 
 
@@ -55,10 +75,6 @@ Route::group(['prefix'=>'errores'],function () {
 
 });
 
-
-
-
-//Route::resource('productos','ProductosController');
 
 
 

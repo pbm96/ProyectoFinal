@@ -8,7 +8,7 @@ class Producto extends Model
 {
     protected $table="productos";
     protected $fillable = [
-        'nombre','descripcion','fecha','user_id','categoria_id','precio'
+        'nombre','descripcion','fecha','user_id','categoria_id','precio','vendido'
     ];
     public function categoria(){
         return $this->belongsTo('App\Categoria');
@@ -21,6 +21,10 @@ class Producto extends Model
     }
     public function producto_favorito(){
         return $this->belongsToMany('App\ProductoFavorito');
+    }
+    public function venta(){
+        return $this->hasOne('App\ProductoVendido');
+
     }
 
 }
