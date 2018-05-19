@@ -17,10 +17,46 @@
 
 @section('contenido')
 
-    <div class="jumbotron text-center">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima aliquam, nesciunt quasi enim pariatur suscipit neque quas minus ipsum quia dolorem obcaecati dicta! Aut voluptate dolor exercitationem et, aspernatur fuga.
-    </div>
-    
+    <section class="card mb-5">
+        <h4 class="card-header">Filtrar resultados</h4>
+        <div class="card-body">
+            {!! Form::Open(['route'=>'index','method'=>'GET']) !!}
+                <div class="row justify-content-around">
+                    <div class="col-lg-3 col-md-6">
+                        <h3>Categorias</h3>         
+                        <ul class="list-group list-group-flush">
+                        @foreach($listaCategorias as $categoria)
+                            <li class="list-group-item"><input type="checkbox" value="{{ $categoria->id }}" name="categorias[]">{{ $categoria->nombre }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <label for="">Precio</label>
+                        <select class="form-control" name="ordenPrecio" id="ordenPrecio">
+                            <option selected value="" disabled>Selecciona una opcion</option>
+                            <option value="">Mayor a menor</option>
+                            <option value="">Menor a mayor</option>
+                        </select>
+                        <hr>
+                        <label for="">Localizacion</label>
+                        <select class="form-control" name="ordenDistancia" id="ordenDistancia">
+                            <option selected value="" disabled>Selecciona una opcion</option>
+                            <option value="">Mas cercanos primero</option>
+                            <option value="">Mas lejanos primero</option>
+                        </select>
+                        {!! Form::label('precioMin','Precio minimo') !!}
+                        {!! Form::number('precioMin',0 ,['class'=>'form-control','placeholder'=>'','min'=>0]) !!}
+                        {!! Form::label('precioMax','Precio maximo') !!}
+                        {!! Form::number('precioMax',20000 ,['class'=>'form-control','placeholder'=>'','min'=>0]) !!}
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    {!!Form::submit('filtrar',['class'=>'btn btn-outline-primary'])!!}
+                </div>
+            {!! Form::close() !!}
+        </div>
+    </section>
+
     @foreach($productos->chunk(4) as $productChunk)
 
     <div class="row">
@@ -54,5 +90,4 @@
 @endsection
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
-    
 @endsection

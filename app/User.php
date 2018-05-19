@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombre','apellido1','apellido2','nombre_usuario', 'email', 'password','telefono','imagen','direccion_id'
+        'nombre', 'apellido1', 'apellido2', 'nombre_usuario', 'email', 'password', 'telefono', 'imagen', 'direccion_id',
     ];
 
     /**
@@ -26,20 +26,35 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function producto(){
+
+    public function producto()
+    {
         return $this->hasMany('App\Producto');
     }
-    public function direccion(){
+
+    public function direccion()
+    {
         return $this->belongsTo('App\Direccion');
     }
-    public function producto_favorito(){
+
+    public function producto_favorito()
+    {
         return $this->belongsToMany('App\ProductoFavorito');
     }
-    public function vendedor(){
+
+    public function vendedor()
+    {
         return $this->hasMany('App\ProductoVendido');
     }
-    public function vendido_a(){
+
+    public function vendido_a()
+    {
         return $this->hasMany('App\ProductoVendido');
+    }
+
+    public function meesages()
+    {
+        return $this->hasMany('App\Message');
     }
 
 }
