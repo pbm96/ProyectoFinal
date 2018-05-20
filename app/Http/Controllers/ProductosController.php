@@ -464,7 +464,7 @@ class ProductosController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function guardar_venta_producto_vendedor(Request $request,$id)
+    public function guardar_venta_producto(Request $request,$id)
 
     {
         try {
