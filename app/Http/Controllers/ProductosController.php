@@ -157,12 +157,16 @@ class ProductosController extends Controller
             $user_id = $producto->user_id;
 
             if (auth()->user()->id == $user_id) {
+                if ($producto->vendido == 'false') {
 
                 $producto->delete();
 
                 Flash::success(' El producto se ha eliminado correctamente ');
 
                 return redirect()->route('ver_productos_usuario', auth()->user()->id);
+            }else{
+                    return redirect()->route('error_403');
+                }
 
             }else{
 
@@ -484,5 +488,30 @@ class ProductosController extends Controller
         }
     }
 
+    public function valoracion_compra($id){
+        $venta= ProductoVendido::find($id);
 
+        $producto = Producto::where('id','=',$venta->producto_id)->first();
+        $user = User::where('id','=',$venta->vendido_a)->first();
+
+        return view('productos.vender-producto.comprador.index')->with('venta',$venta)
+                                                                ->with('producto',$producto)
+                                                                ->with('user',$user);
+    }
+
+    public function guardar_valoracion_comprador(Request $request,$id){
+        $venta = ProductoVendido::find($id);
+
+        $user = User::where('id','=',$venta->vendido_a)->first();
+
+        $venta->valoracion_venta_comprador=$request->valoracion_compra;
+
+        $venta->comentario_venta_comprador=$request->comentario_compra;
+
+        $venta->notificacion='false';
+
+        $venta->save();
+
+        return redirect()->route('perfil_publico',$user->id);
+    }
 }

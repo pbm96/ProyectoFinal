@@ -32,7 +32,7 @@
 
 </header>
 <main class="container mt-4">
-    @include('productos.vender-producto.comprador.index')
+
 @yield('contenido')
 </main>
 @include('templates.assets.footer')
@@ -58,9 +58,15 @@
             success: function(data) {
                 if(data!=='') {
                     var cont = 0;
+                    var url = '{{ route("valoracion_compra",":id") }}';
+
                     for (i = 0; i < data.length; i++) {
                         cont++;
-                        $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light' data-target='#modalSubscriptionForm' data-toggle='modal' ><i class='fa fa-shopping-basket mr-2'></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a>")
+                        url = url.replace(':id', data[i].id);
+
+                        $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light' href= '"+url+"' ><i class='fa fa-shopping-basket mr-2'></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a>");
+
+                        url = '{{ route("valoracion_compra",":id") }}';
                     }
                     $('#numero_notificaciones').text(cont)
                 }else{

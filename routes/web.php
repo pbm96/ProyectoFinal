@@ -48,7 +48,9 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
     Route::get('mis-productos-favoritos/{id}',['as'=>'ver_productos_usuario_favoritos','uses'=>'ProductosController@ver_productos_usuario_favoritos']);
 
+    Route::get('valoracion-compra/{id}', ['as' => 'valoracion_compra', 'uses' => 'ProductosController@valoracion_compra']);
 
+    Route::post('guardar-valoracion-comprador/{id}', array('as' => 'guardar_valoracion_comprador', 'uses' => 'ProductosController@guardar_valoracion_comprador'));
 
 
 

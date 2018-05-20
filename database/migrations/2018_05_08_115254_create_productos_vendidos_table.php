@@ -15,7 +15,7 @@ class CreateProductosVendidosTable extends Migration
     {
         Schema::create('productos_vendidos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('producto_id')->unsigned();
+            $table->integer('producto_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
             $table->integer('vendido_a')->unsigned();
             $table->integer('precio_venta');
@@ -27,7 +27,7 @@ class CreateProductosVendidosTable extends Migration
 
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
+            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('set null');
             $table->foreign('vendido_a')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
