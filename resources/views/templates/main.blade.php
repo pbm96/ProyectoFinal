@@ -5,9 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('titulo_pagina') -Fakeapop</title>
     <!-- Font Awesome -->
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -21,7 +24,7 @@
         font-family: Roboto;
     }
 </style>
-<body>
+<body >
 <header>
     @include('templates.assets.header')
     <div class="container mt-4 text-center">
@@ -31,6 +34,7 @@
     </div>
 
 </header>
+
 <main class="container mt-4">
 
 @yield('contenido')
