@@ -42,6 +42,11 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
     Route::get('poner-favorito/{id}', array('as' => 'poner_favorito', 'uses' => 'ProductosController@producto_favorito'));
 
+
+    Route::get('valoracion-compra/{id}', ['as' => 'valoracion_compra', 'uses' => 'ProductosController@valoracion_compra']);
+
+    Route::post('guardar-valoracion-comprador/{id}', array('as' => 'guardar_valoracion_comprador', 'uses' => 'ProductosController@guardar_valoracion_comprador'));
+
     Route::get('venta-producto/{id}', array('as' => 'venta_producto', 'uses' => 'ProductosController@vender_producto'));
 
     Route::post('guardar-venta-producto/{id}', array('as' => 'guardar_venta_producto', 'uses' => 'ProductosController@guardar_venta_producto'));
