@@ -27,8 +27,6 @@ class ProductosController extends Controller
         // se muestran los productos ordenados por fecha de añadido
 
 
-        
-
         if ($request->query()) {
 
             $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
@@ -54,6 +52,7 @@ class ProductosController extends Controller
             }
 
             $productos->where('vendido', '=', 'false');
+            
 
             $productos = $productos->paginate(8);
 
@@ -67,6 +66,7 @@ class ProductosController extends Controller
             $productos = Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc')->paginate(8);
 
             self::creado_desde($productos);
+
 
             return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
 
@@ -90,7 +90,7 @@ class ProductosController extends Controller
     /**
      * Funcion para guardar un producto
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
@@ -132,7 +132,7 @@ class ProductosController extends Controller
         }
 
 
-        Flash::success('tu producto '.$producto->nombre." se ha creado correctamente");
+        Flash::success('tu producto ' . $producto->nombre . " se ha creado correctamente");
 
         return redirect()->route('index');
     }
@@ -156,8 +156,8 @@ class ProductosController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function modificar_producto(Request $request, $id)
@@ -184,7 +184,7 @@ class ProductosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return string
      */
     public function destroy($id)
@@ -198,12 +198,12 @@ class ProductosController extends Controller
             if (auth()->user()->id == $user_id) {
                 if ($producto->vendido == 'false') {
 
-                $producto->delete();
+                    $producto->delete();
 
-                Flash::success(' El producto se ha eliminado correctamente ');
+                    Flash::success(' El producto se ha eliminado correctamente ');
 
-                return redirect()->route('ver_productos_usuario', auth()->user()->id);
-            }else{
+                    return redirect()->route('ver_productos_usuario', auth()->user()->id);
+                } else {
                     return redirect()->route('error_403');
                 }
 
@@ -303,9 +303,9 @@ class ProductosController extends Controller
                 $producto_favorito->save();
 
 
-                 $respuesta='si';
+                $respuesta = 'si';
 
-                  return response()->json($respuesta);
+                return response()->json($respuesta);
 
 
             } else if ($comprobar_favorito != null && $producto->user_id != $user_id) {
@@ -313,44 +313,50 @@ class ProductosController extends Controller
 
                 $producto_favorito->delete();
 
-      $respuesta='no';
+                $respuesta = 'no';
 
-                  return response()->json($respuesta);
+                return response()->json($respuesta);
 
-             }else{
-                  Flash::info('No puedes poner tu propio producto en favoritos');
-                  $respuesta='no';
+            } else {
+                Flash::info('No puedes poner tu propio producto en favoritos');
+                $respuesta = 'no';
 
-                  return response()->json($respuesta);
-              }
+                return response()->json($respuesta);
+            }
 
-        }catch (Exception $exception){
-             Flash::error('Ha ocurriodo un error');
+        } catch (Exception $exception) {
+            Flash::error('Ha ocurriodo un error');
 
-             return redirect()->route('index');
+            return redirect()->route('index');
 
 
         }
     }
+
     public function ver_productos_usuario_favoritos($id)
     {
         if (auth()->user()->id == $id) {
 
             try {
-                $productos_favoritos = ProductoFavorito::where('user_id', '=', $id)->get();
+                $productos_favoritos = ProductoFavorito::where('user_id', '=', $id)->orderBy('created_at','desc')->paginate(8);
+
 
                 if (count($productos_favoritos) > 0) {
-                    foreach ($productos_favoritos as $producto_favorito) {
 
-                        $productos = Producto::where('id', '=', $producto_favorito->producto_id)->orderby('created_at', 'desc')->paginate(8);
+                    foreach ($productos_favoritos as $producto){
+                        $product = Producto::where('id','=',$producto->producto_id)->first();
+
+                        $producto->nombre= $product->nombre;
+
+                        $producto->precio= $product->precio;
 
                     }
-                    self::creado_desde($productos);
+                    self::creado_desde($productos_favoritos);
 
-                    return view('productos.productos-usuario-favoritos.index')->with('productos', $productos)->with('productos_favoritos', $productos_favoritos);
+
+                    return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
 
                 } else {
-
                     return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
                 }
             } catch (Exception $exception) {
@@ -372,9 +378,9 @@ class ProductosController extends Controller
 
     public function creado_desde($productos)
     {
+
         $fecha_actual = Carbon::now();
         foreach ($productos as $producto) {
-
             $fecha_producto = $producto->created_at;
 
             $diferencia = $fecha_actual->diff($fecha_producto);
@@ -414,8 +420,10 @@ class ProductosController extends Controller
             }
 
         }
+
         return $productos;
     }
+
     public function comprobar_producto_favorito($producto, $user)
     {
 
@@ -464,7 +472,7 @@ class ProductosController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function guardar_venta_producto(Request $request,$id)
+    public function guardar_venta_producto(Request $request, $id)
 
     {
         try {
@@ -488,6 +496,9 @@ class ProductosController extends Controller
 
                         $producto_vendido->valoracion_venta_vendedor = $request->valoracion_venta;
 
+                        if($request->valoracion_venta!=null)
+                        self::calcular_valoracion_usuario($request->valoracion_venta, $user_venta);
+
                         $producto_vendido->comentario_venta_vendedor = $request->comentario_venta;
 
                         $producto_vendido->precio_venta = $request->precio_venta;
@@ -497,7 +508,7 @@ class ProductosController extends Controller
                         $producto_vendido->save();
 
 
-                        $producto->vendido='true';
+                        $producto->vendido = 'true';
 
                         $producto->save();
 
@@ -505,6 +516,7 @@ class ProductosController extends Controller
 
                         return redirect()->route('ver_productos_usuario', auth()->user()->id);
                     } else {
+
                         Flash::error('no existe el usuario');
                         return back()->withInput();
                     }
@@ -516,39 +528,84 @@ class ProductosController extends Controller
                 return redirect()->route('ver_productos_usuario', auth()->user()->id);
             }
 
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
 
             Flash::error('ha ocurrido un error');
-            return redirect()->route('index');
+            return redirect()->route('perfil_publico', auth()->user()->id);
         }
     }
 
 
-    public function valoracion_compra($id){
-        $venta= ProductoVendido::find($id);
-
-        $producto = Producto::where('id','=',$venta->producto_id)->first();
-        $user = User::where('id','=',$venta->vendido_a)->first();
-
-        return view('productos.vender-producto.comprador.index')->with('venta',$venta)
-                                                                ->with('producto',$producto)
-                                                                ->with('user',$user);
-    }
-
-    public function guardar_valoracion_comprador(Request $request,$id){
+    public function valoracion_compra($id)
+    {
         $venta = ProductoVendido::find($id);
 
-        $user = User::where('id','=',$venta->vendido_a)->first();
+        $producto = Producto::where('id', '=', $venta->producto_id)->first();
+        $user = User::where('id', '=', $venta->vendido_a)->first();
 
-        $venta->valoracion_venta_comprador=$request->valoracion_compra;
+        return view('productos.vender-producto.comprador.index')->with('venta', $venta)
+            ->with('producto', $producto)
+            ->with('user', $user);
+    }
 
-        $venta->comentario_venta_comprador=$request->comentario_compra;
+    public function guardar_valoracion_comprador(Request $request, $id)
+    {
+        $venta = ProductoVendido::find($id);
 
-        $venta->notificacion='false';
+        $user = User::where('id', '=', $venta->vendido_a)->first();
+
+        $user_comprador= User::where('id','=',$venta->user_id)->first();
+
+        $venta->valoracion_venta_comprador = $request->valoracion_compra;
+
+        if($request->valoracion_compra!=null)
+            self::calcular_valoracion_usuario($request->valoracion_compra, $user_comprador);
+
+        $venta->comentario_venta_comprador = $request->comentario_compra;
+
+        $venta->notificacion = 'false';
 
         $venta->save();
 
-        return redirect()->route('perfil_publico',$user->id);
+        return redirect()->route('perfil_publico', $user->id);
     }
+
+    public function cancelar_valoracion($id)
+    {
+        $producto = ProductoVendido::find($id);
+
+        $producto->comentario_venta_comprador = null;
+
+        $producto->valoracion_venta_comprador = null;
+
+        $producto->notificacion = "false";
+
+        $producto->save();
+
+        return redirect()->route('perfil_publico', auth()->user()->id);
+
+
+    }
+
+    public function calcular_valoracion_usuario($valoracion, $usuario)
+    {
+        try {
+
+
+            $user = User::find($usuario->id);
+
+            $user->valoracion = ($user->valoracion + $valoracion) / 2;
+
+            $user->save();
+
+            return true;
+
+        } catch (Exception $exception) {
+
+            return false;
+        }
+
+    }
+
 
 }
