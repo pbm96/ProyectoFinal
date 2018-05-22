@@ -55,6 +55,9 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
     Route::get('mis-productos-favoritos/{id}', ['as' => 'ver_productos_usuario_favoritos', 'uses' => 'ProductosController@ver_productos_usuario_favoritos']);
 
+    Route::get('cancelar-valoracion/{id}', ['as' => 'cancelar_valoracion', 'uses' => 'ProductosController@cancelar_valoracion']);
+
+
 });
 
 Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {

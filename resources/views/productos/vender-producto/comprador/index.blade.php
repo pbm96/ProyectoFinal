@@ -51,7 +51,7 @@
 
 @section('contenido')
 
-        {{$producto->nombre}}
+    <a href="{{route('cancelar_valoracion',$venta->id)}}" class="btn btn-warning">No valorar</a>
         {!! Form::Open(['route'=>['guardar_valoracion_comprador',$venta->id],'method'=>'POST', 'class'=>'row justify-content-center']) !!}
         <div class="col-lg-8">
 
@@ -86,6 +86,8 @@
                 {!!Form::submit('Valorar',['class'=>'btn btn-outline-primary'])!!}
             </div>
             {!! Form::close() !!}
+
+
         </div>
 
 @endsection
