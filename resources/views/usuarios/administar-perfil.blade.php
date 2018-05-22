@@ -70,13 +70,13 @@
                                 <div class="col-sm-4 ">
                                     <div class="md-form form-sm mb-2">
                                         {!! Form::label('nombre_usuario','Usuario') !!}
-                                        {!! Form::Text('nombre_usuario',$usuario->nombre_usuario,['class'=>'form-control form-control-sm ','required','placeholder'=>'Nombre Usuario']) !!}
+                                        {!! Form::Text('nombre_usuario',$usuario->nombre_usuario,['class'=>'form-control form-control-sm ','required']) !!}
                                     </div>
                                 </div>
                                 <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
                                         {!! Form::label('nombre_usuario','Email') !!}
-                                        {!! Form::Email('email',$usuario->email,['class'=>'form-control form-control-sm ','required','placeholder'=>'Email']) !!}
+                                        {!! Form::Email('email',$usuario->email,['class'=>'form-control form-control-sm ','required']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -99,13 +99,13 @@
                             </div>
 
                             <div class="row ">
-                                <div class="col-sm-4 ">
+                                <div class="col-sm-6 ">
                                     <h5 class="text-muted">Cambiar Contraseña</h5>
                                 </div>
                             </div>
 
                             <div class="row mb-1">
-                                <div class="col-sm-4 ">
+                                <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
                                         {!! Form::label('nombre_usuario','Contraseña Actual') !!}
                                         {!! Form::Text('',null,['class'=>'form-control form-control-sm' ]) !!}
@@ -113,13 +113,13 @@
                                 </div>
                             </div>
                             <div class="row mb-5">
-                                <div class="col-sm-4 ">
+                                <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
                                         {!! Form::label('nombre_usuario','Contraseña Nueva') !!}
                                         {!! Form::Text('',null,['class'=>'form-control form-control-sm ']) !!}
                                     </div>
                                 </div>
-                                <div class="col-sm-4 ">
+                                <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
                                         {!! Form::label('nombre_usuario','Confirmar nueva contraseña') !!}
                                         {!! Form::Text('',null,['class'=>'form-control form-control-sm ']) !!}
@@ -131,7 +131,7 @@
                                 <div class="col-sm-4">
                                     <div class="md-form form-sm mb-2">
                                         {!! Form::label('nombre','Nombre') !!}
-                                        {!! Form::Text('nombre',$usuario->nombre,['class'=>'form-control form-control-sm','required','placeholder'=>'Introducir Nombre']) !!}
+                                        {!! Form::Text('nombre',$usuario->nombre,['class'=>'form-control form-control-sm','required']) !!}
                                     </div>
                                 </div>
                                 <!-- Grid column -->
@@ -149,7 +149,7 @@
                                     <div class="md-form form-sm mb-2">
                                         <div class="form-group">
                                             {!! Form::label('apellido2','Apellido2') !!}
-                                            {!! Form::Text('apellido2',$usuario->apellido2,['class'=>'form-control form-control-sm','required','placeholder'=>'Introducir Apellido2']) !!}
+                                            {!! Form::Text('apellido2',$usuario->apellido2,['class'=>'form-control form-control-sm','required']) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +158,7 @@
                                 <div class="col-md-12">
                                     <div class="md-form form-sm mb-2 ">
                                         {!! Form::label('direccion','Direccion') !!}
-                                        {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control form-control-sm ','required','placeholder'=>'Introduce Ubicacion']) !!}
+                                        {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control form-control-sm ','required']) !!}
                                     </div>
                                 </div>
                             </div>
