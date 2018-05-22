@@ -17,7 +17,7 @@
 
         <div class="row">
         <div class="card-up  lighten-1 mt-3">
-            <div class="avatar ml-5 white"><img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle">
+            <div class="avatar ml-5 white"><img src="{{ asset('imagenes/perfil/'.$usuario->imagen)}}" height="250" width="250" class="rounded-circle">
             </div>
         </div>
             <div class=" offset-3 mt-5">
