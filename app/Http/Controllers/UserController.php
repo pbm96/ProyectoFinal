@@ -240,14 +240,18 @@ class UserController extends Controller
             }
         }
     }
-
-
-
-
-
-
-
-
+        public function autocomplete_usuarios(Request $request){
+        $usuario= $request->usuario;
+         $users= User::where('nombre_usuario', 'like', '%' . $usuario . '%')->get();
+         $nombres=[];
+         foreach ($users as $user){
+             $nombres[] = $user->nombre_usuario;
+         }
+         if ($nombres==''){
+             $nombres='';
+         }
+         return $nombres;
+        }
 
 
 }

@@ -41,6 +41,11 @@
         .rating-stars ul > li.star.selected > i.fa {
             color:#FF912C;
         }
+        .ui-menu .ui-widget {
+            overflow: auto;
+            max-height: 10em;
+        }
+
 
 
 
@@ -61,7 +66,7 @@
             </div>
             <div class="md-form">
                 {!! Form::label('usuario','Usuario al que se lo vendiste') !!}
-                {!! Form::text('nombre_usuario',null,['class'=>'form-control','required']) !!}
+                <input type="text" class="form-control" required id="usuarios" autocomplete="on">
             </div>
 
             <div class="md-form">
@@ -151,6 +156,27 @@
 function valoracion(valoracion) {
     $('#valoracion_venta').val(valoracion)
 }
+
+        var route_autocomplete = "{{route('buscar_usuario')}}";
+        $('#usuarios').autocomplete({
+            minLength: 2,
+            source: function( request, response ) {
+                $.ajax({
+                    type: "GET",
+                    data: {usuario: $('#usuarios').val()},
+                    url: route_autocomplete,
+                    success: function (data) {
+                     response(data)
+                    }
+                })
+            }
+
+    })
+
+
+
+
+
 
 
 </script>
