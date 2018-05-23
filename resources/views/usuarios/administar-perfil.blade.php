@@ -1,5 +1,8 @@
 @extends('templates.main')
 @section('titulo_pagina', 'Editar-datos '.$usuario->nombre_usuario.'-Fakeapop')
+@section('estilos')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @section('contenido')
 
 
@@ -12,7 +15,8 @@
                 <div class="col-md-4 mb-4">
                     <div class="card profile-card">
                         <div class=" mt-3 mb-4 ">
-                            <img src="{{ asset('imagenes/perfil/'.$usuario->imagen)}}" class="rounded-circle" width="250" height="250"
+                            <img src="{{ asset('imagenes/perfil/'.$usuario->imagen)}}" class="rounded-circle"
+                                 width="250" height="250"
                                  alt="First sample avatar image">
                         </div>
                         <h3 class="mb-3 font-weight-bold"><strong>{{$usuario->nombre_usuario}}</strong></h3>
@@ -82,7 +86,7 @@
                             </div>
 
                             <div class="row ">
-                                <div class="col-sm-4 ">
+                                <div class=" pl-3">
                                     <h5 class="text-muted">Cambiar Imagen de perfil</h5>
                                 </div>
                             </div>
@@ -97,9 +101,8 @@
                                     </form>
                                 </div>
                             </div>
-
                             <div class="row ">
-                                <div class="col-sm-6 ">
+                                <div class="pl-3">
                                     <h5 class="text-muted">Cambiar Contraseña</h5>
                                 </div>
                             </div>
@@ -107,22 +110,32 @@
                             <div class="row mb-1">
                                 <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
-                                        {!! Form::label('nombre_usuario','Contraseña Actual') !!}
-                                        {!! Form::Text('',null,['class'=>'form-control form-control-sm' ]) !!}
+                                        {!! Form::label('a','Contraseña Actual') !!}
+                                        <input type="password" class="form-control form-control-sm "
+                                               id="contraseña_actual"
+                                               onkeyup="habilitar(this.value)">
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-5">
                                 <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
-                                        {!! Form::label('nombre_usuario','Contraseña Nueva') !!}
-                                        {!! Form::Text('',null,['class'=>'form-control form-control-sm ']) !!}
+                                        {!! Form::label('password','Contraseña Nueva') !!}
+                                        <input type="password" class="form-control form-control-sm {{ $errors->has('password') ? ' invalid' : '' }}"
+                                               id="contraseña_nueva" name="password" disabled>
+
+                                    @if ($errors->has('password'))
+                                        <span >
+                                        <strong class="invalid-feedback" style="display: block" >{{ $errors->first('password') }}</strong>
+                                        </span>
+                                    @endif
                                     </div>
                                 </div>
                                 <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
-                                        {!! Form::label('nombre_usuario','Confirmar nueva contraseña') !!}
-                                        {!! Form::Text('',null,['class'=>'form-control form-control-sm ']) !!}
+                                        {!! Form::label('password','Confirmar nueva contraseña') !!}
+                                        <input type="password" class="form-control form-control-sm {{ $errors->has('password') ? ' invalid' : '' }}"
+                                               id="confirmar_contraseña" name="password_confirmation" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +220,65 @@
         });
 
 
+        function habilitar(old_password) {
+            if (old_password.length >= 6) {
+                var route = "{{route('comprobar_contraseña',$usuario->id)}}";
 
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    type: "POST",
+                    data: {password: old_password},
+                    url: route,
+                    success: function (data) {
+                        if (data === 'true') {
+                            $('#contraseña_nueva').prop('disabled', false);
+
+                            $("#contraseña_actual").removeClass("invalid");
+
+                            $("#contraseña_actual").addClass("valid");
+
+                            $('#confirmar_contraseña').prop('disabled', false);
+                        } else {
+
+                            $("#contraseña_actual").addClass("invalid");
+
+                            $("#contraseña_actual").removeClass("valid");
+
+                            $('#confirmar_contraseña').val('');
+
+                            $('#contraseña_nueva').prop('disabled', true);
+
+                            $('#contraseña_nueva').val('');
+
+                            $('#confirmar_contraseña').prop('disabled', true);
+
+
+                        }
+                    }
+                })
+
+            }else{
+                if(old_password.length===0){
+
+                    $("#contraseña_actual").removeClass("invalid");
+
+                    $("#contraseña_actual").removeClass("valid");
+
+                }else{
+                    $("#contraseña_actual").addClass("invalid");
+                }
+                $('#contraseña_nueva').prop('disabled', true);
+
+                $('#contraseña_nueva').val('');
+
+                $('#confirmar_contraseña').prop('disabled', true);
+
+                $('#confirmar_contraseña').val('');
+            }
+        }
 
 
     </script>
