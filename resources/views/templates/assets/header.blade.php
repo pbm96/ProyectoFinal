@@ -8,12 +8,12 @@
             @else
                 <li class="nav-item dropdown notifications-nav show text-white mr-5">
 
-                     <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="badge bg-secondary" id="numero_notificaciones"></span>
+                     <a class="nav-link dropdown-toggle waves-effect" id="notificaciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-bell p-0"></i>
+                         <span class="badge amber darken-4 " id="numero_notificaciones"></span>
 
-                    <i class="fa fa-bell"></i>
-                </a>
-                <div class="dropdown-menu dropdown-info " aria-labelledby="navbarDropdownMenuLink" id="descripcion_notificacion">
+                     </a>
+                <div class="dropdown-menu dropdown-info mt-2 border-primary" aria-labelledby="navbarDropdownMenuLink" id="descripcion_notificacion">
 
                 </div>
 
