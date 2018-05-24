@@ -92,11 +92,11 @@ class UserController extends Controller
 
                 $usuario->save();
 
-                Flash::success('El perfil se actualizo correctamente');
+                Flash::success('El perfil se actualizó correctamente');
                 return redirect()->route('administrar_perfil', auth()->user());
 
             } else {
-                Flash::success('El perfil se actualizo correctamente');
+                Flash::success('El perfil se actualizó correctamente');
                 return redirect()->route('administrar_perfil', auth()->user());
             }
 

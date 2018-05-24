@@ -170,7 +170,7 @@
 
             <br>
                 <div class="media col-sm-8">
-                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="Avatar">
+                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="{{asset('imagenes/perfil/'.$vendido_a->imagen)}}" height="60" width="15" alt="Avatar">
                 <div class="media-body">
                    <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$vendido_a->nombre_usuario}}</h5>
                            @if($datos_venta_producto[$key]->valoracion_venta_comprador!=null)
@@ -199,7 +199,7 @@
                 @foreach($productos_comprados_user as $key=>$producto)
                     <br>
                     <div class="media col-sm-8">
-                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="Avatar">
+                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="{{asset('imagenes/perfil/'.$datos_user_compra[$key]->imagen)}}" width="15" height="60" alt="Avatar">
                         <div class="media-body">
                             <div class="row"><h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$datos_user_compra[$key]->nombre_usuario}}</h5>
                                 @if($producto->valoracion_venta_vendedor!=null)
