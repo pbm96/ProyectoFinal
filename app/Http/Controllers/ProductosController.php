@@ -35,40 +35,51 @@ class ProductosController extends Controller
       return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
 
         }
-    }
 
-    /**Filtra los productos */
+
+    /** Filtra los productos */
     public function filtrarProductos(array $filtro)
     {
+        try {
+            $productos = (new Producto)->newQuery();
 
-        $productos = (new Producto)->newQuery();
+            $productos->where('vendido', '=', 'false');
 
-        $productos->where('vendido', '=', false);
+            if (isset($filtro['slider'])) {
+                $productos->whereBetween('precio', explode(',', $filtro['slider']));
+            }
 
-        if ($filtro['slider']) {
-            $productos->whereBetween('precio', explode(',', $filtro['slider']));
-        }
+            if (isset($filtro['categoriasSeleccionadas'])) {
 
-        if ($filtro['categoriasSeleccionadas'] && count($filtro['categoriasSeleccionadas']) > 0) {
+                $categoriasSeleccionadas = $filtro['categoriasSeleccionadas'];
 
-            $categoriasSeleccionadas = $filtro['categoriasSeleccionadas'];
+                $productos->where(function ($query) use ($categoriasSeleccionadas, $productos) {
 
-            $productos->where(function ($query) use($categoriasSeleccionadas, $productos) {
-                
-                foreach ($categoriasSeleccionadas as $posicion => $categoria) {
+                    foreach ($categoriasSeleccionadas as $posicion => $categoria) {
                         $query->orWhere('categoria_id', "=", $categoria);
+                    }
+
+                    return $query;
+                });
+
+            }
+
+            if (isset($filtro['orden'])) {
+                $orden = explode(',', $filtro['orden']);
+                if ($orden[0] === 'created_at' || $orden[0] === 'precio') {
+                    $productos->orderBy($orden[0], $orden[1]);
                 }
 
-                return $query;
-            });
+            }
+
+            return $productos;
+
+        } catch (Exception $exception) {
+
+            Flash::error('Ha ocurrido un error al filtrar los productos');
+            return redirect()->route('error_403');
 
         }
-
-        if ($filtro['orden']) {
-            $orden = explode(',', $filtro['orden']);
-            $productos->orderBy($orden[0], $orden[1]);
-        }
-        return $productos;
 
     }
 

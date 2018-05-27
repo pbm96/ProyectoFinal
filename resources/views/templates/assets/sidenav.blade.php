@@ -3,8 +3,8 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> 
         @guest
             <h2 class="text-center mb-5">Bienvenido</h2>
-            ¿Ya estas registrado?<a href="#">Entra</a>
-            <hr> ¿No tienes una cuenta?<a href="#">Regístrate</a> 
+            ¿Ya estas registrado?<a href="{{route('login')}}">Entra</a>
+            <hr> ¿No tienes una cuenta?<a href="{{route('register')}}">Regístrate</a>
         @else
             <p>
                 <img src="" alt="">

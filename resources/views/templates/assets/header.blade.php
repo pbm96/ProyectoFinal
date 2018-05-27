@@ -14,7 +14,8 @@
         <div class="dropdown-menu dropdown-info mt-2 border-primary" aria-labelledby="navbarDropdownMenuLink" id="descripcion_notificacion">
         </div>
         </li>
-        <a href="#" style="border-radius:10em; color: black !important" class="bg-white btn"> <span class="text-primary fa fa-plus fa-lg mr-2"></span>Nuevo producto</a>
         @endguest
+            <a href="{{route('crear_producto')}}" style="border-radius:10em; color: black !important" class="bg-white btn waves-effect"> <span class="text-primary fa fa-plus fa-lg mr-2"></span>Nuevo producto</a>
+
     </ul>
 </nav>
