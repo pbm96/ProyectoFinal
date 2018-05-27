@@ -173,12 +173,12 @@ class UserController extends Controller
 
 
         // productos del usuario que no se han vendido todavia
-        $productos_user = Producto::where('user_id', '=', $usuario->id)->where('vendido', '=', 'false')->orderBy('created_at', 'desc')->paginate(12);
+        $productos_user = Producto::where('user_id', '=', $usuario->id)->where('vendido', '=', 'false')->orderBy('created_at', 'desc')->get();
 
         $this->productosController->creado_desde($productos_user);
 
         //productos del usuario que se han vendido
-        $productos_vendidos_user = Producto::where('user_id', '=', $id)->where('vendido', '=', 'true')->orderBy('created_at', 'desc')->paginate(12);
+        $productos_vendidos_user = Producto::where('user_id', '=', $id)->where('vendido', '=', 'true')->orderBy('created_at', 'desc')->get();
 
         $productos_comprados_user = ProductoVendido::where('vendido_a', '=', $usuario->id)->get();
 
