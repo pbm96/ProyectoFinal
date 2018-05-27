@@ -1,8 +1,16 @@
 <!--Navbar-->
 <nav class="navbar navbar-dark primary-color">
-    <span class="text-white" style="font-size:25px;cursor:pointer" onclick="openNav()">&#9776;</span>
-    <!-- Navbar brand -->
-    <a class="h1 text-white" href="{{ route('index') }}">Fakeapop</a>
+
+    <a class="h1 text-white ml-5 mr-4 " href="{{ route('index') }}">Fakeapop</a>
+
+    <span class="text-white nav-item mr-5  waves-effect " style="font-size:31px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    <div class="mr-auto">
+    <form >
+        <input class="form-control mr-sm-2" type="text" placeholder="Buscar..." aria-label="Search">
+        <button class="btn  btn-outline-light  btn-sm " type="submit" >Buscar</button>
+    </form>
+    </div>
+
     <ul class="nav navbar-rigth mr-5 list-group-flush">
 
         @guest @else

@@ -66,8 +66,9 @@
                 <div class="form-group col-lg-4 col-md-5">
                     <h4 onclick="$('#listaCategorias').slideToggle()"><a href="#" class="text-dark">Categorias <span class="fa fa-caret-down"></span></a></h4>
                     <div class="collapse" id="listaCategorias">
-                        <?php $cat = Input::has('categoriasSeleccionadas') ? Input::get('categoriasSeleccionadas'):[] ?> 
-                        @foreach($listaCategorias as $clave=>$categoria)
+
+                        <?php $cat = \Illuminate\Support\Facades\Input::has('categoriasSeleccionadas') ? \Illuminate\Support\Facades\Input::get('categoriasSeleccionadas'):[] ?> @foreach($listaCategorias as $clave=>$categoria)
+
                         <input class="checkbox__input" type="checkbox" id="{{ $categoria->nombre }}" name="categoriasSeleccionadas[]" value="{{$categoria->id}}"
                             {{ in_array($categoria->id, $cat) ? 'checked':'' }} />
                         <label class="checkbox__label" for="{{ $categoria->nombre }}"> {{ $categoria->nombre }}</label> <br>                        
