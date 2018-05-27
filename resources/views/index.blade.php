@@ -66,10 +66,13 @@
                 <div class="form-group col-lg-4 col-md-5">
                     <h4 onclick="$('#listaCategorias').slideToggle()"><a href="#" class="text-dark">Categorias <span class="fa fa-caret-down"></span></a></h4>
                     <div class="collapse" id="listaCategorias">
+
                         <?php $cat = \Illuminate\Support\Facades\Input::has('categoriasSeleccionadas') ? \Illuminate\Support\Facades\Input::get('categoriasSeleccionadas'):[] ?> @foreach($listaCategorias as $clave=>$categoria)
+
                         <input class="checkbox__input" type="checkbox" id="{{ $categoria->nombre }}" name="categoriasSeleccionadas[]" value="{{$categoria->id}}"
                             {{ in_array($categoria->id, $cat) ? 'checked':'' }} />
-                        <label class="checkbox__label" for="{{ $categoria->nombre }}"> {{ $categoria->nombre }}</label> <br>                        @endforeach
+                        <label class="checkbox__label" for="{{ $categoria->nombre }}"> {{ $categoria->nombre }}</label> <br>                        
+                        @endforeach
                     </div>
                 </div>
                 <div class="form-group col-lg-4 col-md-5">
@@ -79,8 +82,9 @@
                     !!}
                     <hr>
                     <label for="slider2" id="sliderValue"></label>
-                    <input id="slider2" type="text" name="slider" onchange="showPrecioValue()" class="span2" value="10000" data-slider-min="0"
-                        data-slider-max="10000" data-slider-step="5" data-slider-value="[0,20000]" />
+                    <input id="slider2" type="text" name="slider" onchange="showPrecioValue()" class="span2" value="" data-slider-min="0"
+                        data-slider-max="10000" data-slider-step="5" data-slider-value="[0,10000]" />
+                
                 </div>
             </div>
             <div class="row justify-content-center text-center">
@@ -128,13 +132,23 @@
 <script>
     var elementoPrecio = $("#slider2");
         $(function() {
+            let url = new URL(location.href);
+
+            let slider = document.getElementsByName('slider')[0]
+
+            if(url.searchParams.get('slider') !== null){
+                slider.dataset.sliderValue = "["+url.searchParams.get('slider')+"]";
+            }
+            
             elementoPrecio.slider({});
+
             showPrecioValue();
-            $('.slider-selection').addClass('bg-success');
          });
 
         function showPrecioValue(){
+            
             precio = elementoPrecio[0].value.split(',');
+
             $('#sliderValue').html(`Precio entre los ${precio[0]} € y los ${precio[1]} €`)
         }
 
