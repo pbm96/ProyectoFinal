@@ -4,6 +4,8 @@
 @section('titulo_pagina', 'vender-'.$producto->nombre)
 
 @section('estilos')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+
     <style>
         .carousel {
             box-shadow: #aeb9cc 5px 5px 5px;
@@ -135,6 +137,7 @@
 
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
 
