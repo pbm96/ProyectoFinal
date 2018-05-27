@@ -15,6 +15,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
     @yield('estilos')
@@ -23,6 +26,13 @@
     body{
         font-family: Roboto;
     }
+    #notificaciones::after {
+        display:none
+    }
+    #descripcion_notificacion{
+        left: -100%;
+    }
+
 </style>
 <body >
 <header>
@@ -50,6 +60,8 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+
 <script>
     $(document).ready(function ()
     {
@@ -63,12 +75,12 @@
                 if(data!=='') {
                     var cont = 0;
                     var url = '{{ route("valoracion_compra",":id") }}';
-
+                    $('#descripcion_notificacion').append("<h6 class='text-center mt-2'><strong>Notificaciones</strong></h6>")
                     for (i = 0; i < data.length; i++) {
                         cont++;
                         url = url.replace(':id', data[i].id);
 
-                        $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light' href= '"+url+"' ><i class='fa fa-shopping-basket mr-2'></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a>");
+                        $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light ' href= '"+url+"' ><i class='fa fa-star mr-2 text-primary  text-center '></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a><hr class='text-muted mb-0 mt-0'>");
 
                         url = '{{ route("valoracion_compra",":id") }}';
                     }
