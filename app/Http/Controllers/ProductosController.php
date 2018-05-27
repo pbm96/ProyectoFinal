@@ -46,22 +46,28 @@ class ProductosController extends Controller
 
                 $buscador= Input::get('buscar');
 
-                $productos = Producto::where('nombre','like','%'.$buscador.'%')
+
+            $productos=Producto::where(function ($query) use ($buscador){
+                $query->where('nombre','like','%'.$buscador.'%')
                     ->orWhere('descripcion','like','%'.$buscador.'%')
                     ->where('vendido','=','false');
+
+                return $query;
+            });
+
 
                 if(count($productos->get())<=0){
                     Flash::error('No se encontró ningún producto');
                 }
-                
+
             }else{
                 $productos->where('vendido', '=', 'false');
             }
 
 
             if (isset($filtro['slider'])) {
-                $productos->whereBetween('precio', explode(',', $filtro['slider']));
 
+                $productos->whereBetween('precio', explode(',', $filtro['slider']));
             }
 
 
