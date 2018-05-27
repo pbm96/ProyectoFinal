@@ -83,6 +83,7 @@
                         data-slider-max="10000" data-slider-step="5" data-slider-value="[0,20000]" />
                 </div>
             </div>
+            <input type="hidden" value="{{\Illuminate\Support\Facades\Input::get('buscar')}}" name="buscar" >
             <div class="row justify-content-center text-center">
                 <div class="col-lg-12">
                     {!!Form::submit('Filtrar',['class'=>'btn btn-outline-primary'])!!}

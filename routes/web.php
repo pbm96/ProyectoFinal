@@ -21,6 +21,8 @@ Route::get('/MapaWeb', ['as' => 'mapa', 'uses' => 'HomeController@mapaweb']);
 
 Route::get('ver-producto/{id}', array('as' => 'ver_producto', 'uses' => 'ProductosController@ver_producto_completo'));
 
+Route::get('buscador', array('as' => 'buscador', 'uses' => 'ProductosController@index'));
+
 //rutas autentificacion (login/registro)
 Auth::routes();
 

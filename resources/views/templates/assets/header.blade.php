@@ -5,10 +5,10 @@
 
     <span class="text-white nav-item mr-5  waves-effect " style="font-size:31px;cursor:pointer" onclick="openNav()">&#9776;</span>
     <div class="mr-auto">
-    <form >
-        <input class="form-control mr-sm-2" type="text" placeholder="Buscar..." aria-label="Search">
+        {{ Form::open(['route' => ['buscador'], 'method' => 'GET']) }}
+        {{ Form::text('buscar', old('buscar'), array('placeholder'=>'Buscar...','class'=>'form-control mr-sm-2','aria-label'=>'buscar')) }}
         <button class="btn  btn-outline-light  btn-sm " type="submit" >Buscar</button>
-    </form>
+        {{ Form::close() }}
     </div>
 
     <ul class="nav navbar-rigth mr-5 list-group-flush">
