@@ -135,7 +135,6 @@
 
         function showPrecioValue(){
             precio = elementoPrecio[0].value.split(',');
-            console.log('valor : ' + $('#sliderValue').html())
             $('#sliderValue').html(`Precio entre los ${precio[0]} € y los ${precio[1]} €`)
         }
 
