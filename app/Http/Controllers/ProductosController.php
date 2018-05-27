@@ -17,60 +17,58 @@ use Laracasts\Flash\Flash;
 class ProductosController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    /** Si el usuario quiere filtrar productos se llama a la funcion filtrarProductos()
+     *  Si no quiere, se muestran todos los productos
+
      */
     public function index(Request $request)
     {
-        // se muestran los productos ordenados por fecha de añadido
+      
+      $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
 
+      $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
 
-        if ($request->query()) {
+      $productos = $productos->paginate(8);
 
-            $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
+      self::creado_desde($productos);
 
-            $productos = (new Producto)->newQuery();
-
-            if ($request->has('categorias')) {
-
-                $categorias = Input::has('categorias') ? Input::get('categorias') : [];
-
-                foreach ($categorias as $categoria) {
-                    $productos->where('categoria_id', "=", $categoria);
-                }
-
-            }
-
-            if ($request->get('precioMin') > 0) {
-                $productos->where('precio', '>=', Input::get('precioMin'));
-            }
-
-            if ($request->has('precioMax')) {
-                $productos->where('precio', '<=', Input::get('precioMax'));
-            }
-
-            $productos->where('vendido', '=', 'false');
-            
-
-            $productos = $productos->paginate(8);
-
-            return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
-
-        } else {
-
-            $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
-
-
-            $productos = Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc')->paginate(8);
-
-            self::creado_desde($productos);
-
-
-            return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
+      return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
 
         }
+    }
+
+    /**Filtra los productos */
+    public function filtrarProductos(array $filtro)
+    {
+
+        $productos = (new Producto)->newQuery();
+
+        $productos->where('vendido', '=', false);
+
+        if ($filtro['slider']) {
+            $productos->whereBetween('precio', explode(',', $filtro['slider']));
+        }
+
+        if ($filtro['categoriasSeleccionadas'] && count($filtro['categoriasSeleccionadas']) > 0) {
+
+            $categoriasSeleccionadas = $filtro['categoriasSeleccionadas'];
+
+            $productos->where(function ($query) use($categoriasSeleccionadas, $productos) {
+                
+                foreach ($categoriasSeleccionadas as $posicion => $categoria) {
+                        $query->orWhere('categoria_id', "=", $categoria);
+                }
+
+                return $query;
+            });
+
+        }
+
+        if ($filtro['orden']) {
+            $orden = explode(',', $filtro['orden']);
+            $productos->orderBy($orden[0], $orden[1]);
+        }
+        return $productos;
 
     }
 
@@ -131,9 +129,8 @@ class ProductosController extends Controller
 
         }
 
-
         Flash::success('tu producto ' . $producto->nombre . " se ha creado correctamente");
-
+      
         return redirect()->route('index');
     }
 
@@ -302,7 +299,6 @@ class ProductosController extends Controller
 
                 $producto_favorito->save();
 
-
                 $respuesta = 'si';
 
                 return response()->json($respuesta);
@@ -338,7 +334,9 @@ class ProductosController extends Controller
         if (auth()->user()->id == $id) {
 
             try {
+
                 $productos_favoritos = ProductoFavorito::where('user_id', '=', $id)->orderBy('created_at','desc')->paginate(8);
+
 
 
                 if (count($productos_favoritos) > 0) {
@@ -381,6 +379,7 @@ class ProductosController extends Controller
 
         $fecha_actual = Carbon::now();
         foreach ($productos as $producto) {
+
             $fecha_producto = $producto->created_at;
 
             $diferencia = $fecha_actual->diff($fecha_producto);
@@ -471,8 +470,8 @@ class ProductosController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-
     public function guardar_venta_producto(Request $request, $id)
+
 
     {
         try {
@@ -507,7 +506,6 @@ class ProductosController extends Controller
 
                         $producto_vendido->save();
 
-
                         $producto->vendido = 'true';
 
                         $producto->save();
@@ -534,7 +532,6 @@ class ProductosController extends Controller
             return redirect()->route('perfil_publico', auth()->user()->id);
         }
     }
-
 
     public function valoracion_compra($id)
     {
@@ -606,6 +603,5 @@ class ProductosController extends Controller
         }
 
     }
-
 
 }
