@@ -50,7 +50,9 @@
         display:none
     }
     #descripcion_notificacion{
-        left: -100%;
+        left: -120%;
+        min-width: 14rem;
+
     }
 
 </style>
