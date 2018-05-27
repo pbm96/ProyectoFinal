@@ -70,7 +70,8 @@
                         @foreach($listaCategorias as $clave=>$categoria)
                         <input class="checkbox__input" type="checkbox" id="{{ $categoria->nombre }}" name="categoriasSeleccionadas[]" value="{{$categoria->id}}"
                             {{ in_array($categoria->id, $cat) ? 'checked':'' }} />
-                        <label class="checkbox__label" for="{{ $categoria->nombre }}"> {{ $categoria->nombre }}</label> <br>                        @endforeach
+                        <label class="checkbox__label" for="{{ $categoria->nombre }}"> {{ $categoria->nombre }}</label> <br>                        
+                        @endforeach
                     </div>
                 </div>
                 <div class="form-group col-lg-4 col-md-5">
@@ -80,8 +81,8 @@
                     !!}
                     <hr>
                     <label for="slider2" id="sliderValue"></label>
-                    <input id="slider2" type="text" name="slider" onchange="showPrecioValue()" class="span2" value="10000" data-slider-min="0"
-                        data-slider-max="10000" data-slider-step="5" data-slider-value="[150,222]" />
+                    <input id="slider2" type="text" name="slider" onchange="showPrecioValue()" class="span2" value="" data-slider-min="0"
+                        data-slider-max="10000" data-slider-step="5" data-slider-value="[0,10000]" />
                 
                 </div>
             </div>
@@ -131,12 +132,15 @@
     var elementoPrecio = $("#slider2");
         $(function() {
             let url = new URL(location.href);
+
             let slider = document.getElementsByName('slider')[0]
 
-            slider.dataset.sliderValue = "["+url.searchParams.get('slider')+"]";
-
-            elementoPrecio.slider({});
+            if(url.searchParams.get('slider') !== null){
+                slider.dataset.sliderValue = "["+url.searchParams.get('slider')+"]";
+            }
             
+            elementoPrecio.slider({});
+
             showPrecioValue();
          });
 
