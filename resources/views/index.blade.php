@@ -124,6 +124,7 @@
 <!-- seccion  de los enlaces de scripts-->
 
 @section('scripts')
+
 <script>
     var elementoPrecio = $("#slider2");
         $(function() {
@@ -142,4 +143,5 @@
             $('#listacategorias').toggle();
         }
 </script>
+
 @endsection
