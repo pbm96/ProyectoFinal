@@ -18,6 +18,31 @@
     .icono-rojo:hover{
         color: #000000 !important;
     }
+
+        .imagenes{
+            width: 550px;
+            height: 350px;
+        }
+        .carousel-inner{
+            width: 550px;
+            height: 350px;
+        }
+
+    #carta_usuario{
+        border-radius: 8em;
+
+    }
+    .card-body{
+
+        margin-left: 1em;
+        padding: 0.5rem;
+    }
+   #boton_mensaje{
+       border-radius: 10em;
+   }
+
+
+
 </style>
 @endsection
 
@@ -26,9 +51,33 @@
 
     @if($producto!=null)
 <div class="container col-sm-8 mb-5">
-    <h2 class="row mt-4 justify-content-sm-center"> {{$producto->nombre}} </h2>
+    <h2 class="row mt-4 justify-content-sm-center h1"> {{$producto->nombre}} </h2>
+    <div class="card row w-100 mb-3" id="carta_usuario">
+        <div class="card-body row" >
+        <a class="row" href="{{route('perfil_publico',$usuario_producto->id)}}">
+            @if($usuario_producto->imagen!=null)
+                <img class="d-flex rounded-circle z-depth-1-half mr-3 mt-1" src="{{asset('imagenes/perfil/'.$usuario_producto->imagen)}}" height="50" width="50" alt="Avatar">
+            @else
+                <img class="d-flex rounded-circle z-depth-1-half mr-3" src="{{asset('imagenes/perfil/user-default.png')}}" height="50" width="50" alt="Avatar">
+            @endif
+                <p id="nombre_usuario " class="mt-2 h4"> {{$usuario_producto->nombre_usuario}}</p>
+                <div class="ml-2 mt-2 pt-1">
+                    @for($i=0;$i<$usuario_producto->valoracion;$i++)
+                        <i class="fas fa-star yellow-text"></i>
+                    @endfor
+                    @for($i=0;$i<5-$usuario_producto->valoracion;$i++)
+                        <i class="far fa-star "></i>
+                    @endfor
+
+                </div>
+            <div class="ml-auto mr-5" >
+                <a class="btn btn-primary" id="boton_mensaje"> Mensaje</a>
+            </div>
+        </a>
+        </div>
+    </div>
     <div class=" row justify-content-sm-center">
-        <div id="carouselExampleIndicators" class="d-flex align-items-center carousel slide img-thumbnail w-100"data-ride="carousel" style="height:300px: overflow:hidden">
+        <div id="carouselExampleIndicators" class="d-flex align-items-center carousel slide img-thumbnail " data-ride="carousel" >
             <ol class="carousel-indicators">
                 @if(count($imagenes)>0)
                     @foreach( $imagenes as $imagen => $value )
@@ -42,7 +91,7 @@
                 <div class="carousel-inner">
                     @foreach($imagenes as $imagen)
                         <div class="carousel-item text-center {{ $loop->first ? ' active' : '' }}" >
-                            <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-responsive" style="max-width:100%">
+                            <img src="/imagenes/productos/{{$imagen->nombre}}" class="img-responsive imagenes" >
                         </div>
                     @endforeach
 
@@ -63,15 +112,17 @@
     </div>
     <hr>
     <div class="row">
-    <h3 class="col-sm-8 justify-content-between">{{$producto->precio}}€</h3>
+    <h3 class="col-sm-8 justify-content-between h3 ">{{$producto->precio}}€</h3>
 
         @if($producto_favorito==true)
             <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar de favoritos</a>
         @else
             <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
         @endif
-
     </div>
+
+
+
     <div class="col-lg-12 mt-3">
         <nav>
             <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
