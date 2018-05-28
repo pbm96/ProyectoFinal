@@ -23,7 +23,7 @@ class ProductosController extends Controller
      */
     public function index(Request $request)
     {
-      
+
       $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
 
       $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
@@ -42,12 +42,34 @@ class ProductosController extends Controller
     {
         try {
             $productos = (new Producto)->newQuery();
+            if(Input::get('buscar')!=null){
 
-            $productos->where('vendido', '=', 'false');
+                $buscador= Input::get('buscar');
+
+
+            $productos=Producto::where(function ($query) use ($buscador){
+                $query->where('nombre','like','%'.$buscador.'%')
+                    ->orWhere('descripcion','like','%'.$buscador.'%')
+                    ->where('vendido','=','false');
+
+                return $query;
+            });
+
+
+                if(count($productos->get())<=0){
+                    Flash::error('No se encontró ningún producto');
+                }
+
+            }else{
+                $productos->where('vendido', '=', 'false');
+            }
+
 
             if (isset($filtro['slider'])) {
+
                 $productos->whereBetween('precio', explode(',', $filtro['slider']));
             }
+
 
             if (isset($filtro['categoriasSeleccionadas'])) {
 
