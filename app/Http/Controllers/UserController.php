@@ -67,7 +67,7 @@ class UserController extends Controller
             $usuario->direccion_id = self::direccion($request->direccion, $request->cityLat, $request->cityLng);
 
             if ($request->hasFile('imagen')) {
-                $imagen= $request->imagen;
+                $imagen = $request->imagen;
                 $nombre_imagen = '';
                 $nombre_imagen = 'fakeapop_' . time() . '.' . $imagen->getClientOriginalExtension();
 
@@ -78,14 +78,13 @@ class UserController extends Controller
 
 
             }
-              $request->password = Hash::make($request->password);
+            $request->password = Hash::make($request->password);
 
             $usuario->fill($request->all());
 
             $usuario->password = $request->password;
 
-            $usuario->imagen= $nombre_imagen;
-
+            $usuario->imagen = $nombre_imagen;
 
 
             if ($usuario->isDirty()) {
@@ -227,7 +226,7 @@ class UserController extends Controller
 
     public function comprobar_password(Request $request, $id)
     {
-        if(auth()->user()->id== $id) {
+        if (auth()->user()->id == $id) {
             $user = User::find($id);
 
             $old_password = $request->password;
@@ -241,18 +240,20 @@ class UserController extends Controller
             }
         }
     }
-        public function autocomplete_usuarios(Request $request){
-        $usuario= $request->usuario;
-         $users= User::where('nombre_usuario', 'like', '%' . $usuario . '%')->get();
-         $nombres=[];
-         foreach ($users as $user){
-             $nombres[] = $user->nombre_usuario;
-         }
-         if ($nombres==''){
-             $nombres='';
-         }
-         return $nombres;
+
+    public function autocomplete_usuarios(Request $request)
+    {
+        $usuario = $request->usuario;
+        $users = User::where('nombre_usuario', 'like', '%' . $usuario . '%')->get();
+        $nombres = [];
+        foreach ($users as $user) {
+            $nombres[] = $user->nombre_usuario;
         }
+        if ($nombres == '') {
+            $nombres = '';
+        }
+        return $nombres;
+    }
 
 
 }
