@@ -206,6 +206,7 @@
             }
 
 
+
         }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
             var img_src;
 
@@ -219,7 +220,7 @@
             }
 
 
-            return $("<li class='row' >") .attr( "data-value", item.nombre_usuario)
+            return $('<li class="row" >') .attr( "data-value", item.nombre_usuario)
                 .append("  <div class='avatar ml-1  white'><img src='"+img_src+" '  class='rounded-circle' width='40' height='40' ></div>")
                 .append(' <div class="mt-2"><a class="h6" >@'+ item.nombre_usuario  + '</a></div>')
                 .appendTo(ul);
