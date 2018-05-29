@@ -396,7 +396,7 @@ class ProductosController extends Controller
                     return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
                 }
             } catch (Exception $exception) {
-                dd($exception);
+
                 Flash::error(' Ha ocurrido un error');
                 return redirect()->route('index');
             }

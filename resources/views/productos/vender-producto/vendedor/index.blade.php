@@ -53,6 +53,12 @@
         .shadow-textarea textarea.form-control {
             padding-left: 0.8rem;
         }
+        .ui-menu {
+           max-height: 200px;
+            overflow: auto;
+        }
+
+
 
 
     </style>
@@ -191,14 +197,26 @@
                 $.ajax({
                     type: "GET",
                     data: {usuario: $('#usuarios').val()},
+                    dataType:"json",
                     url: route_autocomplete,
-                    success: function (data) {
-                        response(data)
+                    success: function (item) {
+
+                        response(item)
                     }
                 })
             }
 
-        })
+
+        }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+            var img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+
+            img_src = img_src.replace(':imagen', item.imagen);
+
+            return $('<li class="row" value="'+item.nombre+'">')
+                .append(" <img src='"+img_src+" ' width='59' height='50' >")
+                .append(' <a >'+ item.nombre  + '</a>')
+                .appendTo(ul);
+        };
 
 
     </script>
