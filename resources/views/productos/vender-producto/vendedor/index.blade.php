@@ -213,8 +213,8 @@
             img_src = img_src.replace(':imagen', item.imagen);
 
             return $('<li class="row" value="'+item.nombre+'">')
-                .append(" <img src='"+img_src+" ' width='59' height='50' >")
-                .append(' <a >'+ item.nombre  + '</a>')
+                .append("  <div class='avatar ml-1  white'><img src='"+img_src+" '  class='rounded-circle' width='40' height='40' ></div>")
+                .append(' <div class="mt-2"><a >@'+ item.nombre  + '</a></div>')
                 .appendTo(ul);
         };
 
