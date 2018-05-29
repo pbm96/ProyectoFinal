@@ -53,12 +53,11 @@
         .shadow-textarea textarea.form-control {
             padding-left: 0.8rem;
         }
+
         .ui-menu {
-           max-height: 200px;
+            max-height: 200px;
             overflow: auto;
         }
-
-
 
 
     </style>
@@ -197,7 +196,7 @@
                 $.ajax({
                     type: "GET",
                     data: {usuario: $('#usuarios').val()},
-                    dataType:"json",
+                    dataType: "json",
                     url: route_autocomplete,
                     success: function (item) {
                         response(item)
@@ -206,25 +205,25 @@
             }
 
 
-
-        }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
             var img_src;
 
-            if(item.imagen===null){
+            if (item.imagen === null) {
                 img_src = '{{ asset('imagenes/perfil/user-default.png') }}';
 
-            }else{
-                 img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+            } else {
+                img_src = '{{ asset('imagenes/perfil/:imagen') }}';
 
                 img_src = img_src.replace(':imagen', item.imagen);
+
             }
-
-
-            return $('<li class="row" >') .attr( "data-value", item.nombre_usuario)
-                .append("  <div class='avatar ml-1  white'><img src='"+img_src+" '  class='rounded-circle' width='40' height='40' ></div>")
-                .append(' <div class="mt-2"><a class="h6" >@'+ item.nombre_usuario  + '</a></div>')
+            return $('<li class="row" >')
+                .append("<div class='avatar ml-1 '><img src='" + img_src + " '  class='rounded-circle' width='40' height='40' ><a class='mt-2 h6'>@" + item.nombre_usuario + "</a></div>")
                 .appendTo(ul);
         };
+
+
+
 
 
     </script>
