@@ -56,7 +56,8 @@
 
         .ui-menu {
             max-height: 200px;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
 
@@ -78,7 +79,7 @@
                 <div class="row">
                     <div class="md-form col-sm-8 pl-0">
                         <i class="fa fa-user prefix grey-text pl-2"></i>
-                        <input type="text" class="form-control" required id="usuarios" autocomplete="on"
+                        <input type="text" class="form-control" required id="usuarios"
                                name="nombre_usuario">
                         {!! Form::label('usuario','Usuario al que se lo vendiste') !!}
                     </div>
@@ -217,8 +218,8 @@
                 img_src = img_src.replace(':imagen', item.imagen);
 
             }
-            return $('<li class="row" >')
-                .append("<div class='avatar ml-1 '><img src='" + img_src + " '  class='rounded-circle' width='40' height='40' ><a class='mt-2 h6'>@" + item.nombre_usuario + "</a></div>")
+            return $('<li>')
+                .append("<div class='avatar ml-1 '><img src='" + img_src + " '  class='rounded-circle' width='40' height='40' >@" + item.nombre_usuario + "</div>")
                 .appendTo(ul);
         };
 

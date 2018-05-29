@@ -247,8 +247,6 @@ class UserController extends Controller
         $usuario = $request->usuario;
         $users = User::where('nombre_usuario', 'like', '%' . $usuario . '%')->get();
 
-
-
         return response()->json($users);
     }
 
