@@ -200,7 +200,7 @@
                     dataType:"json",
                     url: route_autocomplete,
                     success: function (item) {
-
+                        
                         response(item)
                     }
                 })
@@ -208,13 +208,23 @@
 
 
         }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-            var img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+            console.log('a');
+            var img_src;
 
-            img_src = img_src.replace(':imagen', item.imagen);
 
-            return $('<li class="row" value="'+item.nombre+'">')
+            if(item.imagen===null){
+                img_src = '{{ asset('imagenes/perfil/user-default.png') }}';
+
+            }else{
+                 img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+
+                img_src = img_src.replace(':imagen', item.imagen);
+            }
+
+
+            return $('<li class="row" value="'+item.nombre+'">').val("item.autocomplete", item.apellido_1)
                 .append("  <div class='avatar ml-1  white'><img src='"+img_src+" '  class='rounded-circle' width='40' height='40' ></div>")
-                .append(' <div class="mt-2"><a >@'+ item.nombre  + '</a></div>')
+                .append(' <div class="mt-2"><a class="h6" >@'+ item.nombre_usuario  + '</a></div>')
                 .appendTo(ul);
         };
 
