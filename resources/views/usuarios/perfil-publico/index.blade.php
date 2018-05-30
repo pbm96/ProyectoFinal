@@ -49,7 +49,6 @@
                             <i class="far fa-star "></i>
                         @endfor
 
-
                 </div>
             </div>
             <hr>

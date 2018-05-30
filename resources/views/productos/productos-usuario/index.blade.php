@@ -1,4 +1,3 @@
-
 <!-- include del nav y de los enlaces de estilos-->
 @extends('templates.main')
 
@@ -6,7 +5,7 @@
 
 @section('estilos')
     <style>
-        .card-title{
+        .card-title {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -16,43 +15,63 @@
 
 
 @section('contenido')
-@if(count($productos)>0)
-    @foreach($productos->chunk(4) as $productChunk)
+    <h2 class="text-center pb-5 h1 pt-2">Mis Productos</h2>
+    @if(count($productos)>0)
+        @foreach($productos->chunk(4) as $productChunk)
 
-        <div class="row">
-            @foreach($productChunk as $producto)
-                <div class="col-lg-3 col-md-6 col-sm-12 mb-5">
-                    <div class="card">
-                        <div class="card-header">
-                            @if(count($producto->imagen)>0)
+            <div class="row">
+                @foreach($productChunk as $producto)
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-5">
+                        <div class="card">
+                            <div class="card-header">
+                                @if(count($producto->imagen)>0)
 
-                                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"  class="card-img-top">
-                            @else
-                                <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">
-                            @endif
-                        </div>
+                                    <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}"
+                                         alt="Imagen del producto" style="width:100%" height="160" class="card-img-top">
+                                @else
+                                    <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}"
+                                         alt="Imagen del producto" style="width:100%" class="card-img-top">
+                                @endif
+                            </div>
 
-                        <div class="card-body">
-                            <h4 class="card-title"> {{ $producto->nombre }} </h4>
-                            <p class="card-text h3"> {{ $producto->precio }} €</p>
-                            <a href="{{route('editar_producto',$producto->id)}}" class="btn btn-outline-info"> Editar Producto</a>
-                            <a href="{{route('venta_producto',$producto->id)}}" class="btn btn-outline-info"> Vendido</a>
+                            <div class="card-body">
+                                <h4 class="card-title"> {{ $producto->nombre }} </h4>
+                                <p class="card-text h3"> {{ $producto->precio }} €</p>
+                                <div class="row mb-2 justify-content-center ">
+                                    <a href="{{route('editar_producto',$producto->id)}}" title="Editar Producto"
+                                       class=" btn-outline-primary col-sm-3  text-center p-2 "><i
+                                                class="fas fa-edit"></i></a>
+                                    <a href="{{route('venta_producto',$producto->id)}}" title="Vender Producto"
+                                       class=" btn-outline-primary col-sm-3 offset-sm-1 text-center p-2 "><i
+                                                class="fas fa-handshake"></i></a>
+                                    <a href="{{route('borrar_producto',$producto->id)}}" title="Borrar Producto"
+                                       class=" btn-outline-danger col-sm-3 offset-sm-1 text-center p-2 confirm"
+                                       data-confirm='Seguro que quieres borrar el Producto? '><i
+                                                class="fas fa-trash-alt "></i></a>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <a href="{{route('ver_producto',$producto->id)}}" class="btn btn-outline-info"> Más
+                                        datos </a>
+                                </div>
+                                <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
 
-                            <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
 
-
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    @endforeach
-    <div class="">{{ $productos->render() }}</div>
+                @endforeach
+            </div>
+        @endforeach
+        <div class="">{{ $productos->render() }}</div>
     @else
-    <h1>No tienes productos</h1>
+        <h1>No tienes productos</h1>
     @endif
 @endsection
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
-
+    <script>
+        $('.confirm').on('click', function (e) {
+            return !!confirm($(this).data('confirm'));
+        });
+    </script>
 @endsection

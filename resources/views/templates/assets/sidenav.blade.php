@@ -7,7 +7,11 @@
             <hr> ¿No tienes una cuenta?<a href="{{route('register')}}">Regístrate</a>
         @else
             <div class="row justify-content-sm-center">
+                @if(auth()->user()->imagen!=null)
                 <img class="d-flex rounded-circle z-depth-1-half mr-3" src="{{asset('imagenes/perfil/'.auth()->user()->imagen)}}" height="200" width="200" alt="Avatar">
+                    @else
+                    <img class="d-flex rounded-circle z-depth-1-half mr-3" src="{{asset('imagenes/perfil/user-default.png')}}" height="200" width="200" alt="Avatar">
+                @endif
             </div>
             <h2 class=" text-center mt-4">{{ Auth::user()->nombre }}</h2>
             <hr class="mb-5">

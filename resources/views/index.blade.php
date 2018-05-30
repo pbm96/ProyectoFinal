@@ -77,7 +77,7 @@
                 </div>
                 <div class="form-group col-lg-4 col-md-5">
                     <h4><label for="orden">Orden</label></h4>
-                    {!! Form::select('orden',array( 'precio,asc' => 'Precio ascendiente', 'precio,desc' => 'Precio descendiente', 'created_at,desc'
+                    {!! Form::select('orden',array( 'precio,asc' => 'Precio ascendiente', 'precio,desc' => 'Precio descendente', 'created_at,desc'
                     => 'Más nuevos primero', 'created_at,asc' => 'Más antiguos primero'),null,['class'=>'form-control'])
                     !!}
                     <hr>
