@@ -76,7 +76,7 @@ class UserController extends Controller
 
                 $imagen->move($path, $nombre_imagen);
 
-
+                $usuario->imagen = $nombre_imagen;
             }
             $request->password = Hash::make($request->password);
 
@@ -84,7 +84,7 @@ class UserController extends Controller
 
             $usuario->password = $request->password;
 
-            $usuario->imagen = $nombre_imagen;
+
 
 
             if ($usuario->isDirty()) {
@@ -100,7 +100,7 @@ class UserController extends Controller
             }
 
         } catch (Exception $exception) {
-            dd($exception);
+            
             Flash::error('no se ha podido actualizar el perfil');
             return redirect()->route('index');
         }
