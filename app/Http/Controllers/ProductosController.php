@@ -23,7 +23,7 @@ class ProductosController extends Controller
      */
     public function index(Request $request)
     {
-      
+
       $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
 
       $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
@@ -42,12 +42,34 @@ class ProductosController extends Controller
     {
         try {
             $productos = (new Producto)->newQuery();
+            if(Input::get('buscar')!=null){
 
-            $productos->where('vendido', '=', 'false');
+                $buscador= Input::get('buscar');
+
+
+            $productos=Producto::where(function ($query) use ($buscador){
+                $query->where('nombre','like','%'.$buscador.'%')
+                    ->orWhere('descripcion','like','%'.$buscador.'%')
+                    ->where('vendido','=','false');
+
+                return $query;
+            });
+
+
+                if(count($productos->get())<=0){
+                    Flash::error('No se encontró ningún producto');
+                }
+
+            }else{
+                $productos->where('vendido', '=', 'false');
+            }
+
 
             if (isset($filtro['slider'])) {
+
                 $productos->whereBetween('precio', explode(',', $filtro['slider']));
             }
+
 
             if (isset($filtro['categoriasSeleccionadas'])) {
 
@@ -248,7 +270,13 @@ class ProductosController extends Controller
 
             $imagenes = $producto->imagen;
 
-            return view('productos.ver-producto-individual.index')->with('producto', $producto)->with('imagenes', $imagenes)->with('producto_favorito', $producto_favorito);
+            $usuario_producto= User::where('id','=',$producto->user_id)->first();
+
+
+            return view('productos.ver-producto-individual.index')->with('producto', $producto)
+                                                                        ->with('imagenes', $imagenes)
+                                                                        ->with('usuario_producto', $usuario_producto)
+                                                                         ->with('producto_favorito', $producto_favorito);
         } else {
             Flash::error('El producto no existe');
 
@@ -325,7 +353,6 @@ class ProductosController extends Controller
                 return response()->json($respuesta);
 
             } else {
-                Flash::info('No puedes poner tu propio producto en favoritos');
                 $respuesta = 'no';
 
                 return response()->json($respuesta);

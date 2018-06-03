@@ -54,6 +54,16 @@
             padding-left: 0.8rem;
         }
 
+        .lista_nombres:hover{
+            background-color: #D7D7D7;
+            color: black;
+        }
+        .lista_nombres{
+            border: none !important;
+        }
+
+
+
 
     </style>
 
@@ -192,13 +202,27 @@
                     type: "GET",
                     data: {usuario: $('#usuarios').val()},
                     url: route_autocomplete,
-                    success: function (data) {
-                        response(data)
+                    success: function (item) {
+
+                        response(item);
                     }
                 })
             }
 
-        })
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var img_src;
+
+                img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+
+                img_src = img_src.replace(':imagen', item.imagen);
+
+
+            return $('<li class="lista_nombres">')
+                .data( "ui-autocomplete-item", item )
+                .append("<div class=' pl-4 h6 w-100 lista_nombres'><img src='" + img_src + " '  class='avatar rounded-circle mr-1 ' width='50' height='50' ><span class='text-primary '>@</span>" + item.value + "</div>")
+                .appendTo(ul);
+
+        };
 
 
     </script>

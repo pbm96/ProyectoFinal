@@ -30,7 +30,7 @@
         width: 0;
         position: fixed;
         z-index: 2;
-        top: 0;
+
         left: 0;
         background-color: white;
         overflow-x: hidden;
@@ -58,14 +58,17 @@
 </style>
 <body>
 <header>
+
     @include('templates.assets.header')
+
     @include('templates.assets.sidenav')
+
         <div class="container mt-4 text-center">
             <div class="row justify-content-sm-center">
     @include('flash::message')
             </div>
         </div>
-    </div>
+
 
 </header>
 
@@ -88,6 +91,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.2/bootstrap-slider.min.js"></script>
 
 <script>
+@auth()
     $(document).ready(function ()
     {
 
@@ -118,7 +122,7 @@
             }
         })
     })
-
+@endauth
     function openNav() {
         document.getElementById("mySidenav").style.width = "250px";
     }

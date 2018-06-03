@@ -66,8 +66,9 @@
                 <div class="form-group col-lg-4 col-md-5">
                     <h4 onclick="$('#listaCategorias').slideToggle()"><a href="#" class="text-dark">Categorias <span class="fa fa-caret-down"></span></a></h4>
                     <div class="collapse" id="listaCategorias">
-                        <?php $cat = Input::has('categoriasSeleccionadas') ? Input::get('categoriasSeleccionadas'):[] ?> 
-                        @foreach($listaCategorias as $clave=>$categoria)
+
+                        <?php $cat = \Illuminate\Support\Facades\Input::has('categoriasSeleccionadas') ? \Illuminate\Support\Facades\Input::get('categoriasSeleccionadas'):[] ?> @foreach($listaCategorias as $clave=>$categoria)
+
                         <input class="checkbox__input" type="checkbox" id="{{ $categoria->nombre }}" name="categoriasSeleccionadas[]" value="{{$categoria->id}}"
                             {{ in_array($categoria->id, $cat) ? 'checked':'' }} />
                         <label class="checkbox__label" for="{{ $categoria->nombre }}"> {{ $categoria->nombre }}</label> <br>                        
@@ -76,7 +77,7 @@
                 </div>
                 <div class="form-group col-lg-4 col-md-5">
                     <h4><label for="orden">Orden</label></h4>
-                    {!! Form::select('orden',array( 'precio,asc' => 'Precio ascendiente', 'precio,desc' => 'Precio descendiente', 'created_at,desc'
+                    {!! Form::select('orden',array( 'precio,asc' => 'Precio ascendiente', 'precio,desc' => 'Precio descendente', 'created_at,desc'
                     => 'Más nuevos primero', 'created_at,asc' => 'Más antiguos primero'),null,['class'=>'form-control'])
                     !!}
                     <hr>
@@ -86,6 +87,7 @@
                 
                 </div>
             </div>
+            <input type="hidden" value="{{\Illuminate\Support\Facades\Input::get('buscar')}}" name="buscar" >
             <div class="row justify-content-center text-center">
                 <div class="col-lg-12">
                     {!!Form::submit('Filtrar',['class'=>'btn btn-outline-primary'])!!}

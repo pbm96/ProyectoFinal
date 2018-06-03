@@ -18,36 +18,54 @@
 @section('contenido')
 
     @if($producto!=null)
+
+
         {!! Form::Open(['route'=>['modificar_producto',$producto->id],'method'=>'PUT','files'=>true, 'class'=>'row justify-content-center']) !!}
-        <div class="col-lg-8">
-            <div class="md-form">
-                {!! Form::label('nombre','Nombre') !!}
-                {!! Form::Text('nombre',$producto->nombre,['class'=>'form-control','required','placeholder'=>'']) !!}
-            </div>
-            <div class="md-form">
-                {!! Form::label('precio','Precio') !!}
-                {!! Form::number('precio',$producto->precio,['class'=>'form-control','required','placeholder'=>'','min'=>0]) !!}
-            </div>
-            <div class="form-group form-row">
-                <div class="col-2">
-                    {!! Form::label('categoria_id','Categoria') !!}
+        <div class="card col-sm-8 ">
+            <div class="card-body">
+
+                <p class="h4 text-center py-4">Editar Producto</p>
+                <div class="row">
+                    <div class="md-form col-sm-8 pl-0">
+                        <i class="fas fa-mobile-alt prefix grey-text pl-2"></i>
+
+                        {!! Form::Text('nombre',$producto->nombre,['class'=>'form-control','required']) !!}
+                        {!! Form::label('nombre','Nombre Producto') !!}
+                    </div>
+
+                    <div class="md-form col-sm-3 offset-1 pl-0">
+                        <i class="fa fa-euro-sign prefix grey-text"></i>
+                        {!! Form::number('precio',$producto->precio,['class'=>'form-control','required','min'=>0]) !!}
+                        {!! Form::label('precio','Precio') !!}
+                    </div>
                 </div>
-                <div class="col-3">
-                    {!! Form::select('categoria_id',$categorias,$producto->categoria->nombre,['class'=>'form-control','required']) !!}
+                <div class="form-group form-row mt-4">
+                    <div class=" col-sm-8">
+                        <i class="fas fa-images fa-2x prefix grey-text pl-2"></i>
+                        {!! Form::File('imagen[]',['class'=>'btn btn-outline-primary','multiple'=>'multiple']) !!}
+                    </div>
+                    <div class="col-sm-4 ">
+                        {!! Form::select('categoria_id',$categorias,$producto->categoria->nombre,['class'=>'form-control h-75 mt-2','required']) !!}
+                    </div>
                 </div>
+
+                <div class="md-form">
+
+                    <div class="form-group shadow-textarea">
+                        <i class=" fas fa-pencil-alt prefix grey-text"></i>
+                        {!! Form::textarea('descripcion',$producto->descripcion,['class'=>'form-control z-depth-1','required','placeholder'=>'Escribir descripción del producto...','rows'=>'8']) !!}
+                    </div>
+                </div>
+
+                <div class="text-center py-4 mt-3">
+                    {!!Form::submit('Editar Producto',['class'=>'btn btn-outline-primary'])!!}
+                </div>
+
             </div>
-            <div class="md-form">
-                {!! Form::textarea('descripcion',$producto->descripcion,['class'=>'form-control md-textarea','required','placeholder'=>'Descripcion Producto']) !!}
-            </div>
-            {{--<div class="form-group">--}}
-                {{--{!! Form::label('imagen','Imagen') !!}--}}
-                {{--{!! Form::File('imagen[]',['class'=>'btn btn-outline-primary','multiple'=>'multiple']) !!}--}}
-            {{--</div>--}}
-            <div class="md-form text-center">
-                {!!Form::submit('Modificar articulo',['class'=>'btn btn-outline-primary'])!!}
-            </div>
-            {!! Form::close() !!}
         </div>
+
+
+        {!! Form::close() !!}
             @else
                 <div class="alert-danger h-50 text-center">
                     <h3>No se ha encontrado el  producto</h3>
@@ -62,3 +80,4 @@
 
 
 @endsection
+
