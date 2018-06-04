@@ -66,9 +66,11 @@ class UserController extends Controller
 
             $usuario->direccion_id = self::direccion($request->direccion, $request->cityLat, $request->cityLng);
 
+            $nombre_imagen = '';
             if ($request->hasFile('imagen')) {
                 $imagen = $request->imagen;
-                $nombre_imagen = '';
+
+
                 $nombre_imagen = 'fakeapop_' . time() . '.' . $imagen->getClientOriginalExtension();
 
                 // se guarda en la carpeta de public
@@ -76,11 +78,17 @@ class UserController extends Controller
 
                 $imagen->move($path, $nombre_imagen);
 
-                $usuario->imagen = $nombre_imagen;
+
             }
             $request->password = Hash::make($request->password);
 
             $usuario->fill($request->all());
+            if($nombre_imagen!=''){
+
+                $usuario->imagen = $nombre_imagen;
+
+            }
+
 
             $usuario->password = $request->password;
 

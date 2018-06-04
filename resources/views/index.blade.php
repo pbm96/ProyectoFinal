@@ -123,7 +123,7 @@
     @endforeach
 </div>
 @endforeach
-<div class="">{{ $productos->render() }}</div>
+<div class="row justify-content-center">{{ $productos->render() }}</div>
 @endsection
 
 <!-- seccion  de los enlaces de scripts-->
