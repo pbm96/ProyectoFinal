@@ -71,7 +71,7 @@
 
                 </div>
             <div class="ml-auto mr-5" >
-                <a class="btn btn-primary" id="boton_mensaje"> Mensaje</a>
+                <a class="btn btn-primary" id="boton_mensaje" href="{{route('escribir_mensaje',$usuario_producto->id)}}"> Mensaje</a>
             </div>
         </a>
         </div>

@@ -91,3 +91,14 @@ Route::group(['prefix' => 'errores'], function () {
 
     Route::get('404', ['as' => 'error_404', 'uses' => 'ErrorsController@error_404']);
 });
+
+Route::group(['prefix'=>'mensajes','middleware'=>'auth'],function () {
+
+    Route::get('mis-mensajes/{id}', ['as' => 'mis_mensajes', 'uses' => 'MensajesController@mensajes_user']);
+
+    Route::get('escribir-mensaje/{id}', ['as' => 'escribir_mensaje', 'uses' => 'MensajesController@escribir_mensaje']);
+    Route::post('enviar-mensaje/{id}', ['as' => 'enviar_mensaje', 'uses' => 'MensajesController@enviar_mensaje']);
+
+    Route::get('borrar-mensaje/{id}', ['as' => 'eliminar_mensaje', 'uses' => 'MensajesController@eliminar_mensaje']);
+
+});
