@@ -12,20 +12,25 @@ use Laracasts\Flash\Flash;
 
 class MensajesController extends Controller
 {
-        public function mensajes_user($id){
+        public function mensajes_user($id)
+        {
+            $user = User::find($id);
 
+            if (auth()->user()->id == $user->id) {
+
+                $mensajes = Mensaje::where('user_id','=',$user->id)->orWhere('enviado_por','=',$user->id)->whereNotIn('conversacion_con',[$user->id])->orderBy('created_at','asc')->get()->groupBy('conversacion_con');
+
+
+                    return view('mensajes.escribir-mensaje.index')->with('user', $user);
+
+            }else{
+                return redirect()->route('error_403');
+            }
         }
 
     public function escribir_mensaje($id){
 
-            $user = User::find($id);
 
-            if ($user!=null){
-                return view('mensajes.escribir-mensaje.index')->with('user',$user);
-
-            }else{
-                return redirect()->route('error_404');
-            }
 
 
 

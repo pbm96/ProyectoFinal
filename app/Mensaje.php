@@ -8,7 +8,7 @@ class Mensaje extends Model
 {
     protected $table="mensajes";
     protected $fillable = [
-        'enviado_por','user_id','cuerpo_mensaje','visto'
+        'enviado_por','recibido_id','cuerpo_mensaje','visto','conversacion_id'
     ];
 
     public function user(){
