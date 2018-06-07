@@ -17,4 +17,10 @@ class ErrorsController extends Controller
         return view('errores.error-404');
 
     }
+
+    public function error_405(){
+
+        return view('errores.error-405');
+
+    }
 }
