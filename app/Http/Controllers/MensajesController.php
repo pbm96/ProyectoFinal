@@ -21,6 +21,8 @@ class MensajesController extends Controller
             $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->orWhere('usuario_2', '=', $user->id)->get();
 
             foreach ($conversaciones as $conversacion) {
+
+
                 if ($conversacion->usuario_1 == $user->id) {
 
                     $conversacion->user_vista = $conversacion->usuario_1;
@@ -46,12 +48,13 @@ class MensajesController extends Controller
                         $mensaje->ha_llegado = "true";
                         $mensaje->save();
                     }
-
-
                     $conversacion->ultimo_mensaje_mes = self::sacar_mes_string($ultimo_mensaje_mes_numero);
+
                 }
 
             }
+
+            $conversaciones = $conversaciones->sortByDesc('updated_at');
 
             return view('mensajes.mensajes-usuario.index')->with('user', $user)
                 ->with('conversaciones', $conversaciones);
@@ -72,7 +75,8 @@ class MensajesController extends Controller
 
             $user = User::find($id);
             $enviado_por = auth()->user();
-            if ($user != null) {
+
+            if ($user != null && $request->cuerpo_mensaje !='') {
                 $fecha = Carbon::now();
 
                 $hora = $fecha->hour;
@@ -91,17 +95,19 @@ class MensajesController extends Controller
 
                 $mensaje->conversacion_id = $conversacion_id;
 
-                $mensaje->cuerpo_mensaje = $request->cuerpo_mensaje;
+                $mensaje->cuerpo_mensaje = htmlspecialchars($request->cuerpo_mensaje);
 
                 $mensaje->visto = 'false';
 
+                $mensaje->conversacion->updated_at = Carbon::now();
+
                 $mensaje->save();
 
-
+                $mensaje->conversacion->save();
 
                 return response()->json(['respuesta' => true, 'mensaje' => $request->cuerpo_mensaje, 'hora' => $hora, 'minutos' => $minutos, 'dia' => $dia, 'mes' => $mes,'conversacion'=>$conversacion_id]);
             } else {
-                return 'ha ocurrido un error';
+                return response()->json(['respuesta'=> false]);
             }
 
         } catch (Exception $exception) {
@@ -113,9 +119,21 @@ class MensajesController extends Controller
 
     }
 
-    public function eliminar_mensaje($id)
+    public function eliminar_conversaciones_vacias()
     {
 
+        $user = auth()->user();
+
+        $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->orWhere('usuario_2', '=', $user->id)->get();
+
+        foreach ($conversaciones as $conversacion){
+
+            if(count($conversacion->mensajes)<=0){
+
+                $conversacion->delete();
+
+            }
+        }
     }
 
     public function recibir_mensajes_ajax()

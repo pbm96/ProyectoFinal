@@ -102,6 +102,6 @@ Route::group(['prefix'=>'mensajes','middleware'=>'auth'],function () {
     Route::get('recibir_mensajes', ['as' => 'recibir_mensaje', 'uses' => 'MensajesController@recibir_mensajes_ajax']);
 
 
-    Route::get('borrar-mensaje/{id}', ['as' => 'eliminar_mensaje', 'uses' => 'MensajesController@eliminar_mensaje']);
+    Route::get('borrar-conversaciones-vacias', ['as' => 'eliminar_conversaciones_vacias', 'uses' => 'MensajesController@eliminar_conversaciones_vacias']);
 
 });

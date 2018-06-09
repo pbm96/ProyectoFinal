@@ -66,7 +66,7 @@
                                             {{$conversacion->hablando_con_user_datos->nombre}}:
                                         @else
                                             Tú:
-                                        @endif</strong> {{$conversacion->mensajes->sortBy('created_at')->last()->cuerpo_mensaje}}
+                                        @endif</strong> {{htmlspecialchars_decode($conversacion->mensajes->sortBy('created_at')->last()->cuerpo_mensaje)}}
                                 </p>
                                     @endif
                             </a>
@@ -82,7 +82,7 @@
                                 @foreach($conversacion->mensajes as $mensaje)
                                 @if($mensaje->enviado_por == auth()->user()->id)
                                 <div class="d-flex justify-content-end">
-                                    <p class="primary-color rounded p-3 text-white w-75 mb-0">{{$mensaje->cuerpo_mensaje}}</p>
+                                    <p class="primary-color rounded p-3 text-white w-75 mb-0">{{htmlspecialchars_decode($mensaje->cuerpo_mensaje)}}</p>
                                 </div>
                                         <div class="text-right mr-4">
                                             <p><small>16 July, 23:54</small></p>
@@ -98,7 +98,7 @@
                                                  src="{{asset('imagenes/perfil/user-default.png')}}"
                                                  @endif
                                             >
-                                            <p class="grey lighten-3 rounded p-3 w-75 mb-0">{{$mensaje->cuerpo_mensaje}} </p>
+                                            <p class="grey lighten-3 rounded p-3 w-75 mb-0">{{htmlspecialchars_decode($mensaje->cuerpo_mensaje)}} </p>
 
                                         </div>
                                         <div class="fecha_recibidos text-center">
@@ -116,7 +116,7 @@
                             <div class="border border-dark border-top-0 p-4">
                                 <div class="row">
                                     <div class="md-form col-sm-9 ">
-                                        <div class="form-group shadow-textarea">
+                                        <div class="form-group shadow-textarea mensaje">
                                             <i class=" fas fa-comments prefix grey-text"></i>
                                             <textarea class="form-control z-depth-1" id="mensaje_{{$conversacion->id}}" rows="1"
                                                       placeholder="Escribir mensaje..." name="cuerpo_mensaje"
@@ -182,19 +182,10 @@
 
                         $('#chat_'+id).scrollTop($('#chat_'+id)[0].scrollHeight);
                     } else {
-                   /* <div class="d-flex justify-content-start media">
-
-                            <img class="mr-3 avatar float-left " width="65" height="65"
-                        style="border-radius: 50%"
-                        @if($conversacion->hablando_con_user_datos->imagen !=null)
-                            src="{{asset('imagenes/perfil/'.$conversacion->hablando_con_user_datos->imagen)}}"
-                        @else
-                            src="{{asset('imagenes/perfil/user-default.png')}}"
-                                @endif
-                            >
-                            <p class="grey lighten-3 rounded p-3 w-75 mb-0">{{$mensaje->cuerpo_mensaje}} </p>
-
-                            </div>*/
+                        $('.mensaje').append("<p class='text-danger text-center error-mensaje'>Ha ocurrido un error al enviar el mensaje</p>")
+                        setTimeout(function() {
+                            $(".error-mensaje").remove();
+                        },3000);
                     }
 
                 }
@@ -224,25 +215,31 @@
                 success: function (data) {
                 console.log()
                 for (i=0; i<data.mensajes.length;i++){
-                    console.log(data);
+
                     $('#ultimo_mensaje_user_'+data.mensajes[i].conversacion_id).text(data.mensajes[i].user_enviado.nombre+': '+data.mensajes[i].cuerpo_mensaje);
 
                     $('#chat_'+data.mensajes[i].conversacion_id).append(" <div class='d-flex justify-content-start media'> <img class='mr-3 avatar float-left' style='border-radius: 50%' src='{{asset('imagenes/perfil')}}/"+data.mensajes[i].user_enviado.imagen+"' width='65' height='65'><p class='grey lighten-3 rounded p-3 w-75 mb-0' >" + data.mensajes[i].cuerpo_mensaje + "</p></div><div class='fecha_recibidos text-center'><p><small>" + data.mensajes[i].dia + " " + data.mensajes[i].mes + "," + data.mensajes[i].hora + ":" + data.mensajes[i].minutos + "</small></p></div>" );
-
+                    $('#chat_'+data.mensajes[i].conversacion_id).scrollTop( $('#chat_'+data.mensajes[i].conversacion_id)[0].scrollHeight);
                 }
 
-                        /*$('#mensaje_'+id).prop("rows", "1");
-                        $('#enviar_'+id).prop("disabled", true);
-                        $('#ultimo_mensaje_user').text('Tú: '+data.mensaje);
 
-
-                        $('#chat_'+id).scrollTop($('#chat_'+id)[0].scrollHeight);*/
 
                 }
             })
         }
 
+        $(window).on("unload", function(e)  {
+            var route = "{{route('eliminar_conversaciones_vacias')}}";
 
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "GET",
+                url: route,
+                async : false,
+            })
+        });
 
 
     </script>
