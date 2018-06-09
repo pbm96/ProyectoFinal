@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversacion;
 use App\Mensaje;
 use App\User;
 use Carbon\Carbon;
@@ -17,12 +18,41 @@ class MensajesController extends Controller
             $user = User::find($id);
 
             if (auth()->user()->id == $user->id) {
+                $conversaciones = Conversacion::where('usuario_1','=',$user->id)->orWhere('usuario_2','=',$user->id)->get();
 
-                $mensajes = Mensaje::where('user_id','=',$user->id)->orWhere('enviado_por','=',$user->id)->whereNotIn('conversacion_con',[$user->id])->orderBy('created_at','asc')->get()->groupBy('conversacion_con');
+                foreach ($conversaciones as $conversacion){
+                    if ($conversacion->usuario_1 == $user->id) {
+
+                        $conversacion->user_vista = $conversacion->usuario_1;
+
+                        $conversacion->hablando_con = $conversacion->usuario_2;
+
+                       $conversacion->hablando_con_user_datos = User::where('id','=',$conversacion->hablando_con)->first();
+                    }
+
+                    elseif ($conversacion->usuario_2 == $user->id) {
+                        $conversacion->user_vista = $conversacion->usuario_2;
+
+                        $conversacion->hablando_con = $conversacion->usuario_1;
+
+                        $conversacion->hablando_con_user_datos = User::where('id','=',$conversacion->hablando_con)->first();
+
+                    }
+
+            if(count($conversacion->mensajes)>0) {
+                $conversacion->ultimo_mensaje_dia = $conversacion->mensajes->sortBy('created_at')->last()->created_at->day;
+
+                $ultimo_mensaje_mes_numero = $conversacion->mensajes->sortBy('created_at')->last()->created_at->month;
+
+                $conversacion->ultimo_mensaje_mes = self::sacar_mes_string($ultimo_mensaje_mes_numero);
+            }
 
 
-                    return view('mensajes.escribir-mensaje.index')->with('user', $user);
+                }
 
+
+                    return view('mensajes.mensajes-usuario.index')->with('user', $user)
+                                                                ->with('conversaciones',$conversaciones);
             }else{
                 return redirect()->route('error_403');
             }
@@ -36,8 +66,9 @@ class MensajesController extends Controller
 
     }
 
-    public function enviar_mensaje(Request $request,$id){
+    public function enviar_mensaje(Request $request,$id, $conversacion_id){
         try {
+
             $user = User::find($id);
             $enviado_por = auth()->user();
             if ($user != null) {
@@ -53,9 +84,11 @@ class MensajesController extends Controller
 
                 $mensaje = new Mensaje();
 
-                $mensaje->user_id = $user->id;
+                $mensaje->recibido_id= $user->id;
 
                 $mensaje->enviado_por = $enviado_por->id;
+
+                $mensaje->conversacion_id = $conversacion_id;
 
                 $mensaje->cuerpo_mensaje = $request->cuerpo_mensaje;
 
@@ -70,6 +103,7 @@ class MensajesController extends Controller
             }
 
         }catch (Exception $exception){
+            /*cambiar*/
             Flash::error('Ha ocurrido un error al enviar el mensaje');
         return redirect()->route('index');
 

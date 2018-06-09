@@ -17,4 +17,7 @@ class Mensaje extends Model
     public function enviado_por(){
         return $this->belongsTo('App\User');
     }
+    public function conversacion(){
+        return  $this->belongsTo('App\Conversacion');
+    }
 }

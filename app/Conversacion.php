@@ -11,11 +11,12 @@ class Conversacion extends Model
         'usuario_1','usuario_2','conversacion_borrada_1','conversacion_borrada_2'
     ];
 
-    public function user_1(){
-        return $this->belongsTo('App\User','id','usuario_1');
+    public function user(){
+        return $this->belongsTo('App\User');
     }
-    public function user_2(){
-        return $this->belongsTo('App\User','id','usuario_2');
+
+    public function mensajes(){
+        return  $this->hasMany('App\Mensaje');
     }
 
 }
