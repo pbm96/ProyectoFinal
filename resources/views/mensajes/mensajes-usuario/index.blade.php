@@ -61,7 +61,7 @@
                                     <small>{{$conversacion->ultimo_mensaje_dia}} {{$conversacion->ultimo_mensaje_mes}}</small>
                                 </div>
                                 @if(count($conversacion->mensajes)>0)
-                                <p class="text-truncate" id="ultimo_mensaje_user"><strong>
+                                <p class="text-truncate" id="ultimo_mensaje_user_{{$conversacion->id}}"><strong>
                                         @if($conversacion->mensajes->sortBy('created_at')->last()->enviado_por != $user->id)
                                             {{$conversacion->hablando_con_user_datos->nombre}}:
                                         @else
@@ -80,7 +80,6 @@
                             <div class="border border-dark border-bottom-0 p-4 chat" id="chat_{{$conversacion->id}}">
                                 @if(count($conversacion->mensajes)>0)
                                 @foreach($conversacion->mensajes as $mensaje)
-
                                 @if($mensaje->enviado_por == auth()->user()->id)
                                 <div class="d-flex justify-content-end">
                                     <p class="primary-color rounded p-3 text-white w-75 mb-0">{{$mensaje->cuerpo_mensaje}}</p>
@@ -177,20 +176,75 @@
                         $('#mensaje_'+id).val('');
                         $('#mensaje_'+id).prop("rows", "1");
                         $('#enviar_'+id).prop("disabled", true);
-                        $('#ultimo_mensaje_user').text('Tú: '+data.mensaje);
+                        $('#ultimo_mensaje_user_'+data.conversacion).text('Tú: '+data.mensaje);
 
                         $('#chat_'+id).append(" <div class='d-flex justify-content-end'><p class='primary-color rounded p-3 text-white w-75 mb-0 '>" + data.mensaje + "</p></div><div class='text-right mr-4'><p><small>" + data.hora + " " + data.mes + "," + data.hora + ":" + data.minutos + "</small></p></div>" );
 
-                        $('.chat').scrollTop($('.chat')[0].scrollHeight);
+                        $('#chat_'+id).scrollTop($('#chat_'+id)[0].scrollHeight);
                     } else {
+                   /* <div class="d-flex justify-content-start media">
 
+                            <img class="mr-3 avatar float-left " width="65" height="65"
+                        style="border-radius: 50%"
+                        @if($conversacion->hablando_con_user_datos->imagen !=null)
+                            src="{{asset('imagenes/perfil/'.$conversacion->hablando_con_user_datos->imagen)}}"
+                        @else
+                            src="{{asset('imagenes/perfil/user-default.png')}}"
+                                @endif
+                            >
+                            <p class="grey lighten-3 rounded p-3 w-75 mb-0">{{$mensaje->cuerpo_mensaje}} </p>
+
+                            </div>*/
                     }
 
                 }
             })
 
         }
-        $('.chat').scrollTop($('.chat')[0].scrollHeight);
+
+
+        $(document).ready(function() {
+            $('.chat').scrollTop($('.chat')[0].scrollHeight);
+
+            });
+
+        setInterval( function() {recibir_mensaje(); }, 5000 );
+        function recibir_mensaje() {
+
+
+            var route = "{{route('recibir_mensaje')}}";
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "GET",
+                dataType: "json",
+                url: route,
+                success: function (data) {
+                console.log()
+                for (i=0; i<data.mensajes.length;i++){
+                    console.log(data);
+                    $('#ultimo_mensaje_user_'+data.mensajes[i].conversacion_id).text(data.mensajes[i].user_enviado.nombre+': '+data.mensajes[i].cuerpo_mensaje);
+
+                    $('#chat_'+data.mensajes[i].conversacion_id).append(" <div class='d-flex justify-content-start media'> <img class='mr-3 avatar float-left' style='border-radius: 50%' src='{{asset('imagenes/perfil')}}/"+data.mensajes[i].user_enviado.imagen+"' width='65' height='65'><p class='grey lighten-3 rounded p-3 w-75 mb-0' >" + data.mensajes[i].cuerpo_mensaje + "</p></div><div class='fecha_recibidos text-center'><p><small>" + data.mensajes[i].dia + " " + data.mensajes[i].mes + "," + data.mensajes[i].hora + ":" + data.mensajes[i].minutos + "</small></p></div>" );
+
+                }
+
+                        /*$('#mensaje_'+id).prop("rows", "1");
+                        $('#enviar_'+id).prop("disabled", true);
+                        $('#ultimo_mensaje_user').text('Tú: '+data.mensaje);
+
+
+                        $('#chat_'+id).scrollTop($('#chat_'+id)[0].scrollHeight);*/
+
+                }
+            })
+        }
+
+
+
+
     </script>
 
 @endsection

@@ -14,10 +14,10 @@ class Mensaje extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
-    public function enviado_por(){
-        return $this->belongsTo('App\User');
+    public function user_enviado(){
+        return $this->belongsTo('App\User','enviado_por','id');
     }
     public function conversacion(){
-        return  $this->belongsTo('App\Conversacion');
+        return  $this->belongsTo('App\Conversacion','conversacion_id','id');
     }
 }
