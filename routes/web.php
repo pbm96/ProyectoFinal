@@ -29,7 +29,6 @@ Auth::routes();
 
         //rutas de los productos. para acceder hay que autentificarse
 Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
-        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'ProductosController@notificaciones'));
 
     Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
 
@@ -94,7 +93,7 @@ Route::group(['prefix' => 'errores'], function () {
 
 Route::group(['prefix'=>'mensajes','middleware'=>'auth'],function () {
 
-    Route::get('mis-mensajes/{id}', ['as' => 'mis_mensajes', 'uses' => 'MensajesController@mensajes_user']);
+    Route::get('mis-mensajes/{id}/{nueva_conversacion?}', ['as' => 'mis_mensajes', 'uses' => 'MensajesController@mensajes_user']);
 
     Route::get('escribir-mensaje/{id}', ['as' => 'escribir_mensaje', 'uses' => 'MensajesController@escribir_mensaje']);
     Route::post('enviar-mensaje/{id}/{conversacion_id}', ['as' => 'enviar_mensaje', 'uses' => 'MensajesController@enviar_mensaje']);

@@ -13,15 +13,58 @@ use Laracasts\Flash\Flash;
 
 class MensajesController extends Controller
 {
-    public function mensajes_user($id)
+    public function mensajes_user($id, $nueva_conversacion = null)
     {
         $user = User::find($id);
-
         if (auth()->user()->id == $user->id) {
+            // saca las conversaciones del usuario conectado
             $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->orWhere('usuario_2', '=', $user->id)->get();
 
-            foreach ($conversaciones as $conversacion) {
+            // si se  va a abrir una nueva conversacion
+            if ($nueva_conversacion != null) {
 
+                // si el usuario  tiene conversaciones abiertas
+                if (count($conversaciones) > 0) {
+
+                    // se recorren todas sus conversaciones para ver si la que quiere crear ya esta creada
+                    foreach ($conversaciones as $conversacion) {
+
+
+                        if ($conversacion->usuario_1 == $nueva_conversacion || $conversacion->usuario_2 == $nueva_conversacion) {
+                            break;
+                        } else {
+                            $conversacion_nueva = Conversacion::firstOrCreate([
+                                'usuario_1' => auth()->user()->id,
+                                'usuario_2' => $nueva_conversacion,
+                                'conversacion_borrada_usuario_1' => 'false',
+                                'conversacion_borrada_usuario_2' => 'false'
+                            ]);
+
+                            $conversacion_nueva->save();
+                        }
+
+
+                    }
+                } elseif (count($conversaciones) == 0) {
+
+                    $conversacion_nueva = new Conversacion();
+
+                    $conversacion_nueva->usuario_1 = auth()->user()->id;
+
+                    $conversacion_nueva->usuario_2 = $nueva_conversacion;
+
+                    $conversacion_nueva->conversacion_borrada_usuario_1 = 'false';
+
+                    $conversacion_nueva->conversacion_borrada_usuario_1 = 'false';
+
+                    $conversacion_nueva->save();
+                }
+            }
+
+            $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->orWhere('usuario_2', '=', $user->id)->get();
+
+
+            foreach ($conversaciones as $conversacion) {
 
                 if ($conversacion->usuario_1 == $user->id) {
 
@@ -30,6 +73,7 @@ class MensajesController extends Controller
                     $conversacion->hablando_con = $conversacion->usuario_2;
 
                     $conversacion->hablando_con_user_datos = User::where('id', '=', $conversacion->hablando_con)->first();
+
                 } elseif ($conversacion->usuario_2 == $user->id) {
                     $conversacion->user_vista = $conversacion->usuario_2;
 
@@ -47,6 +91,12 @@ class MensajesController extends Controller
                     foreach ($conversacion->mensajes as $mensaje) {
                         $mensaje->ha_llegado = "true";
                         $mensaje->save();
+
+                        $fecha = $mensaje->created_at;
+                        $fecha_minutos = $fecha->minute < 10 ? '0' . $fecha->minute : $fecha->minute;
+                        $mensaje->fecha_mensaje = $fecha->day . ' ' . self::sacar_mes_string($fecha->month) . ',' . $fecha->hour . ':' . $fecha_minutos;
+
+
                     }
                     $conversacion->ultimo_mensaje_mes = self::sacar_mes_string($ultimo_mensaje_mes_numero);
 
@@ -76,12 +126,16 @@ class MensajesController extends Controller
             $user = User::find($id);
             $enviado_por = auth()->user();
 
-            if ($user != null && $request->cuerpo_mensaje !='') {
+            if ($user != null && $request->cuerpo_mensaje != '') {
                 $fecha = Carbon::now();
 
                 $hora = $fecha->hour;
+                if ($fecha->minute < 10) {
+                    $minutos = '0' . $fecha->minute;
+                } else {
+                    $minutos = $fecha->minute;
+                }
 
-                $minutos = $fecha->minute;
 
                 $dia = $fecha->day;
 
@@ -105,9 +159,9 @@ class MensajesController extends Controller
 
                 $mensaje->conversacion->save();
 
-                return response()->json(['respuesta' => true, 'mensaje' => $request->cuerpo_mensaje, 'hora' => $hora, 'minutos' => $minutos, 'dia' => $dia, 'mes' => $mes,'conversacion'=>$conversacion_id]);
+                return response()->json(['respuesta' => true, 'mensaje' => $request->cuerpo_mensaje, 'hora' => $hora, 'minutos' => $minutos, 'dia' => $dia, 'mes' => $mes, 'conversacion' => $conversacion_id]);
             } else {
-                return response()->json(['respuesta'=> false]);
+                return response()->json(['respuesta' => false]);
             }
 
         } catch (Exception $exception) {
@@ -126,9 +180,9 @@ class MensajesController extends Controller
 
         $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->orWhere('usuario_2', '=', $user->id)->get();
 
-        foreach ($conversaciones as $conversacion){
+        foreach ($conversaciones as $conversacion) {
 
-            if(count($conversacion->mensajes)<=0){
+            if (count($conversacion->mensajes) <= 0) {
 
                 $conversacion->delete();
 
@@ -157,7 +211,7 @@ class MensajesController extends Controller
                 $mensaje->mes = self::sacar_mes_string($fecha->month);
 
                 $mensaje->user_enviado;
-                if ($mensaje->user_enviado->imagen == null){
+                if ($mensaje->user_enviado->imagen == null) {
                     $mensaje->user_enviado->imagen = 'user-default.png';
 
                 }
@@ -167,8 +221,8 @@ class MensajesController extends Controller
             }
 
 
-            return response()->json(['mensajes' =>$mensajes_nuevos]);
-    }
+            return response()->json(['mensajes' => $mensajes_nuevos]);
+        }
 
 
     }

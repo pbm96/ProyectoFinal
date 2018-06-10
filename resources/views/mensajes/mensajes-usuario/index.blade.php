@@ -38,6 +38,7 @@
 @section('contenido')
 
     <div class="container-fluid">
+        @if(count($conversaciones)>0)
         <section class="section">
             <div class="row">
                 <div class="col-sm-4">
@@ -68,7 +69,10 @@
                                             Tú:
                                         @endif</strong> {{htmlspecialchars_decode($conversacion->mensajes->sortBy('created_at')->last()->cuerpo_mensaje)}}
                                 </p>
+                                    @else
+                                    <p class="text-truncate" id="ultimo_mensaje_user_{{$conversacion->id}}"><strong></strong></p>
                                     @endif
+
                             </a>
                         @endforeach
                     </div>
@@ -85,7 +89,7 @@
                                     <p class="primary-color rounded p-3 text-white w-75 mb-0">{{htmlspecialchars_decode($mensaje->cuerpo_mensaje)}}</p>
                                 </div>
                                         <div class="text-right mr-4">
-                                            <p><small>16 July, 23:54</small></p>
+                                            <p><small>{{$mensaje->fecha_mensaje}}</small></p>
                                         </div>
                                     @else
                                         <div class="d-flex justify-content-start media">
@@ -102,7 +106,7 @@
 
                                         </div>
                                         <div class="fecha_recibidos text-center">
-                                            <p><small>16 July, 23:54</small></p>
+                                            <p><small>{{$mensaje->fecha_mensaje}}</small></p>
                                         </div>
 
                                         @endif
@@ -135,6 +139,11 @@
                 </div>
             </div>
         </section>
+            @else
+            <div class="row justify-content-center">
+                <h1 class="h1">No tienes Chats abiertos</h1>
+            </div>
+            @endif
     </div>
 
 
