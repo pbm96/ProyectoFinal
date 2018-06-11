@@ -38,7 +38,7 @@
                 <i class="fa fa-envelope prefix"></i>
 
                 <input id="form2" type="email"
-                       class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                       class="form-control{{ $errors->has('email') ? ' invalid' : '' }}"
                        name="email" value="{{ old('email') }}" required autofocus>
 
                 <label for="form2">Your email</label>
@@ -53,7 +53,7 @@
                 <i class="fa fa-lock prefix"></i>
 
                 <input id="form4" type="password"
-                       class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                       class="form-control{{ $errors->has('password') ? ' invalid' : '' }}"
                        name="password" required>
                 <label for="form4">password</label>
 
