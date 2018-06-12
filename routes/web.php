@@ -103,4 +103,8 @@ Route::group(['prefix'=>'mensajes','middleware'=>'auth'],function () {
 
     Route::get('borrar-conversaciones-vacias', ['as' => 'eliminar_conversaciones_vacias', 'uses' => 'MensajesController@eliminar_conversaciones_vacias']);
 
+    Route::get('borrar-converacion/{id}', ['as' => 'eliminar_conversacion', 'uses' => 'MensajesController@eliminar_conversacion']);
+
+
+
 });
