@@ -24,52 +24,43 @@ class ProductosController extends Controller
     public function index(Request $request)
     {
 
-      $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
+        $listaCategorias = Categoria::orderBy('nombre', 'ASC')->get();
 
-      $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
+        $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
 
-      $productos = $productos->paginate(8);
+        $productos = $productos->paginate(8);
 
-      self::creado_desde($productos);
+        self::creado_desde($productos);
 
-      return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
+        return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
 
-        }
-
+    }
 
     /** Filtra los productos */
     public function filtrarProductos(array $filtro)
     {
         try {
             $productos = (new Producto)->newQuery();
-            if(Input::get('buscar')!=null){
+            if (Input::get('buscar') != null) {
+                $buscador = Input::get('buscar');
 
-                $buscador= Input::get('buscar');
+                $productos = Producto::where(function ($query) use ($buscador) {
+                    $query->where('nombre', 'like', '%' . $buscador . '%')
+                        ->orWhere('descripcion', 'like', '%' . $buscador . '%')
+                        ->where('vendido', '=', 'false');
 
-
-            $productos=Producto::where(function ($query) use ($buscador){
-                $query->where('nombre','like','%'.$buscador.'%')
-                    ->orWhere('descripcion','like','%'.$buscador.'%')
-                    ->where('vendido','=','false');
-
-                return $query;
-            });
-
-
-                if(count($productos->get())<=0){
+                    return $query;
+                });
+                if (count($productos->get()) <= 0) {
                     Flash::error('No se encontró ningún producto');
                 }
-
-            }else{
+            } else {
                 $productos->where('vendido', '=', 'false');
             }
 
-
             if (isset($filtro['slider'])) {
-
                 $productos->whereBetween('precio', explode(',', $filtro['slider']));
             }
-
 
             if (isset($filtro['categoriasSeleccionadas'])) {
 
@@ -83,7 +74,6 @@ class ProductosController extends Controller
 
                     return $query;
                 });
-
             }
 
             if (isset($filtro['orden'])) {
@@ -130,13 +120,11 @@ class ProductosController extends Controller
 
         $this->validate($request, [
             'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-
         ]);
         $producto = new Producto($request->all());
         // introducir id de usuario autentificado en tabla productos
         $producto->user_id = \Auth::user()->id;
         $producto->save();
-
 //        manipular imagenes
         if ($request->hasFile('imagen')) {
             $contador_imagenes = 0;
@@ -144,14 +132,11 @@ class ProductosController extends Controller
             foreach ($request->file('imagen') as $imagen) {
                 //pongo nombre a la imagen
                 $nombre_imagen = 'fakeapop_' . time() . $contador_imagenes . '.' . $imagen->getClientOriginalExtension();
-
                 // se guarda en la carpeta de public
                 $path = public_path() . '/imagenes/productos/';
                 $imagen->move($path, $nombre_imagen);
-
                 //contador para si hay varias imagenes que se llamen diferente
                 $contador_imagenes = $contador_imagenes + 1;
-
                 //se guardan las imagenes en la base de datos
                 $imagen = new Imagen();
                 $imagen->nombre = $nombre_imagen;
@@ -159,11 +144,9 @@ class ProductosController extends Controller
                 $imagen->producto()->associate($producto);
                 $imagen->save();
             }
-
         }
-
         Flash::success('tu producto ' . $producto->nombre . " se ha creado correctamente");
-      
+
         return redirect()->route('index');
     }
 
@@ -176,6 +159,7 @@ class ProductosController extends Controller
         if (auth()->user()->id == $producto->user_id) {
 
             return view('productos.editar-producto.index')->with('producto', $producto)->with('categorias', $categorias);
+
         } else {
 
             return redirect()->route('error_403');
@@ -196,9 +180,33 @@ class ProductosController extends Controller
 
             $producto = Producto::find($id);
 
+            Imagen::where('producto_id', '=', $id)->delete();
+
             $producto->fill($request->all());
 
             $producto->save();
+
+            //        manipular imagenes
+            if ($request->hasFile('imagen')) {
+                
+                $contador_imagenes = 0;
+                $nombre_imagen = '';
+                foreach ($request->file('imagen') as $imagen) {
+                    //pongo nombre a la imagen
+                    $nombre_imagen = 'fakeapop_' . time() . $contador_imagenes . '.' . $imagen->getClientOriginalExtension();
+                    // se guarda en la carpeta de public
+                    $path = public_path() . '/imagenes/productos/';
+                    $imagen->move($path, $nombre_imagen);
+                    //contador para si hay varias imagenes que se llamen diferente
+                    $contador_imagenes = $contador_imagenes + 1;
+                    //se guardan las imagenes en la base de datos
+                    $imagen = new Imagen();
+                    $imagen->nombre = $nombre_imagen;
+                    // llamar a metodo producto en modelo 'Imagen' y asociarle el producto al que pertenece esa imagen
+                    $imagen->producto()->associate($producto);
+                    $imagen->save();
+                }
+            }
 
             Flash::success('El Producto ' . $producto->nombre . ' se actualizo correctamente');
 
@@ -270,13 +278,12 @@ class ProductosController extends Controller
 
             $imagenes = $producto->imagen;
 
-            $usuario_producto= User::where('id','=',$producto->user_id)->first();
-
+            $usuario_producto = User::where('id', '=', $producto->user_id)->first();
 
             return view('productos.ver-producto-individual.index')->with('producto', $producto)
-                                                                        ->with('imagenes', $imagenes)
-                                                                        ->with('usuario_producto', $usuario_producto)
-                                                                         ->with('producto_favorito', $producto_favorito);
+                ->with('imagenes', $imagenes)
+                ->with('usuario_producto', $usuario_producto)
+                ->with('producto_favorito', $producto_favorito);
         } else {
             Flash::error('El producto no existe');
 
@@ -342,7 +349,6 @@ class ProductosController extends Controller
 
                 return response()->json($respuesta);
 
-
             } else if ($comprobar_favorito != null && $producto->user_id != $user_id) {
                 $producto_favorito = ProductoFavorito::find($comprobar_favorito->id);
 
@@ -363,7 +369,6 @@ class ProductosController extends Controller
 
             return redirect()->route('index');
 
-
         }
     }
 
@@ -373,22 +378,19 @@ class ProductosController extends Controller
 
             try {
 
-                $productos_favoritos = ProductoFavorito::where('user_id', '=', $id)->orderBy('created_at','desc')->paginate(8);
-
-
+                $productos_favoritos = ProductoFavorito::where('user_id', '=', $id)->orderBy('created_at', 'desc')->paginate(8);
 
                 if (count($productos_favoritos) > 0) {
 
-                    foreach ($productos_favoritos as $producto){
-                        $product = Producto::where('id','=',$producto->producto_id)->first();
+                    foreach ($productos_favoritos as $producto) {
+                        $product = Producto::where('id', '=', $producto->producto_id)->first();
 
-                        $producto->nombre= $product->nombre;
+                        $producto->nombre = $product->nombre;
 
-                        $producto->precio= $product->precio;
+                        $producto->precio = $product->precio;
 
                     }
                     self::creado_desde($productos_favoritos);
-
 
                     return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
 
@@ -509,8 +511,6 @@ class ProductosController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function guardar_venta_producto(Request $request, $id)
-
-
     {
         try {
 
@@ -533,8 +533,9 @@ class ProductosController extends Controller
 
                         $producto_vendido->valoracion_venta_vendedor = $request->valoracion_venta;
 
-                        if($request->valoracion_venta!=null)
-                        self::calcular_valoracion_usuario($request->valoracion_venta, $user_venta);
+                        if ($request->valoracion_venta != null) {
+                            self::calcular_valoracion_usuario($request->valoracion_venta, $user_venta);
+                        }
 
                         $producto_vendido->comentario_venta_vendedor = $request->comentario_venta;
 
@@ -589,12 +590,13 @@ class ProductosController extends Controller
 
         $user = User::where('id', '=', $venta->vendido_a)->first();
 
-        $user_comprador= User::where('id','=',$venta->user_id)->first();
+        $user_comprador = User::where('id', '=', $venta->user_id)->first();
 
         $venta->valoracion_venta_comprador = $request->valoracion_compra;
 
-        if($request->valoracion_compra!=null)
+        if ($request->valoracion_compra != null) {
             self::calcular_valoracion_usuario($request->valoracion_compra, $user_comprador);
+        }
 
         $venta->comentario_venta_comprador = $request->comentario_compra;
 
@@ -619,13 +621,11 @@ class ProductosController extends Controller
 
         return redirect()->route('perfil_publico', auth()->user()->id);
 
-
     }
 
     public function calcular_valoracion_usuario($valoracion, $usuario)
     {
         try {
-
 
             $user = User::find($usuario->id);
 

@@ -25,10 +25,13 @@
                         <h4 class="card-title"><i class="fas fa-user text-primary"></i> {{$usuario->nombre}}</h4>
                         <div class="ml-4">
                             @for($i=0;$i
-                            <$usuario->valoracion;$i++)
-                                <i class="fas fa-star yellow-text"></i> @endfor @for($i=0;$i
+                                <$usuario->valoracion;$i++)
+                                <i class="fas fa-star yellow-text"></i> 
+                            @endfor 
+                            @for($i=0;$i
                                 <5-$usuario->valoracion;$i++)
-                                    <i class="far fa-star "></i> @endfor
+                                <i class="far fa-star "></i> 
+                            @endfor
                         </div>
                         <div class="h5 my-3">
                             <span class="badge bg-dark">{{count($productos_user)+count($productos_vendidos_user)}}</span> Productos
@@ -86,7 +89,7 @@
                 @endforeach
                 <div class="">{{ $productos_user->render() }}</div>
                 @else
-                <h2>{{$usuario->nombre}} No tiene ningun producto subido</h2>
+                <h2>{{ $usuario->nombre }} No tiene ningun producto subido</h2>
                 @endif
             </div>
             <!--/.Panel 1-->
@@ -105,15 +108,12 @@
                                     class="card-img-top"> @else
                                 <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">                                @endif
                             </div>
-
                             <div class="card-body">
                                 <h4 class="card-title"> {{ $producto->nombre }} </h4>
                                 <p class="card-text h3"> {{ $producto->precio }} €</p>
                                 <a href="{{route('ver_producto',$producto->id)}}" class="btn btn-outline-info"> Mas datos </a>
 
                                 <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
-
-
                             </div>
                         </div>
                     </div>
