@@ -20,6 +20,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "fine-uploader": "^5.16.2",
         "simpler-sidebar": "^2.2.5"
     }
 }
