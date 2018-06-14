@@ -19,12 +19,16 @@ class MensajesController extends Controller
             $user = User::find($id);
             $activo = '';
 
+
             if (auth()->user()->id == $user->id) {
+
                 // saca las conversaciones del usuario conectado
                 if ($nueva_conversacion != null) {
+
                     $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->Where('usuario_2', '=', $nueva_conversacion)->orWhere('usuario_2', '=', $user->id)->Where('usuario_1', '=', $nueva_conversacion)->first();
 
-                    if (isset($conversaciones)) {
+                    if ($conversaciones !=null) {
+
 
                         if ($conversaciones->usuario_1 == $nueva_conversacion || $conversaciones->usuario_2 == $nueva_conversacion) {
 
@@ -44,18 +48,17 @@ class MensajesController extends Controller
                             }
 
 
-                        } else {
-
-                            $conversacion_nueva = Conversacion::firstOrCreate([
-                                'usuario_1' => auth()->user()->id,
-                                'usuario_2' => $nueva_conversacion,
-
-                            ]);
-                            $conversacion_nueva->conversacion_borrada_usuario_1 = 'false';
-                            $conversacion_nueva->conversacion_borrada_usuario_2 = 'false';
-
-                            $conversacion_nueva->save();
                         }
+                    }else {
+                        $conversacion_nueva = Conversacion::firstOrCreate([
+                            'usuario_1' => auth()->user()->id,
+                            'usuario_2' => $nueva_conversacion,
+
+                        ]);
+                        $conversacion_nueva->conversacion_borrada_usuario_1 = 'false';
+                        $conversacion_nueva->conversacion_borrada_usuario_2 = 'false';
+
+                        $conversacion_nueva->save();
                     }
 
                 }
