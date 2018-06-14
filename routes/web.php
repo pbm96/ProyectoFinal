@@ -26,10 +26,10 @@ Route::get('buscador', array('as' => 'buscador', 'uses' => 'ProductosController@
 //rutas autentificacion (login/registro)
 Auth::routes();
 
-
-        //rutas de los productos. para acceder hay que autentificarse
-Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
-        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'ProductosController@notificaciones'));
+//rutas de los productos. para acceder hay que autentificarse
+Route::group(['prefix' => 'productos', 'middleware' => 'auth'], function () {
+    
+    Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'ProductosController@notificaciones'));
 
     Route::get('crear-producto', array('as' => 'crear_producto', 'uses' => 'ProductosController@create'));
 
@@ -41,9 +41,7 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
     Route::put('modificar-producto/{id}', array('as' => 'modificar_producto', 'uses' => 'ProductosController@modificar_producto'));
 
-
     Route::get('poner-favorito/{id}', array('as' => 'poner_favorito', 'uses' => 'ProductosController@producto_favorito'));
-
 
     Route::get('valoracion-compra/{id}', ['as' => 'valoracion_compra', 'uses' => 'ProductosController@valoracion_compra']);
 
@@ -59,19 +57,19 @@ Route::group(['prefix'=>'productos','middleware'=>'auth'],function () {
 
     Route::get('cancelar-valoracion/{id}', ['as' => 'cancelar_valoracion', 'uses' => 'ProductosController@cancelar_valoracion']);
 
-
 });
 
-Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
-        Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'HomeController@notificaciones'));
-        Route::get('administrar-perfil/{id}',['as'=>'administrar_perfil','uses'=>'UserController@modificar_perfil']);
-        Route::put('guardar-perfil/{id}',['as'=>'guardar_perfil','uses'=>'UserController@guardar_perfil']);
+Route::group(['prefix' => 'usuario', 'middleware' => 'auth'], function () {
 
-        Route::delete('borrar-perfil/{id}',['as'=>'borrar_perfil','uses'=>'UserController@borrar_perfil']);
+    Route::get('notificaciones', array('as' => 'notificaciones', 'uses' => 'HomeController@notificaciones'));
 
-        Route::get('perfil/{id}',['as'=>'perfil_publico','uses'=>'UserController@perfil_publico']);
+    Route::get('administrar-perfil/{id}', ['as' => 'administrar_perfil', 'uses' => 'UserController@modificar_perfil']);
 
+    Route::put('guardar-perfil/{id}', ['as' => 'guardar_perfil', 'uses' => 'UserController@guardar_perfil']);
 
+    Route::delete('borrar-perfil/{id}', ['as' => 'borrar_perfil', 'uses' => 'UserController@borrar_perfil']);
+
+    Route::get('perfil/{id}', ['as' => 'perfil_publico', 'uses' => 'UserController@perfil_publico']);
 
     Route::get('administrar-perfil/{id}', ['as' => 'administrar_perfil', 'uses' => 'UserController@modificar_perfil']);
 
@@ -87,9 +85,12 @@ Route::group(['prefix'=>'usuario','middleware'=>'auth'],function () {
 });
 
 Route::group(['prefix' => 'errores'], function () {
+
     Route::get('403', ['as' => 'error_403', 'uses' => 'ErrorsController@error_403']);
 
     Route::get('404', ['as' => 'error_404', 'uses' => 'ErrorsController@error_404']);
 
+
     Route::get('405', ['as' => 'error_405', 'uses' => 'ErrorsController@error_405']);
 });
+
