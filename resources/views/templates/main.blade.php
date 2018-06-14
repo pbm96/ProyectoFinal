@@ -52,7 +52,7 @@
 
     #descripcion_notificacion {
         left: -120%;
-        min-width: 14rem;
+       width: 16rem;
 
     }
 </style>
@@ -100,21 +100,36 @@
             dataType: "json",
             url: route,
             success: function(data) {
-                if(data!=='') {
+
+                if(data.mensajes !=='' || data.notificaciones !=='' ) {
+
                     var cont = 0;
                     var url = '{{ route("valoracion_compra",":id") }}';
+                    var url_mensaje = '{{route("mis_mensajes",auth()->user()->id)}}';
                     $('#descripcion_notificacion').append("<h6 class='text-center mt-2'><strong>Notificaciones</strong></h6>")
-                    for (i = 0; i < data.length; i++) {
-                        cont++;
-                        url = url.replace(':id', data[i].id);
+                    if(data.mensajes !== ''){
+                        for (i = 0; i < data.mensajes.length; i++) {
+                            cont++;
+                            /*url = url.replace(':id', data[i].id);*/
 
-                        $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light ' href= '"+url+"' ><i class='fa fa-star mr-2 text-primary  text-center '></i><span>Valora la compra de <strong>" + data[i].nombre_producto + "</strong></span></a><hr class='text-muted mb-0 mt-0'>");
+                            $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light ' href= '" + url_mensaje + "' ><i class='fas fa-comment comentario mr-2 text-primary   text-center  '></i><span class='mt-0'><strong>"+data.mensajes[i].user+"</strong> te ha enviado un mensaje:<p class='text-truncate ml-4 text-muted mb-0'>" + data.mensajes[i].cuerpo_mensaje + "</p></span></a><hr class='text-muted mb-0 mt-0'>");
 
-                        url = '{{ route("valoracion_compra",":id") }}';
+                            {{--}}url = '{{ route("valoracion_compra",":id") }}';{{--}}
+                        }
+                    }if (data.notificaciones!== '') {
+                        for (i = 0; i < data.notificaciones.length; i++) {
+                            cont++;
+                            url = url.replace(':id', data.notificaciones[i].id);
+
+                            $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light ' href= '" + url + "' ><i class='fa fa-star mr-2 text-primary  text-center  mb-0'></i><span>Valora la compra de <strong>" + data.notificaciones[i].nombre_producto + "</strong></span></a><hr class='text-muted mb-0 mt-0'>");
+
+                            url = '{{ route("valoracion_compra",":id") }}';
+                        }
                     }
+
                     $('#numero_notificaciones').text(cont)
                 }else{
-                    $('#descripcion_notificacion').append(" <span class='text-light ml-2 row '>No tienes notificaciones</span>")
+                    $('#descripcion_notificacion').append(" <span class='text-light  row justify-content-center '>No tienes notificaciones</span>")
 
                 }
             }
