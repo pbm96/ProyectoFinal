@@ -1,69 +1,83 @@
 @extends('templates.main')
-
+@section('titulo_pagina', 'Login')
+@section('estilos')
+    <style>
+        .card .form-header {
+            color: #fff;
+            text-align: center;
+            margin-top: -40px;
+            margin-bottom: 3rem;
+            padding: 1rem;
+            border-radius: 2px;
+        }
+        .blue-gradient {
+            background: -webkit-linear-gradient(50deg,#45cafc,#303f9f)!important;
+            background: -o-linear-gradient(50deg,#45cafc,#303f9f)!important;
+            background: linear-gradient(40deg,#45cafc,#303f9f)!important;
+        }
+        .login{
+            margin-top: 6em;
+        }
+    </style>
+@endsection
 @section('contenido')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+<div class="row justify-content-center login">
+    <div class="card col-sm-6 ">
+        <div class="card-block ">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+            <!--Header-->
+            <div class="form-header  blue-gradient ">
+                <h3><i class="fa fa-lock"></i> Login</h3>
+            </div>
 
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+            <div class="md-form">
+                <i class="fa fa-envelope prefix"></i>
+
+                <input id="form2" type="email"
+                       class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                       name="email" value="{{ old('email') }}" required autofocus>
+
+                <label for="form2">Your email</label>
+                @if ($errors->has('email'))
+                    <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
+                @endif
+            </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+            <div class="md-form">
+                <i class="fa fa-lock prefix"></i>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                <input id="form4" type="password"
+                       class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                       name="password" required>
+                <label for="form4">password</label>
 
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
+                @if ($errors->has('password'))
+                    <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
+                @endif
+            </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+            <div class="text-center">
+                <button class="btn btn-primary">Login</button>
+            </div>
+            </form>
+        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <!--Footer-->
+        <div class="modal-footer">
+            <div class="options">
+                <p>No estás Registrado?<a href="{{route('register')}}"> Registrate</a></p>
             </div>
         </div>
+
     </div>
 </div>
+    <!--/Form with header-->
 @endsection

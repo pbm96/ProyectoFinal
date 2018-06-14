@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 @endforeach
-                <div class="">{{ $productos_user->render() }}</div>
+
                 @else
                 <h2>{{ $usuario->nombre }} No tiene ningun producto subido</h2>
                 @endif
