@@ -18,6 +18,7 @@
             <section class="lead">
                 <a class="nav-link text-dark" href="{{ route('ver_productos_usuario',auth()->user()->id)}}"> <span class="fa fa-clipboard-list"></span> Mis Productos</a>
                 <a class="nav-link text-dark" href="{{ route('ver_productos_usuario_favoritos',auth()->user()->id)}}"> <span class="fa fa-heart"></span> Mis Favoritos</a>
+                <a class="nav-link text-dark" href="{{ route('mis_mensajes',auth()->user()->id)}}"> <span class="fa fa-comment"></span> Mis Mensajes</a>
                 <a class="nav-link text-dark" href="{{ route('administrar_perfil',auth()->user()->id)}}"> <span class="fa fa-edit"></span> Editar Perfil</a>
 
                 <a href="{{ route('logout')}}" class="nav-link text-dark" onclick="event.preventDefault();
