@@ -5,6 +5,9 @@
     .media .avatar {
         width: 64px;
     }
+    #boton_mensaje{
+        border-radius: 10em;
+    }
 </style>
 @endsection
  
@@ -17,13 +20,19 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-4 col-sm-4">
                         <div class="avatar m-auto">
+                            @if($usuario->imagen!=null)
                             <img src="{{ asset('imagenes/perfil/'.$usuario->imagen)}}" class="img-fluid rounded-circle">
+                                @else
+                                <img src="{{ asset('imagenes/perfil/user-default.png')}}" class="img-fluid rounded-circle">
+
+                            @endif
                         </div>
                         <hr class="d-md-none d-sm-none">
                     </div>
                     <div class="col-lg-12 col-md-8 col-sm-8 border-left">
-                        <h4 class="card-title"><i class="fas fa-user text-primary"></i> {{$usuario->nombre}}</h4>
-                        <div class="ml-4">
+                        <div class="row mt-3 justify-content-center">
+                        <h4 class="card-title "><i class="fas fa-user text-primary"></i> {{$usuario->nombre}}</h4>
+                        <div class="ml-2 mt-1">
                             @for($i=0;$i
                                 <$usuario->valoracion;$i++)
                                 <i class="fas fa-star yellow-text"></i> 
@@ -33,10 +42,21 @@
                                 <i class="far fa-star "></i> 
                             @endfor
                         </div>
+                        </div>
                         <div class="h5 my-3">
                             <span class="badge bg-dark">{{count($productos_user)+count($productos_vendidos_user)}}</span> Productos
                             <br>
                             <span class="badge bg-success">{{count($productos_vendidos_user)}}</span> Vendidos
+                        </div>
+                        <div class=" row justify-content-end" >
+                            @guest
+                                <a class="btn btn-primary"  id="boton_mensaje" href="{{route('login')}}"> Chat</a>
+                            @endguest
+                            @auth
+                                @if(auth()->user()->id != $usuario->id)
+                                    <a class="btn btn-primary"  id="boton_mensaje" href="{{route('mis_mensajes',[auth()->user()->id,$usuario->id])}}"> Chat</a>
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 </div>

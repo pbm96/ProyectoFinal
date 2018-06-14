@@ -71,7 +71,14 @@
 
                 </div>
             <div class="ml-auto mr-5" >
-                <a class="btn btn-primary" id="boton_mensaje"> Mensaje</a>
+                @guest
+                    <a class="btn btn-primary" id="boton_mensaje" href="{{route('login')}}"> Chat</a>
+            @endguest
+                @auth
+                    @if(auth()->user()->id != $usuario_producto->id)
+                        <a class="btn btn-primary" id="boton_mensaje" href="{{route('mis_mensajes',[auth()->user()->id,$usuario_producto->id])}}"> Chat</a>
+                        @endif
+                    @endauth
             </div>
         </a>
         </div>
@@ -113,12 +120,18 @@
     <hr>
     <div class="row">
     <h3 class="col-sm-8 justify-content-between h3 ">{{$producto->precio}}€</h3>
+        @guest
+            <a class="text-muted col-sm-4"  href="{{route('login')}}" id=""><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
 
+        @endguest
+        @auth
         @if($producto_favorito==true)
             <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart  text-danger icono-rojo"></i>Quitar de favoritos</a>
         @else
             <a class="text-muted col-sm-4"  id="poner_favorito"><i class="far fa-2x fa-heart text-dark icono-negro"></i>Añadir a favoritos</a>
         @endif
+            @endauth
+
     </div>
 
 

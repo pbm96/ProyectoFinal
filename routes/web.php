@@ -89,8 +89,26 @@ Route::group(['prefix' => 'errores'], function () {
     Route::get('403', ['as' => 'error_403', 'uses' => 'ErrorsController@error_403']);
 
     Route::get('404', ['as' => 'error_404', 'uses' => 'ErrorsController@error_404']);
-
-
     Route::get('405', ['as' => 'error_405', 'uses' => 'ErrorsController@error_405']);
+
 });
+
+Route::group(['prefix'=>'mensajes','middleware'=>'auth'],function () {
+
+    Route::get('mis-mensajes/{id}/{nueva_conversacion?}', ['as' => 'mis_mensajes', 'uses' => 'MensajesController@mensajes_user']);
+
+    Route::get('escribir-mensaje/{id}', ['as' => 'escribir_mensaje', 'uses' => 'MensajesController@escribir_mensaje']);
+    Route::post('enviar-mensaje/{id}/{conversacion_id}', ['as' => 'enviar_mensaje', 'uses' => 'MensajesController@enviar_mensaje']);
+
+    Route::get('recibir_mensajes', ['as' => 'recibir_mensaje', 'uses' => 'MensajesController@recibir_mensajes_ajax']);
+
+
+    Route::get('borrar-conversaciones-vacias', ['as' => 'eliminar_conversaciones_vacias', 'uses' => 'MensajesController@eliminar_conversaciones_vacias']);
+
+    Route::get('borrar-converacion/{id}', ['as' => 'eliminar_conversacion', 'uses' => 'MensajesController@eliminar_conversacion']);
+
+
+
+});
+
 
