@@ -47,7 +47,7 @@
         @if(count($conversaciones)>0)
             <section class="section">
                 <div class="row">
-                    <div class="col-sm-4 usuarios">
+                    <div class="col-md-4  col-sm-12 usuarios">
                         <div class="list-group" role="tablist">
                             @foreach($conversaciones as $conversacion)
                                 @if(!isset($conversacion->borrada))
@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-8 mt-lg-0 mt-5 tab-content">
+                    <div class="col-lg-8 mt-lg-0 col-sm-12 mt-5 tab-content">
                         @foreach($conversaciones as $conversacion)
                             @if(!isset($conversacion->borrada))
                                 <div class="fade tab-pane  @if(isset($conversacion->activo))in show  active @endif"
@@ -152,7 +152,7 @@
                                                               oninput="cuerpo_mensaje({{$conversacion->id}})"></textarea>
                                                 </div>
                                             </div>
-                                            <div class=" col-sm-3 mt-3  ">
+                                            <div class=" col-xs-3  offset-sm-0 col-md-3 mt-3  ">
 
                                                 <button class="btn btn-outline-primary"
                                                         id="enviar_{{$conversacion->id}}" disabled
@@ -160,7 +160,6 @@
                                                     Enviar
                                                 </button>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -232,11 +231,13 @@
 
         }
 
-
+        @if(count($conversaciones)>0)
         $(document).ready(function () {
+            if ( $('.chat'))
             $('.chat').scrollTop($('.chat')[0].scrollHeight);
 
         });
+        @endif
 
         setInterval(function () {
             recibir_mensaje();

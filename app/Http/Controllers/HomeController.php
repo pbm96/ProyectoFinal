@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mensaje;
 use App\Producto;
 use App\ProductoVendido;
 use Illuminate\Http\Request;
@@ -28,18 +29,30 @@ class HomeController extends Controller
     {
         $notificaciones = ProductoVendido::where('vendido_a', '=', auth()->user()->id)->where('notificacion', '=', 'true')->get();
 
+        $mensajes = Mensaje::where('recibido_id','=',auth()->user()->id)->where('visto','=','false')->get();
+
         foreach ($notificaciones as $notificacion) {
 
             $producto = Producto::find($notificacion->producto_id);
 
             $notificacion->nombre_producto =$producto->nombre;
         }
+
+        foreach ($mensajes as $mensaje) {
+            $mensaje->user = $mensaje->user_enviado->nombre_usuario;
+        }
         if (count($notificaciones) <= 0) {
             $notificaciones = '';
         };
 
-        return response()->json(
-            $notificaciones
+        if (count($mensajes) <= 0) {
+            $mensajes = '';
+        };
+
+
+
+        return response()->json(['notificaciones'=>$notificaciones, 'mensajes'=>$mensajes]
+
         );
     }
 
