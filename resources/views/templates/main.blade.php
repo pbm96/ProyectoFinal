@@ -105,16 +105,16 @@
 
                     var cont = 0;
                     var url = '{{ route("valoracion_compra",":id") }}';
-                    var url_mensaje = '{{route("mis_mensajes",auth()->user()->id)}}';
-                    $('#descripcion_notificacion').append("<h6 class='text-center mt-2'><strong>Notificaciones</strong></h6>")
+                    var url_mensaje = '{{route("mis_mensajes",auth()->user()->id)}}/#conversacion:id_conversacion';
+                    $('#descripcion_notificacion').append("<h6 class='text-center mt-2'><strong>Notificaciones</strong></h6>");
                     if(data.mensajes !== ''){
                         for (i = 0; i < data.mensajes.length; i++) {
                             cont++;
-                            /*url = url.replace(':id', data[i].id);*/
+                            url_mensaje = url_mensaje.replace(':id_conversacion', data.mensajes[i].conversacion_id);
 
                             $('#descripcion_notificacion').append("<a class='dropdown-item waves-effect waves-light ' href= '" + url_mensaje + "' ><i class='fas fa-comment comentario mr-2 text-primary   text-center  '></i><span class='mt-0'><strong>"+data.mensajes[i].user+"</strong> te ha enviado un mensaje:<p class='text-truncate ml-4 text-muted mb-0'>" + data.mensajes[i].cuerpo_mensaje + "</p></span></a><hr class='text-muted mb-0 mt-0'>");
 
-                            {{--}}url = '{{ route("valoracion_compra",":id") }}';{{--}}
+                             url_mensaje = '{{route("mis_mensajes",auth()->user()->id)}}/#conversacion:id_conversacion';
                         }
                     }if (data.notificaciones!== '') {
                         for (i = 0; i < data.notificaciones.length; i++) {
