@@ -43,7 +43,7 @@
 @section('contenido')
 
     <div class="container-fluid">
-        <h2 class="h2 text-center"> Mis conversaciones</h2>
+        <h1 class="h1 text-center"> Mis conversaciones</h1>
         @if(count($conversaciones)>0)
             <section class="section">
                 <div class="row">
@@ -168,10 +168,7 @@
                     </div>
                 </div>
             </section>
-        @else
-            <div class="row justify-content-center">
-                <h1 class="h1">No tienes Chats abiertos</h1>
-            </div>
+
         @endif
     </div>
 

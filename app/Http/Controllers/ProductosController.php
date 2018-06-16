@@ -120,6 +120,10 @@ class ProductosController extends Controller
 
         $this->validate($request, [
             'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'nombre' => 'alpha_num|required|max:191',
+            'precio' => 'numeric|required',
+            'descripcion'=> 'alpha_num|required|max:500'
+
         ]);
         $producto = new Producto($request->all());
         // introducir id de usuario autentificado en tabla productos
@@ -152,6 +156,7 @@ class ProductosController extends Controller
 
     public function edit($id)
     {
+
         $producto = Producto::find($id);
 
         $categorias = Categoria::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
@@ -177,6 +182,14 @@ class ProductosController extends Controller
     public function modificar_producto(Request $request, $id)
     {
         try {
+
+            $this->validate($request, [
+                'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+                'nombre' => 'alpha_num|required|max:191',
+                'precio' => 'numeric|required',
+                'descripcion'=> 'alpha_num|required|max:500'
+
+            ]);
 
             $producto = Producto::find($id);
 
@@ -513,6 +526,13 @@ class ProductosController extends Controller
     public function guardar_venta_producto(Request $request, $id)
     {
         try {
+            $this->validate($request, [
+                'nombre_usuario' => 'alpha_num|required|max:191',
+                'precio_venta' => 'numeric|required',
+                'valoracion_venta'=> 'numeric|nullable|digits:1|max:5|min:0',
+                'comentario_venta' =>'alpha_num|max:191|nullable'
+
+            ]);
 
             $producto = Producto::find($id);
             if ($producto != null) {
@@ -566,7 +586,6 @@ class ProductosController extends Controller
             }
 
         } catch (Exception $exception) {
-
             Flash::error('ha ocurrido un error');
             return redirect()->route('perfil_publico', auth()->user()->id);
         }
@@ -574,6 +593,7 @@ class ProductosController extends Controller
 
     public function valoracion_compra($id)
     {
+
         $venta = ProductoVendido::find($id);
 
         $producto = Producto::where('id', '=', $venta->producto_id)->first();
@@ -586,6 +606,11 @@ class ProductosController extends Controller
 
     public function guardar_valoracion_comprador(Request $request, $id)
     {
+        $this->validate($request, [
+            'valoracion_venta'=> 'numeric|nullable|digits:1|max:5|min:0',
+            'comentario_venta' =>'alpha_num|max:191|nullable'
+
+        ]);
         $venta = ProductoVendido::find($id);
 
         $user = User::where('id', '=', $venta->vendido_a)->first();

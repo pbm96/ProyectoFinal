@@ -18,6 +18,12 @@
         .login{
             margin-top: 6em;
         }
+        .checkbox{
+            margin-right: 10.5em;
+        }
+        .invalid-feedback{
+            display: block;
+        }
     </style>
 @endsection
 @section('contenido')
@@ -64,7 +70,7 @@
                 @endif
             </div>
 
-            <div class="text-center">
+            <div class="text-center ">
                 <button class="btn btn-primary">Login</button>
             </div>
             </form>
@@ -72,8 +78,13 @@
 
         <!--Footer-->
         <div class="modal-footer">
-            <div class="options">
-                <p>No estás Registrado?<a href="{{route('register')}}"> Registrate</a></p>
+            <div class="options row">
+                <div class="checkbox  justify-content-start">
+                    <label>
+                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recuerdame
+                    </label>
+                </div>
+                <p >No estás Registrado?<a href="{{route('register')}}"> Registrate</a></p>
             </div>
         </div>
 

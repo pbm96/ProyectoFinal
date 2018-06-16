@@ -139,11 +139,6 @@ class MensajesController extends Controller
         }
     }
 
-    public function escribir_mensaje($id)
-    {
-
-
-    }
 
     public function enviar_mensaje(Request $request, $id, $conversacion_id)
     {

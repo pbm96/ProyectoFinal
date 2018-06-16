@@ -18,6 +18,9 @@
         .login{
             margin-top: 6em;
         }
+        .invalid-feedback{
+            display: block;
+        }
     </style>
 @endsection
 @section('contenido')
@@ -110,17 +113,31 @@
                 <div class="md-form">
                     <i class="fas fa-map-marker prefix"></i>
                     <label for="direccion">Direccion*</label>
-                        <input id="direccion" type="text" class="form-control{{ $errors->has('Direccion*') ? ' invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off" required>
+                        <input id="direccion" type="text" class="form-control{{ $errors->has('cityLng') ? ' invalid' : '' }} {{ $errors->has('direccion') ? ' invalid' : '' }} {{ $errors->has('cityLat') ? ' invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off" required>
 
                         @if ($errors->has('direccion'))
                             <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('direccion') }}</strong>
                                     </span>
                         @endif
+                    @if ($errors->has('cityLng') && $errors->has('cityLng') )
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('cityLng') }}</strong>
+                                    </span>
+                        @elseif($errors->has('cityLat'))
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('cityLat') }}</strong>
+                                    </span>
+                        @elseif($errors->has('cityLng'))
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('cityLng') }}</strong>
+                                    </span>
+                    @endif
                 </div>
                 <input type="hidden" id="city2" name="city2" />
                 <input type="hidden" id="cityLat" name="cityLat" value="{{ old('cityLat') }} " />
                 <input type="hidden" id="cityLng" name="cityLng" value="{{ old('cityLng') }} " />
+
                 <div class="md-form">
                     <i class="fas fa-phone prefix"></i>
                     <label for="telefono">Teléfono</label>

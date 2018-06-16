@@ -62,8 +62,8 @@
     @include('templates.assets.header')
     @include('templates.assets.sidenav')
 
-        <div class="container mt-4 text-center">
-            <div class="row justify-content-sm-center">
+        <div class="  row justify-content-sm-end mr-4 p-2 font-weight-bold text-center  ">
+            <div class="position-absolute"  id="mensaje_flash">
     @include('flash::message')
             </div>
         </div>
@@ -71,7 +71,7 @@
 
     </header>
 
-    <main class="container mt-4">
+    <main class="container mt-5">
 
         @yield('contenido')
     </main>
@@ -142,6 +142,14 @@
 
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
+    }
+    console.log(($('#mensaje_flash').children().length ))
+    if ($('#mensaje_flash').children().length >0 ){
+        setTimeout(function () {
+            $("#mensaje_flash").remove();
+        }, 5000);
+    }else{
+        $("#mensaje_flash").remove();
     }
     </script>
 

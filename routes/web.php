@@ -97,7 +97,6 @@ Route::group(['prefix'=>'mensajes','middleware'=>'auth'],function () {
 
     Route::get('mis-mensajes/{id}/{nueva_conversacion?}', ['as' => 'mis_mensajes', 'uses' => 'MensajesController@mensajes_user']);
 
-    Route::get('escribir-mensaje/{id}', ['as' => 'escribir_mensaje', 'uses' => 'MensajesController@escribir_mensaje']);
     Route::post('enviar-mensaje/{id}/{conversacion_id}', ['as' => 'enviar_mensaje', 'uses' => 'MensajesController@enviar_mensaje']);
 
     Route::get('recibir_mensajes', ['as' => 'recibir_mensaje', 'uses' => 'MensajesController@recibir_mensajes_ajax']);
