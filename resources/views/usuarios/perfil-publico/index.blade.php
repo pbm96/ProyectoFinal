@@ -151,8 +151,13 @@
                 || $datos_venta_producto[$key]->valoracion_venta_comprador!=null)
                 <br>
                 <div class="media col-sm-8">
+                    @if($vendido_a->imagen !=null)
                     <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="{{asset('imagenes/perfil/'.$vendido_a->imagen)}}" height="60"
                         width="15" alt="Avatar">
+                    @else
+                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="{{asset('imagenes/perfil/user-default.png')}}" height="60"
+                             width="15" alt="Avatar">
+                        @endif
                     <div class="media-body">
                         <div class="row">
                             <h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$vendido_a->nombre_usuario}}</h5>
@@ -174,8 +179,13 @@
                 @endif @endforeach @endif @if($productos_comprados_user!='') @foreach($productos_comprados_user as $key=>$producto)
                 <br>
                 <div class="media col-sm-8">
+                    @if($datos_user_compra[$key]->imagen !=null)
                     <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="{{asset('imagenes/perfil/'.$datos_user_compra[$key]->imagen)}}"
                         width="15" height="60" alt="Avatar">
+                    @else
+                    <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="{{asset('imagenes/perfil/user-default.png')}}" height="60"
+                         width="15" alt="Avatar">
+                    @endif
                     <div class="media-body">
                         <div class="row">
                             <h5 class="mt-0 ml-3 font-weight-bold blue-text">{{$datos_user_compra[$key]->nombre_usuario}}</h5>

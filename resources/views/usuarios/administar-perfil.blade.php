@@ -174,10 +174,16 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="md-form form-sm mb-2 ">
                                         {!! Form::label('direccion','Direccion') !!}
                                         {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control form-control-sm ','required']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form form-sm mb-2 ">
+                                        {!! Form::label('telefono','Telefono') !!}
+                                        {!! Form::Text('telefono',$usuario->telefono,['id'=>'direccion','class'=>'form-control form-control-sm ']) !!}
                                     </div>
                                 </div>
                             </div>

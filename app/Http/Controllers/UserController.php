@@ -60,6 +60,14 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'password' => 'confirmed|string|min:6|max:191',
+            'nombre' => 'required|string|max:30',
+            'apellido1'=>'required|string|max:30',
+            'apellido2'=>'string|max:30',
+            'nombre_usuario'=>'required|alpha_num|max:30|unique:users,nombre_usuario,'.$id,
+            'email' => 'required|string|email|max:191|unique:users,email,'.$id,
+            'direccion' => 'nullable|string',
+            'telefono' => 'numeric|digits:9|nullable',
+
         ]);
         try {
             $usuario = User::find($id);
