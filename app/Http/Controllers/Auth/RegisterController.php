@@ -64,8 +64,8 @@ class RegisterController extends Controller
 
 
         ],[
-            'cityLat.required_with' =>'introduce una direccion valida',
-            'cityLng.required_with' =>'introduce una direccion valida'
+            'cityLat.required_with' =>'Introduce una direccion valida',
+            'cityLng.required_with' =>'Introduce una direccion valida'
         ]);
     }
 
