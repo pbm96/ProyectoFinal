@@ -18,6 +18,9 @@
         .login{
             margin-top: 6em;
         }
+        .invalid-feedback{
+            display: block;
+        }
     </style>
 @endsection
 @section('contenido')
