@@ -80,19 +80,18 @@ class UserController extends Controller
 
 
             }
-            $request->password = Hash::make($request->password);
-
             $usuario->fill($request->all());
+            if ($request->password){
+
+                $usuario->password = Hash::make($request->password);
+
+            }
+
             if($nombre_imagen!=''){
 
                 $usuario->imagen = $nombre_imagen;
 
             }
-
-
-            $usuario->password = $request->password;
-
-
 
 
             if ($usuario->isDirty()) {

@@ -15,9 +15,15 @@
                 <div class="col-md-4 mb-4">
                     <div class="card profile-card">
                         <div class=" mt-3 mb-4 ">
+                            @if($usuario->imagen !=null)
                             <img src="{{ asset('imagenes/perfil/'.$usuario->imagen)}}" class="rounded-circle"
                                  width="250" height="250"
                                  alt="First sample avatar image">
+                                @else
+                                <img src="{{ asset('imagenes/perfil/user-default.png')}}" class="rounded-circle"
+                                     width="250" height="250"
+                                     alt="First sample avatar image">
+                            @endif
                         </div>
                         <h3 class="mb-3 font-weight-bold"><strong>{{$usuario->nombre_usuario}}</strong></h3>
 
