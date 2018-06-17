@@ -1,4 +1,5 @@
 @extends('templates.main')
+@section('titulo_pagina', 'About')
 @section('contenido')
     <header>
         <h1 class="text-center mb-5">Sobre nosotros</h1>

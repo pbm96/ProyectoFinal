@@ -575,43 +575,49 @@ class ProductosController extends Controller
                 if (auth()->user()->id == $producto->user_id) {
                     // saca el usuario al que le vende el producto
                     $user_venta = User::where('nombre_usuario', '=', $request->nombre_usuario)->first();
-                    if ($user_venta != null) {
+                        if ($user_venta != null) {
 
-                        //añade los valores a la tabla de articulos vendidos
-                        $producto_vendido = new ProductoVendido();
+                            if (auth()->user()->id != $user_venta->id) {
+                            //añade los valores a la tabla de articulos vendidos
+                            $producto_vendido = new ProductoVendido();
 
-                        $producto_vendido->producto_id = $id;
+                            $producto_vendido->producto_id = $id;
 
-                        $producto_vendido->user_id = auth()->user()->id;
+                            $producto_vendido->user_id = auth()->user()->id;
 
-                        $producto_vendido->vendido_a = $user_venta->id;
+                            $producto_vendido->vendido_a = $user_venta->id;
 
-                        $producto_vendido->valoracion_venta_vendedor = $request->valoracion_venta;
+                            $producto_vendido->valoracion_venta_vendedor = $request->valoracion_venta;
 
-                        if ($request->valoracion_venta != null) {
-                            self::calcular_valoracion_usuario($request->valoracion_venta, $user_venta);
+                            if ($request->valoracion_venta != null) {
+                                self::calcular_valoracion_usuario($request->valoracion_venta, $user_venta);
+                            }
+
+                            $producto_vendido->comentario_venta_vendedor = $request->comentario_venta;
+
+                            $producto_vendido->precio_venta = $request->precio_venta;
+
+                            $producto_vendido->notificacion = "true";
+
+                            $producto_vendido->save();
+
+                            $producto->vendido = 'true';
+
+                            $producto->save();
+
+                            Flash::success('venta guardada correctamente');
+
+                            return redirect()->route('ver_productos_usuario', auth()->user()->id);
+                            }else{
+                                Flash::error('No puedes venderte el producto a ti mismo');
+                                return back()->withInput();
+                            }
+                        } else {
+
+                            Flash::error('No existe el usuario');
+                            return back()->withInput();
                         }
 
-                        $producto_vendido->comentario_venta_vendedor = $request->comentario_venta;
-
-                        $producto_vendido->precio_venta = $request->precio_venta;
-
-                        $producto_vendido->notificacion = "true";
-
-                        $producto_vendido->save();
-
-                        $producto->vendido = 'true';
-
-                        $producto->save();
-
-                        Flash::success('venta guardada correctamente');
-
-                        return redirect()->route('ver_productos_usuario', auth()->user()->id);
-                    } else {
-
-                        Flash::error('No existe el usuario');
-                        return back()->withInput();
-                    }
                 } else {
                     return redirect()->route('error_403');
                 }
@@ -621,7 +627,7 @@ class ProductosController extends Controller
             }
 
         } catch (Exception $exception) {
-            Flash::error('Ha ocurrido un error');
+            Flash::error('Ha ocurrido un error al vender el producto');
             return redirect()->route('perfil_publico', auth()->user()->id);
         }
     }
@@ -651,6 +657,7 @@ class ProductosController extends Controller
      */
     public function guardar_valoracion_comprador(Request $request, $id)
     {
+
         $this->validate($request, [
             'valoracion_venta'=> 'numeric|nullable|digits:1|max:5|min:0',
             'comentario_venta' =>'alpha_num|max:191|nullable'
@@ -658,9 +665,10 @@ class ProductosController extends Controller
         ]);
         $venta = ProductoVendido::find($id);
 
+        $user_comprador = User::where('id', '=', $venta->user_id)->first();
+
         $user = User::where('id', '=', $venta->vendido_a)->first();
 
-        $user_comprador = User::where('id', '=', $venta->user_id)->first();
 
         $venta->valoracion_venta_comprador = $request->valoracion_compra;
 
