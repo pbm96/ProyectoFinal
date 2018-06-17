@@ -20,6 +20,7 @@ class HomeController extends Controller
     }
 
     /**
+     * Notificaciones de mensajes y productos vendidos usuario
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
@@ -56,17 +57,27 @@ class HomeController extends Controller
         );
     }
 
-
+    /**
+     * vista about
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function about()
     {
         return view('/about');
     }
 
+    /**
+     * vista contacto
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function contact()
     {
         return view('/contact');
     }
 
+    /** Vista mapa web
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function mapaweb()
     {
         return view('/MapaWeb');

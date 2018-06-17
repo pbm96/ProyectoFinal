@@ -13,6 +13,12 @@ use Laracasts\Flash\Flash;
 
 class MensajesController extends Controller
 {
+    /**
+     * funcion del chat
+     * @param $id
+     * @param null $nueva_conversacion
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function mensajes_user($id, $nueva_conversacion = null)
     {
         try {
@@ -22,16 +28,17 @@ class MensajesController extends Controller
 
             if (auth()->user()->id == $user->id) {
 
-                // saca las conversaciones del usuario conectado
-                if ($nueva_conversacion != null) {
 
+                if ($nueva_conversacion != null) {
+                    // saca las conversaciones del usuario conectado
                     $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->Where('usuario_2', '=', $nueva_conversacion)->orWhere('usuario_2', '=', $user->id)->Where('usuario_1', '=', $nueva_conversacion)->first();
 
                     if ($conversaciones !=null) {
 
-
+                    // comprueba que no tiene ya uuna conversacion con quien quiere establecer una conversacion
                         if ($conversaciones->usuario_1 == $nueva_conversacion || $conversaciones->usuario_2 == $nueva_conversacion) {
 
+                            // si es asi y tiene borrada esa conversacion la vuelve a sacar
                             if ($conversaciones->usuario_1 != $nueva_conversacion) {
 
                                 $conversaciones->conversacion_borrada_usuario_1 = 'false';
@@ -44,11 +51,9 @@ class MensajesController extends Controller
 
                                 $conversaciones->save();
 
-
                             }
-
-
                         }
+                        // sino crea una nueva conversacion
                     }else {
                         $conversacion_nueva = Conversacion::firstOrCreate([
                             'usuario_1' => auth()->user()->id,
@@ -62,12 +67,12 @@ class MensajesController extends Controller
                     }
 
                 }
-
+            // aqui saca todas las conversaciones del usuario una vez creada la otra
                 $conversaciones = Conversacion::where('usuario_1', '=', $user->id)->orWhere('usuario_2', '=', $user->id)->get()->sortByDesc('updated_at');
 
-
+            // recorre todas sus conversaciones para añadirle valores
                 foreach ($conversaciones as $conversacion) {
-
+                    // aqui comprueba quien es cada usuario y los ordena en con quien esta hablando y quien es el que esta conectado
                     if ($conversacion->usuario_1 == $user->id) {
 
                         $conversacion->user_vista = $conversacion->usuario_1;
@@ -79,6 +84,7 @@ class MensajesController extends Controller
                             $conversacion->borrada = true;
 
                         }
+                        // aqui saco los datos del usuario con quien esta hablando llamando al modelo
                         $conversacion->hablando_con_user_datos = User::where('id', '=', $conversacion->hablando_con)->first();
 
                     } elseif ($conversacion->usuario_2 == $user->id) {
@@ -94,13 +100,13 @@ class MensajesController extends Controller
                         $conversacion->hablando_con_user_datos = User::where('id', '=', $conversacion->hablando_con)->first();
 
                     }
-
+                    // aqui saco cual es la conversacion activa en la vista
                     if (!isset($conversacion->borrada) && $activo == '') {
                         $activo = 'activo';
                         $conversacion->activo = true;
                     }
 
-
+                        // compruebo si la conversacion tiene mensajes , si los tiene les doy un formato a la fecha para mostrar y pongo en true que han llegado y se han visto
                     if (count($conversacion->mensajes) > 0) {
                         $conversacion->ultimo_mensaje_dia = $conversacion->mensajes->sortBy('created_at')->last()->created_at->day;
 
@@ -122,10 +128,6 @@ class MensajesController extends Controller
                     }
 
                 }
-
-
-
-
                 return view('mensajes.mensajes-usuario.index')->with('user', $user)
                     ->with('conversaciones', $conversaciones);
             } else {
@@ -139,7 +141,14 @@ class MensajesController extends Controller
         }
     }
 
-
+    /**
+     * funcion para enviar mensajes
+     * @param Request $request
+     * @param $id
+     * @param $conversacion_id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     *
+     */
     public function enviar_mensaje(Request $request, $id, $conversacion_id)
     {
         try {
@@ -198,6 +207,9 @@ class MensajesController extends Controller
 
     }
 
+    /**
+     * funcion para eliminar conversaciones vacias del usuario
+     */
     public function eliminar_conversaciones_vacias()
     {
 
@@ -215,6 +227,11 @@ class MensajesController extends Controller
         }
     }
 
+    /**
+     * funcion para eliminar una conversacion
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function eliminar_conversacion($id)
     {
         try {
@@ -249,6 +266,10 @@ class MensajesController extends Controller
 
     }
 
+    /**
+     * funcion para recibir los mensajes por ajax
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function recibir_mensajes_ajax()
     {
 
@@ -283,9 +304,13 @@ class MensajesController extends Controller
             return response()->json(['mensajes' => $mensajes_nuevos]);
         }
 
-
     }
 
+    /**
+     * funcion para mostrar los nombres del mes que se le pasa
+     * @param $mes
+     * @return string
+     */
     public function sacar_mes_string($mes)
     {
         switch ($mes) {

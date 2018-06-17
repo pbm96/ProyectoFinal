@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "Fakeapop",
+    "description": "Aplicacion de venta de productos de segunda mano",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",

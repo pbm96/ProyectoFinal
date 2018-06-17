@@ -19,7 +19,6 @@ class ProductosController extends Controller
 
     /** Si el usuario quiere filtrar productos se llama a la funcion filtrarProductos()
      *  Si no quiere, se muestran todos los productos
-
      */
     public function index(Request $request)
     {
@@ -35,6 +34,8 @@ class ProductosController extends Controller
         return view('index')->with(['productos' => $productos, 'listaCategorias' => $listaCategorias]);
 
     }
+
+
 
     /** Filtra los productos */
     public function filtrarProductos(array $filtro)
@@ -89,7 +90,7 @@ class ProductosController extends Controller
         } catch (Exception $exception) {
 
             Flash::error('Ha ocurrido un error al filtrar los productos');
-            return redirect()->route('error_403');
+            return redirect()->route('index');
 
         }
 
@@ -154,6 +155,11 @@ class ProductosController extends Controller
         return redirect()->route('index');
     }
 
+    /**
+     * funcion que llama a la vista de editar un producto
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function edit($id)
     {
 
@@ -173,7 +179,7 @@ class ProductosController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Funcion para editar un producto
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -227,13 +233,13 @@ class ProductosController extends Controller
 
         } catch (Exception $exception) {
 
-            Flash::error('no se ha podido actualizar el Producto');
+            Flash::error('No se ha podido actualizar el Producto');
             return redirect()->route('ver_productos_usuario');
         }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Funcion para eliminar un producto
      *
      * @param  int $id
      * @return string
@@ -272,6 +278,11 @@ class ProductosController extends Controller
 
     }
 
+    /**
+     * funcion para ver la vista de un producto en concreto
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function ver_producto_completo($id)
     {
         $producto = Producto::find($id);
@@ -306,6 +317,7 @@ class ProductosController extends Controller
     }
 
     /**
+     * saca todos los productos del usuario
      * @param $id
      * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
@@ -338,6 +350,11 @@ class ProductosController extends Controller
         }
     }
 
+    /**
+     * Esta funcion pone el producto como favorito de un usuario
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function producto_favorito($id)
     {
         try {
@@ -385,6 +402,11 @@ class ProductosController extends Controller
         }
     }
 
+    /**
+     * funcion que saca todos los productos favoritos del usuario
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function ver_productos_usuario_favoritos($id)
     {
         if (auth()->user()->id == $id) {
@@ -423,6 +445,7 @@ class ProductosController extends Controller
     }
 
     /**
+     * funcion para mostrar el tiempo desde que se ha creado el producto
      * @param $productos
      * @return mixed
      */
@@ -476,6 +499,12 @@ class ProductosController extends Controller
         return $productos;
     }
 
+    /**
+     * funcion que comprueba si el producto es ya producto favorito del usuario
+     * @param $producto
+     * @param $user
+     * @return bool
+     */
     public function comprobar_producto_favorito($producto, $user)
     {
 
@@ -488,6 +517,11 @@ class ProductosController extends Controller
         return $producto_favorito = false;
     }
 
+    /**
+     * funcion para ver la vista de vender un producto
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function vender_producto($id)
     {
         try {
@@ -519,6 +553,7 @@ class ProductosController extends Controller
     }
 
     /**
+     * funcion para guardar ala venta de un producto
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
@@ -574,23 +609,28 @@ class ProductosController extends Controller
                         return redirect()->route('ver_productos_usuario', auth()->user()->id);
                     } else {
 
-                        Flash::error('no existe el usuario');
+                        Flash::error('No existe el usuario');
                         return back()->withInput();
                     }
                 } else {
                     return redirect()->route('error_403');
                 }
             } else {
-                Flash::error('no existe el poducto');
+                Flash::error('No existe el poducto');
                 return redirect()->route('ver_productos_usuario', auth()->user()->id);
             }
 
         } catch (Exception $exception) {
-            Flash::error('ha ocurrido un error');
+            Flash::error('Ha ocurrido un error');
             return redirect()->route('perfil_publico', auth()->user()->id);
         }
     }
 
+    /**
+     * funcion para que un usuario valore la compra de un producto
+     * @param $id
+     * @return mixed
+     */
     public function valoracion_compra($id)
     {
 
@@ -604,6 +644,11 @@ class ProductosController extends Controller
             ->with('user', $user);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function guardar_valoracion_comprador(Request $request, $id)
     {
         $this->validate($request, [
@@ -632,6 +677,11 @@ class ProductosController extends Controller
         return redirect()->route('perfil_publico', $user->id);
     }
 
+    /**
+     * funcion para que un usuario no quiera valorar la compra
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cancelar_valoracion($id)
     {
         $producto = ProductoVendido::find($id);
@@ -648,6 +698,12 @@ class ProductosController extends Controller
 
     }
 
+    /*
+     * funcion para calcular la valoracion del usuario
+     * @param $valoracion
+     * @param $usuario
+     * @return bool
+     */
     public function calcular_valoracion_usuario($valoracion, $usuario)
     {
         try {
