@@ -26,6 +26,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion que devuelve la vista de editar perfil
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
@@ -52,6 +53,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion qu edita los datos de un usuario
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
@@ -124,6 +126,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion para la direccion del usuario
      * @param $direccion
      * @param $latitud
      * @param $longitud
@@ -145,6 +148,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion para borrar el perfil del usuario
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -166,14 +170,21 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * funcion del perfil publico del usuario
+     * @param $id
+     * @return mixed
+     */
     public function perfil_publico($id)
     {
 
 
         //usuario del perfil
         $usuario = User::find($id);
+
         $direccion = $usuario->direccion;
 
+        // sacar fecha de la creacion del usuario
         $ano = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->year;
 
         $mes = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->month;
@@ -239,6 +250,12 @@ class UserController extends Controller
 
     }
 
+    /**
+     * fucion que comprueba que la contraseña introducida para cambiar es la misma que la actual del usuario
+     * @param Request $request
+     * @param $id
+     * @return string
+     */
     public function comprobar_password(Request $request, $id)
     {
         if (auth()->user()->id == $id) {
@@ -255,6 +272,12 @@ class UserController extends Controller
             }
         }
     }
+
+    /**
+     * funcion para mostrar un autocomplete con los usuarios para vender el producto
+     * @param Request $request
+     * @return array|string
+     */
 
     public function autocomplete_usuarios(Request $request)
     {

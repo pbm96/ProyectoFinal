@@ -1,3 +1,5 @@
+{{--}}
+NO SE USA ESTA VISTA FUTURO
 @extends('layouts.app')
 
 @section('content')
@@ -67,4 +69,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection{{--}}

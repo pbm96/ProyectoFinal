@@ -55,6 +55,37 @@
        width: 16rem;
 
     }
+    .js-cookie-consent-agree{
+        padding: .30rem 1.14rem;
+        font-size: .81rem;
+        -webkit-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        margin: .375rem;
+        border: 0;
+        border-radius: .125rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        white-space: normal;
+        word-wrap: break-word;
+        background-color: #ffa000;
+        color:#FFFFFF ;
+    }
+
+    .js-cookie-consent {
+        z-index: 99999;
+        color: #FFFFFF;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        position: fixed;
+        background-color: #17a2b8!important;
+        bottom: 0;
+        text-align: center;
+        padding: 5px;
+    }
+
 </style>
 
 <body>
@@ -75,6 +106,10 @@
 
         @yield('contenido')
     </main>
+
+
+    @include('cookieConsent::index')
+
     @include('templates.assets.footer')
 
     <!-- JQuery -->
@@ -143,7 +178,8 @@
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
     }
-    console.log(($('#mensaje_flash').children().length ))
+
+
     if ($('#mensaje_flash').children().length >0 ){
         setTimeout(function () {
             $("#mensaje_flash").remove();
@@ -151,6 +187,10 @@
     }else{
         $("#mensaje_flash").remove();
     }
+
+
+
+
     </script>
 
     @yield('scripts')

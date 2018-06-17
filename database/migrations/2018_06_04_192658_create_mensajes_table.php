@@ -20,6 +20,7 @@ class CreateMensajesTable extends Migration
             $table->integer('conversacion_id')->unsigned();
             $table->string('cuerpo_mensaje');
             $table->string('visto')->default('false');
+            $table->string('ha_llegado')->default('false');
 
             $table->timestamps();
             $table->foreign('recibido_id')->references('id')->on('users')->onDelete('cascade');
