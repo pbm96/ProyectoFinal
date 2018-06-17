@@ -90,11 +90,12 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4">
                                     @if(count($producto->imagen)>0)
-                                    <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"
-                                        class="card-img-top"> @else
-                                    <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">                                    @endif
+                                    <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto"  style="width:100%;border-radius: 1em" height="160"
+                                        class="card-img-top mt-2 ml-2 img-responsive"> @else
+                                    <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%;border-radius: 1em" height="160" class="img-responsive  mt-2 ml-2" >
+                                    @endif
                                 </div>
-                                <div class="col-lg-8 col-md-8">
+                                <div class=" col-md-8">
                                     <div class="card-body">
                                         <h4 class="card-title"> {{ $producto->nombre }} </h4>
                                         <p class="card-text h3"> {{ $producto->precio }} €</p>
@@ -109,39 +110,44 @@
                 @endforeach
 
                 @else
-                <h2>{{ $usuario->nombre }} No tiene ningun producto subido</h2>
+                    <div class="row justify-content-center">
+                <h2 class="h2">{{ $usuario->nombre }} No tiene ningun producto subido</h2>
+                    </div>
                 @endif
             </div>
             <!--/.Panel 1-->
             <!--Panel 2-->
             <div class="tab-pane fade" id="panel6" role="tabpanel">
-                <br> @if(count($productos_vendidos_user)>0) @foreach($productos_vendidos_user->chunk(4) as $productChunk)
-
-                <div class="row">
-                    @foreach($productChunk as $producto)
-                    <div class="col-lg-3 col-md-6 col-sm-12 mb-5">
-                        <div class="card">
-                            <div class="card-header">
-                                @if(count($producto->imagen)>0)
-
-                                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"
-                                    class="card-img-top"> @else
-                                <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">                                @endif
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title"> {{ $producto->nombre }} </h4>
-                                <p class="card-text h3"> {{ $producto->precio }} €</p>
-                                <a href="{{route('ver_producto',$producto->id)}}" class="btn btn-outline-info"> Mas datos </a>
-
-                                <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
+                <br> @if(count($productos_vendidos_user)>0) @foreach($productos_vendidos_user as $producto)
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4">
+                                        @if(count($producto->imagen)>0)
+                                            <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto"  style="width:100%;border-radius: 1em" height="160"
+                                                 class="card-img-top mt-2 ml-2 img-responsive"> @else
+                                            <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%;border-radius: 1em" height="160" class="img-responsive  mt-2 ml-2" >
+                                        @endif
+                                    </div>
+                                    <div class=" col-md-8">
+                                        <div class="card-body">
+                                            <h4 class="card-title"> {{ $producto->nombre }} </h4>
+                                            <p class="card-text h3"> {{ $producto->precio }} €</p>
+                                            <a href="{{route('ver_producto',$producto->id)}}" class="btn btn-outline-info"> Mas datos </a>
+                                            <p class="card-text h3 text-right"> creado hace {{$producto->diferencia}}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
-                @endforeach @else
+                @endforeach
+                @else
                 <br>
-                <h2>{{$usuario->nombre}} No ha vendido ningún producto</h2>
+                <div class="row justify-content-center">
+                <h2 class="h2">{{$usuario->nombre}} No ha vendido ningún producto</h2>
+                </div>
                 @endif
             </div>
             <!--/.Panel 2-->

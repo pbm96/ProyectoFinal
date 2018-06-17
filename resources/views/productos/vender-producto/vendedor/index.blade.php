@@ -62,9 +62,6 @@
             border: none !important;
         }
 
-
-
-
     </style>
 
 @endsection

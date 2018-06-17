@@ -1,4 +1,5 @@
 @extends('templates.main')
+@section('titulo_pagina', 'contacto')
 @section('contenido')
     <h1 class="text-center">Contacto</h1>
     <fieldset class="row justify-content-center">
