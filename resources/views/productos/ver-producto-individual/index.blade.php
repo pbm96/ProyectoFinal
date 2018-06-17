@@ -104,7 +104,7 @@
 
                 </div>
             @else
-                <img src="/imagenes/productos/fakeapop_default.png" class="img-fluid">
+                <img src="/imagenes/productos/fakeapop_default.png" class="img-responsive imagenes">
             @endif
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -140,22 +140,17 @@
         <nav>
             <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link lead active" id="nav-home-tab" data-toggle="tab" href="#descripcion" role="tab" aria-controls="descripcion" aria-selected="true">Descripcion</a>
-                <a class="nav-item nav-link lead" id="nav-profile-tab" data-toggle="tab" href="#localizacion" role="tab" aria-controls="localizacion" aria-selected="false">Localizacion</a>
+                <a class="nav-item nav-link lead" id="nav-profile-tab" data-toggle="tab" href="#localizacion" role="tab" aria-controls="localizacion" aria-selected="false">Localización</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="descripcion" role="tabpanel" aria-labelledby="nav-home-tab">{{$producto->descripcion}}</div>
             <div class="tab-pane fade" id="localizacion" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <p>El producto se encuentra en:</p>
-                <h4>{{$producto->user->direccion->nombre}}</h4>
                 <div id="googleMap" style="width:100%;height:400px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-5 justify-content-end">
-        <a class="btn btn-outline-primary text-light pull-left"> abrir chat</a>
-    </div>
     @else
         <div class="alert-danger h-50 text-center">
             <h3>No se ha encontrado el  producto</h3>
@@ -173,23 +168,33 @@
     <script>
         initMap();
         function initMap() {
-        {{$latitud=$producto->user->direccion->latitud}}
-                {{$longitud=$producto->user->direccion->longitud}}
-        var myLatLng = {lat: parseFloat({{$latitud}}), lng: parseFloat({{$longitud}})};
+                    {{$latitud=$producto->user->direccion->latitud}}
+                    {{$longitud=$producto->user->direccion->longitud}}
+            var myLatLng = {lat: parseFloat({{$latitud}}), lng: parseFloat({{$longitud}})};
 
             var map = new google.maps.Map(document.getElementById('googleMap'), {
                 zoom: 14,
                 center: myLatLng
             });
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Hello World!',
-        });}
 
-        $('.carousel').carousel({
-            interval:false
-        });
+            map.setOptions({minZoom: 14, maxZoom: 14});
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Aqui se encuentra el usuario',
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 100,
+                    fillColor: "#4285f4",
+                    fillOpacity: 0.4,
+                    strokeWeight: 0.4
+                },
+            });
+
+            $('.carousel').carousel({
+                interval: false
+            });
+        }
 
 
         $('#poner_favorito').click(function ()

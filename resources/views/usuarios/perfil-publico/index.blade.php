@@ -234,11 +234,21 @@
                 zoom: 14,
                 center: myLatLng
             });
+
+            map.setOptions({ minZoom: 14, maxZoom: 14 });
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: 'Hello World!',
-            });}
+                title: 'Aqui se encuentra el usuario',
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 100,
+                    fillColor: "#4285f4",
+                    fillOpacity: 0.4,
+                    strokeWeight: 0.4
+                },
+            });
+        }
 
         $('.carousel').carousel({
             interval:false

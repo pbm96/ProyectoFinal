@@ -89,8 +89,6 @@ class RegisterController extends Controller
             'telefono'=>$data['telefono'],
             'email'=>$data['email'],
 
-
-            //falta imagen
         ]);
     }
     protected function direccion($direccion, $latitud,$longitud){
