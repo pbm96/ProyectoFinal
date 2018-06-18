@@ -2,28 +2,7 @@
 @section('titulo_pagina', 'Login')
 @section('estilos')
     <style>
-        .card .form-header {
-            color: #fff;
-            text-align: center;
-            margin-top: -40px;
-            margin-bottom: 3rem;
-            padding: 1rem;
-            border-radius: 2px;
-        }
-        .blue-gradient {
-            background: -webkit-linear-gradient(50deg,#45cafc,#303f9f)!important;
-            background: -o-linear-gradient(50deg,#45cafc,#303f9f)!important;
-            background: linear-gradient(40deg,#45cafc,#303f9f)!important;
-        }
-        .login{
-            margin-top: 6em;
-        }
-        .checkbox{
-            margin-right: 10.5em;
-        }
-        .invalid-feedback{
-            display: block;
-        }
+
     </style>
 @endsection
 @section('contenido')
@@ -34,7 +13,7 @@
         <div class="card-block ">
 
             <!--Header-->
-            <div class="form-header  blue-gradient ">
+            <div class="form-header cabezera_login blue-gradient ">
                 <h3><i class="fa fa-lock"></i> Login</h3>
             </div>
 

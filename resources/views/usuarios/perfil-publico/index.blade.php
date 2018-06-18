@@ -2,13 +2,6 @@
 @section('titulo_pagina', 'Perfil de '.$usuario->nombre_usuario)
 @section('estilos')
     <style>
-        .media .avatar {
-            width: 64px;
-        }
-
-        #boton_mensaje {
-            border-radius: 10em;
-        }
     </style>
 @endsection
 
