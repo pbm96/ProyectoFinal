@@ -5,58 +5,6 @@
 
 @section('estilos')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
-
-    <style>
-        .carousel {
-            box-shadow: #aeb9cc 5px 5px 5px;
-        }
-
-        h4 {
-            display: inline;
-        }
-
-        .rating-stars ul {
-            list-style-type: none;
-            padding: 0;
-
-            -moz-user-select: none;
-            -webkit-user-select: none;
-
-            cursor: pointer;
-        }
-
-        .rating-stars ul > li.star {
-            display: inline-block;
-
-        }
-
-        /* Idle State of the stars */
-        .rating-stars ul > li.star > i.fa {
-            font-size: 1.5em; /* Change the size of the stars */
-            color: #ccc; /* Color on idle state */
-        }
-
-        /* Hover state of the stars */
-        .rating-stars ul > li.star.hover > i.fa {
-            color: #FFCC36;
-        }
-
-        /* Selected state of the stars */
-        .rating-stars ul > li.star.selected > i.fa {
-            color: #FF912C;
-        }
-
-        .shadow-textarea textarea.form-control::placeholder {
-            font-weight: 300;
-        }
-
-        .shadow-textarea textarea.form-control {
-            padding-left: 0.8rem;
-        }
-
-
-    </style>
-
 @endsection
 
 
@@ -192,13 +140,27 @@
                     type: "GET",
                     data: {usuario: $('#usuarios').val()},
                     url: route_autocomplete,
-                    success: function (data) {
-                        response(data)
+                    success: function (item) {
+
+                        response(item);
                     }
                 })
             }
 
-        })
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var img_src;
+
+                img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+
+                img_src = img_src.replace(':imagen', item.imagen);
+
+
+            return $('<li class="lista_nombres">')
+                .data( "ui-autocomplete-item", item )
+                .append("<div class=' pl-4 h6 w-100 lista_nombres'><img src='" + img_src + " '  class='avatar rounded-circle mr-1 ' width='50' height='50' ><span class='text-primary '>@</span>" + item.value + "</div>")
+                .appendTo(ul);
+
+        };
 
 
     </script>

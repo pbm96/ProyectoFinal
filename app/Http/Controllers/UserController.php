@@ -66,9 +66,11 @@ class UserController extends Controller
 
             $usuario->direccion_id = self::direccion($request->direccion, $request->cityLat, $request->cityLng);
 
+            $nombre_imagen = '';
             if ($request->hasFile('imagen')) {
-                $imagen= $request->imagen;
-                $nombre_imagen = '';
+                $imagen = $request->imagen;
+
+
                 $nombre_imagen = 'fakeapop_' . time() . '.' . $imagen->getClientOriginalExtension();
 
                 // se guarda en la carpeta de public
@@ -78,13 +80,18 @@ class UserController extends Controller
 
 
             }
-              $request->password = Hash::make($request->password);
+            $request->password = Hash::make($request->password);
 
             $usuario->fill($request->all());
+            if($nombre_imagen!=''){
+
+                $usuario->imagen = $nombre_imagen;
+
+            }
+
 
             $usuario->password = $request->password;
 
-            $usuario->imagen= $nombre_imagen;
 
 
 
@@ -101,7 +108,7 @@ class UserController extends Controller
             }
 
         } catch (Exception $exception) {
-            dd($exception);
+            
             Flash::error('no se ha podido actualizar el perfil');
             return redirect()->route('index');
         }
@@ -173,12 +180,12 @@ class UserController extends Controller
 
 
         // productos del usuario que no se han vendido todavia
-        $productos_user = Producto::where('user_id', '=', $usuario->id)->where('vendido', '=', 'false')->orderBy('created_at', 'desc')->paginate(12);
+        $productos_user = Producto::where('user_id', '=', $usuario->id)->where('vendido', '=', 'false')->orderBy('created_at', 'desc')->get();
 
         $this->productosController->creado_desde($productos_user);
 
         //productos del usuario que se han vendido
-        $productos_vendidos_user = Producto::where('user_id', '=', $id)->where('vendido', '=', 'true')->orderBy('created_at', 'desc')->paginate(12);
+        $productos_vendidos_user = Producto::where('user_id', '=', $id)->where('vendido', '=', 'true')->orderBy('created_at', 'desc')->get();
 
         $productos_comprados_user = ProductoVendido::where('vendido_a', '=', $usuario->id)->get();
 
@@ -227,7 +234,7 @@ class UserController extends Controller
 
     public function comprobar_password(Request $request, $id)
     {
-        if(auth()->user()->id== $id) {
+        if (auth()->user()->id == $id) {
             $user = User::find($id);
 
             $old_password = $request->password;
@@ -241,18 +248,26 @@ class UserController extends Controller
             }
         }
     }
-        public function autocomplete_usuarios(Request $request){
-        $usuario= $request->usuario;
-         $users= User::where('nombre_usuario', 'like', '%' . $usuario . '%')->get();
-         $nombres=[];
-         foreach ($users as $user){
-             $nombres[] = $user->nombre_usuario;
-         }
-         if ($nombres==''){
-             $nombres='';
-         }
-         return $nombres;
+
+    public function autocomplete_usuarios(Request $request)
+    {
+        $usuario = $request->usuario;
+        $users = User::where('nombre_usuario', 'like', '%' . $usuario . '%')->take(5)->get();
+
+
+        if (count($users)>0) {
+            foreach ($users as $user) {
+                if ($user->imagen == null || $user->imagen == '') {
+                    $user->imagen = 'user-default.png';
+                }
+                $results[] = ['label' => $user->nombre_usuario, 'imagen' => $user->imagen, 'value' => $user->nombre_usuario];
+            }
+        }else{
+            $results='';
         }
+
+        return $results;
+    }
 
 
 }

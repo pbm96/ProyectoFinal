@@ -43,6 +43,30 @@
                 font-size: 36px;
                 padding: 20px;
             }
+            .btn-outline-primary {
+                border: 2px solid #1491e5 !important;
+                background-color: #1491e5!important;
+                color: #ffffff!important;
+                border-radius: 10em
+            ;
+            }
+
+            .btn {
+                padding: .84rem 2.14rem;
+                font-size: .81rem;
+                -webkit-transition: all .2s ease-in-out;
+                transition: all .2s ease-in-out;
+                margin: .375rem;
+                border: 0;
+
+                cursor: pointer;
+                text-transform: uppercase;
+                white-space: normal;
+                word-wrap: break-word;
+            }
+            a{
+                text-decoration: none !important;
+            }
         </style>
     </head>
     <body>
@@ -50,7 +74,9 @@
             <div class="content">
                 <div class="title">
                     @yield('message')
+
                 </div>
+                <a href="{{route('index')}}" class="btn btn-outline-primary"> Volver a Fakeapop</a>
             </div>
         </div>
     </body>
