@@ -18,6 +18,9 @@
         .login{
             margin-top: 6em;
         }
+        .invalid-feedback{
+            display: block;
+        }
     </style>
 @endsection
 @section('contenido')
@@ -38,10 +41,10 @@
                 <div class="md-form">
                     <i class="fas fa-address-card prefix"></i>
                     <label for="nombre">Nombre*</label>
-                    <input id="nombre" type="text" class="form-control{{ $errors->has('nombre') ? ' is-invalid' : '' }}" name="nombre" value="{{ old('nombre') }}" required autofocus >
+                    <input id="nombre" type="text" class="form-control{{ $errors->has('nombre') ? ' invalid' : '' }}" name="nombre" value="{{ old('nombre') }}" required autofocus >
 
                     @if ($errors->has('nombre'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('nombre') }}</strong>
                                     </span>
                     @endif
@@ -50,10 +53,10 @@
                 <div class="md-form">
                     <i class="fas fa-address-card prefix"></i>
                     <label for="apellido1">Primer Apellido*</label>
-                    <input id="apellido1" type="text" class="form-control{{ $errors->has('apellido1') ? ' is-invalid' : '' }}" name="apellido1" value="{{ old('apellido1') }}" required >
+                    <input id="apellido1" type="text" class="form-control{{ $errors->has('apellido1') ? ' invalid' : '' }}" name="apellido1" value="{{ old('apellido1') }}" required >
 
                     @if ($errors->has('apellido1'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('apellido1') }}</strong>
                                     </span>
                     @endif
@@ -61,10 +64,10 @@
                 <div class="md-form">
                     <i class="fas fa-address-card prefix"></i>
                     <label for="apellido2">Segundo Apellido</label>
-                    <input id="apellido2" type="text" class="form-control{{ $errors->has('apellido2') ? ' is-invalid' : '' }}" name="apellido2" value="{{ old('apellido2') }}"  >
+                    <input id="apellido2" type="text" class="form-control{{ $errors->has('apellido2') ? ' invalid' : '' }}" name="apellido2" value="{{ old('apellido2') }}"  >
 
                     @if ($errors->has('apellido2'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('apellido2') }}</strong>
                                     </span>
                     @endif
@@ -72,10 +75,10 @@
                 <div class="md-form">
                     <i class="fas fa-user prefix"></i>
                     <label for="nombre_usuario">Nombre Usuario*</label>
-                    <input id="nombre_usuario" type="text" class="form-control{{ $errors->has('nombre_usuario') ? ' is-invalid' : '' }}" name="nombre_usuario" value="{{ old('nombre_usuario') }}" required >
+                    <input id="nombre_usuario" type="text" class="form-control{{ $errors->has('nombre_usuario') ? ' invalid' : '' }}" name="nombre_usuario" value="{{ old('nombre_usuario') }}" required >
 
                     @if ($errors->has('nombre_usuario'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('nombre_usuario') }}</strong>
                                     </span>
                     @endif
@@ -83,10 +86,10 @@
                 <div class="md-form">
                     <i class="fa fa-envelope prefix"></i>
                     <label for="email">Email*</label>
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' invalid' : '' }}" name="email" value="{{ old('email') }}" required>
 
                     @if ($errors->has('email'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                     @endif
@@ -94,10 +97,10 @@
                 <div class="md-form">
                     <i class="fas fa-lock prefix"></i>
                     <label for="password">Contraseña*</label>
-                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' invalid' : '' }}" name="password" required>
 
                     @if ($errors->has('password'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                     @endif
@@ -110,24 +113,38 @@
                 <div class="md-form">
                     <i class="fas fa-map-marker prefix"></i>
                     <label for="direccion">Direccion*</label>
-                        <input id="direccion" type="text" class="form-control{{ $errors->has('Direccion*') ? ' is-invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off" required>
+                        <input id="direccion" type="text" class="form-control{{ $errors->has('cityLng') ? ' invalid' : '' }} {{ $errors->has('direccion') ? ' invalid' : '' }} {{ $errors->has('cityLat') ? ' invalid' : '' }}" value="{{ old('direccion') }} " name="direccion" autocomplete="off" required>
 
                         @if ($errors->has('direccion'))
-                            <span class="invalid-feedback">
+                            <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('direccion') }}</strong>
                                     </span>
                         @endif
+                    @if ($errors->has('cityLng') && $errors->has('cityLng') )
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('cityLng') }}</strong>
+                                    </span>
+                        @elseif($errors->has('cityLat'))
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('cityLat') }}</strong>
+                                    </span>
+                        @elseif($errors->has('cityLng'))
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('cityLng') }}</strong>
+                                    </span>
+                    @endif
                 </div>
                 <input type="hidden" id="city2" name="city2" />
                 <input type="hidden" id="cityLat" name="cityLat" value="{{ old('cityLat') }} " />
                 <input type="hidden" id="cityLng" name="cityLng" value="{{ old('cityLng') }} " />
+
                 <div class="md-form">
                     <i class="fas fa-phone prefix"></i>
                     <label for="telefono">Teléfono</label>
-                    <input id="telefono" type="text" class="form-control{{ $errors->has('telefono') ? ' is-invalid' : '' }}" name="telefono" value="{{ old('telefono') }}" >
+                    <input id="telefono" type="text" class="form-control{{ $errors->has('telefono') ? ' invalid' : '' }}" name="telefono" value="{{ old('telefono') }}" >
 
                     @if ($errors->has('telefono'))
-                        <span class="invalid-feedback">
+                        <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('telefono') }}</strong>
                                     </span>
                     @endif

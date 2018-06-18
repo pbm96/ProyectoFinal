@@ -39,7 +39,7 @@
 
         <div class="md-form">
             <div class="form-group shadow-textarea">
-                <textarea class="form-control z-depth-1" id="descripcion" id="exampleFormControlTextarea6" rows="8" placeholder="Escribir descripción del producto"
+                <textarea class="form-control z-depth-1" id="descripcion" required rows="8" placeholder="Escribir descripción del producto"
                     name="descripcion"></textarea>
             </div>
         </div>

@@ -59,8 +59,13 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed|max:191',
             'direccion' => 'nullable|string',
             'telefono' => 'numeric|digits:9|nullable',
-            //falta imagen
+            'cityLat' =>'required_with:direccion',
+            'cityLng' => 'required_with:direccion',
 
+
+        ],[
+            'cityLat.required_with' =>'Introduce una direccion valida',
+            'cityLng.required_with' =>'Introduce una direccion valida'
         ]);
     }
 
@@ -84,8 +89,6 @@ class RegisterController extends Controller
             'telefono'=>$data['telefono'],
             'email'=>$data['email'],
 
-
-            //falta imagen
         ]);
     }
     protected function direccion($direccion, $latitud,$longitud){
