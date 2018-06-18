@@ -1,5 +1,5 @@
-@extends('templates.main') 
-@section('titulo_pagina', 'Perfil de '.$usuario->nombre_usuario) 
+@extends('templates.main')
+@section('titulo_pagina', 'Perfil de '.$usuario->nombre_usuario)
 @section('estilos')
 <style>
     .media .avatar {
@@ -10,7 +10,7 @@
     }
 </style>
 @endsection
- 
+
 @section('contenido')
 
 <div class="row mt-5">
@@ -35,11 +35,11 @@
                         <div class="ml-2 mt-1">
                             @for($i=0;$i
                                 <$usuario->valoracion;$i++)
-                                <i class="fas fa-star yellow-text"></i> 
-                            @endfor 
+                                <i class="fas fa-star yellow-text"></i>
+                            @endfor
                             @for($i=0;$i
                                 <5-$usuario->valoracion;$i++)
-                                <i class="far fa-star "></i> 
+                                <i class="far fa-star "></i>
                             @endfor
                         </div>
                         </div>
@@ -224,7 +224,7 @@
 
 </div>
 @endsection
- 
+
 @section('scripts')
 
 
