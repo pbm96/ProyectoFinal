@@ -1,30 +1,5 @@
 @extends('templates.main') 
 @section('titulo_pagina', 'crear-producto') 
-@section('estilos')
-<style>
-    .imagenes ol {
-        padding-left: 0;
-    }
-
-    .imagenes li,
-    div.preview>p {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        list-style-type: none;
-    }
-
-    .imagenes img {
-        height: 64px;
-        order: 1;
-    }
-
-    .imagenes p {
-        line-height: 32px;
-        padding-left: 10px;
-    }
-</style>
-@endsection
  
 @section('contenido') {!! Form::Open(['route' => 'guardar_producto','method'=>'POST', 'enctype'=> 'multipart/data', 'files' => true ,'class'=>'row justify-content-center'])
 !!}
@@ -33,7 +8,7 @@
         <p class="h4 text-center py-4">Crear Producto</p>
         <div class="row justify-content-around">
             <div class="col-sm-12">
-                <div class="card imagenes container p-4">
+                <div class="card contenedorImagenes container p-4">
                     <div class="form-group">
                         <label class="btn btn-outline-info" for="image_uploads">Choose images to upload (PNG, JPG)</label>
                         <input type="file" id="image_uploads" name="imagen[]" accept=".jpg, .jpeg, .png" multiple>
@@ -82,7 +57,6 @@
 
         var input = $('#image_uploads')[0];
         var preview = document.querySelector('.preview');
-        console.log(input);
 
         input.style.opacity = 0;
 

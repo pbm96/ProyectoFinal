@@ -4,17 +4,6 @@
 
 @section('titulo_pagina', 'Mis Favoritos')
 
-@section('estilos')
-    <style>
-        .card-title{
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-    </style>
-@endsection
-
-
 @section('contenido')
 
 @if(count($productos_favoritos) > 0)

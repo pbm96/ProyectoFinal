@@ -5,68 +5,6 @@
 
 @section('estilos')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
-
-    <style>
-        .carousel {
-            box-shadow: #aeb9cc 5px 5px 5px;
-        }
-
-        h4 {
-            display: inline;
-        }
-
-        .rating-stars ul {
-            list-style-type: none;
-            padding: 0;
-
-            -moz-user-select: none;
-            -webkit-user-select: none;
-
-            cursor: pointer;
-        }
-
-        .rating-stars ul > li.star {
-            display: inline-block;
-
-        }
-
-        /* Idle State of the stars */
-        .rating-stars ul > li.star > i.fa {
-            font-size: 1.5em; /* Change the size of the stars */
-            color: #ccc; /* Color on idle state */
-        }
-
-        /* Hover state of the stars */
-        .rating-stars ul > li.star.hover > i.fa {
-            color: #FFCC36;
-        }
-
-        /* Selected state of the stars */
-        .rating-stars ul > li.star.selected > i.fa {
-            color: #FF912C;
-        }
-
-        .shadow-textarea textarea.form-control::placeholder {
-            font-weight: 300;
-        }
-
-        .shadow-textarea textarea.form-control {
-            padding-left: 0.8rem;
-        }
-
-        .lista_nombres:hover{
-            background-color: #D7D7D7;
-            color: black;
-        }
-        .lista_nombres{
-            border: none !important;
-        }
-
-
-
-
-    </style>
-
 @endsection
 
 

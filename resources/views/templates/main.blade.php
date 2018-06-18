@@ -18,62 +18,61 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.2/css/bootstrap-slider.min.css">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> @yield('estilos')
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
 </head>
-<style>
-    body {
-        font-family: Roboto;
-    }
-
-    .sidenav {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 2;
-
-        left: 0;
-        background-color: white;
-        overflow-x: hidden;
-        /*transition: 0.5s;*/
-        padding-top: 60px;
-    }
-
-    .sidenav .closebtn {
-        position: absolute;
-        top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-    }
-
-    #notificaciones::after {
-        display: none
-    }
-
-    #descripcion_notificacion {
-        left: -120%;
-        min-width: 14rem;
-
-    }
-</style>
 
 <body>
-    <header>
+    <header class="bg-primary">
     @include('templates.assets.header')
-    @include('templates.assets.sidenav')
-
-        <div class="container mt-4 text-center">
+        <div class="container text-center">
             <div class="row justify-content-sm-center">
     @include('flash::message')
             </div>
         </div>
-
-
     </header>
 
-    <main class="container mt-4">
+    <main class="container">
+        <div id="sidenav" class="sidenav p-4">
+            <div class="text-right"><a href="#" id="closeIcon" class="close-icon" data-toggle="popover" data-trigger="hover" data-placement="right"
+                    data-content="Cerrar"> &times;</a></div>
+            @guest
+            <h2 class="text-center mb-5">Bienvenido</h2>
+            ¿Ya estas registrado?<a href="{{route('login')}}">Entra</a>
+            <hr> ¿No tienes una cuenta?<a href="{{route('register')}}">Regístrate</a> @else
+            <div class="row justify-content-sm-center">
+                @if(auth()->user()->imagen!=null)
+                <img class="d-flex rounded-circle z-depth-1-half " src="{{asset('imagenes/perfil/'.auth()->user()->imagen)}}" height="150"
+                    width="150" alt="Avatar"> @else
+                <img class="d-flex rounded-circle z-depth-1-half " src="{{asset('imagenes/perfil/user-default.png')}}" height="150" width="150"
+                    alt="Avatar"> @endif
+            </div>
+            <h2 class=" text-center mt-4">{{ Auth::user()->nombre }}</h2>
+            <hr class="mb-5">
+            <section class="lead">
+                <a class="nav-link text-dark" href="{{ route('ver_productos_usuario',auth()->user()->id)}}"> <span class="fa fa-clipboard-list text-primary"></span> Mis Productos</a>
+                <a class="nav-link text-dark" href="{{ route('ver_productos_usuario_favoritos',auth()->user()->id)}}"> <span class="fa fa-heart text-danger"></span> Mis Favoritos</a>
+                <a class="nav-link text-dark" href="{{ route('administrar_perfil',auth()->user()->id)}}"> <span class="fa fa-edit text-success"></span> Editar Perfil</a>
 
-        @yield('contenido')
+                <a href="{{ route('logout')}}" class="nav-link text-dark" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();"> <span class="fas fa-sign-out-alt"></span> Log Out
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                    </a>
+            </section>
+            @endguest
+        </div>
+        <div class="wrapper mt-4">
+            <div class="content">@yield('contenido')</div>
+            <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;" data-toggle="popover" data-trigger="hover"
+                data-placement="right" data-content="Crear producto">
+                <a href="{{ route('crear_producto') }}" class="btn-floating btn-large bg-primary waves-effect waves-light">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+
     </main>
     @include('templates.assets.footer')
 
@@ -92,7 +91,10 @@
         @auth()
     $(document).ready(function ()
     {
-
+// popovers Initialization
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
         var route= "{{route('notificaciones')}}";
 
         $.ajax({
@@ -121,13 +123,17 @@
         })
     })
 @endauth
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-    }
 
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
+    $('#menuIcon').click(function(){
+        $('#sidenav').toggle("slide");
+    });
+
+    $('#closeIcon').click(function(){
+        $('#sidenav').hide("slide");
+    });
+    $('#navButton').click(function(){
+        $('#mySidenav').slideToggle();
+    });
     </script>
 
     @yield('scripts')

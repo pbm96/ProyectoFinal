@@ -3,50 +3,6 @@
 
 @section('titulo_pagina', 'ver-'.$producto->nombre)
 
-@section('estilos')
-<style>
-    .carousel{
-        box-shadow: #aeb9cc 5px 5px 5px;
-    }
-    h4{
-        display: inline;
-
-    }
-    .icono-negro:hover{
-        color: #ff3547 !important;
-    }
-    .icono-rojo:hover{
-        color: #000000 !important;
-    }
-
-        .imagenes{
-            width: 550px;
-            height: 350px;
-        }
-        .carousel-inner{
-            width: 550px;
-            height: 350px;
-        }
-
-    #carta_usuario{
-        border-radius: 8em;
-
-    }
-    .card-body{
-
-        margin-left: 1em;
-        padding: 0.5rem;
-    }
-   #boton_mensaje{
-       border-radius: 10em;
-   }
-
-
-
-</style>
-@endsection
-
-
 @section('contenido')
 
     @if($producto!=null)

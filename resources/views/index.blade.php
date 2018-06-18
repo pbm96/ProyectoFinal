@@ -106,7 +106,6 @@
         <div class="card">
             <div class="card-header">
                 @if(count($producto->imagen)>0)
-
                 <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"
                     class="card-img-top"> @else
                 <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">                @endif

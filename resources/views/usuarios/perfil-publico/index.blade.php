@@ -1,15 +1,6 @@
 @extends('templates.main') 
 @section('titulo_pagina', 'Perfil de '.$usuario->nombre_usuario) 
-@section('estilos')
-<style>
-    .media .avatar {
-        width: 64px;
-    }
-</style>
-@endsection
- 
 @section('contenido')
-
 <div class="row mt-5">
     <div class="col-lg-3 text-center mb-5">
         <div class="card">
