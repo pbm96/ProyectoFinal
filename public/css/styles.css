@@ -110,7 +110,7 @@ main, nav.simpleNav {
 
 .card-body {
     margin-left: 1em;
-    padding: 0.5rem;
+    padding: 0.7rem;
 }
 
 #boton_mensaje {
@@ -409,5 +409,8 @@ input[type=checkbox]:checked + label:before {
     padding: 5px;
 }
 
+#buscador:focus:not([readonly]) {
+    border-color:#FFFFFF;
+}
 
 
