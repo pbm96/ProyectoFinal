@@ -52,7 +52,7 @@
 
 @section('contenido')
     <div class="row justify-content-end mb-2" style="margin-right: 16%" >
-    <a href="{{route('cancelar_valoracion',$venta->id)}}" class="btn btn-warning">No valorar</a>
+        <a href="{{route('cancelar_valoracion',$venta->id)}}" class="btn btn-warning">No valorar</a>
     </div>
 
     {!! Form::Open(['route'=>['guardar_valoracion_comprador',$venta->id],'method'=>'POST', 'class'=>'row justify-content-center']) !!}
