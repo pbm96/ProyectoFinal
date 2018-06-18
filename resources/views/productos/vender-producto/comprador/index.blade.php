@@ -4,48 +4,6 @@
 @section('titulo_pagina', 'valoracion-compra')
 
 @section('estilos')
-    <style>
-        .carousel {
-            box-shadow: #aeb9cc 5px 5px 5px;
-        }
-
-        h4 {
-            display: inline;
-        }
-
-        .rating-stars ul {
-            list-style-type: none;
-            padding: 0;
-
-            -moz-user-select: none;
-            -webkit-user-select: none;
-
-            cursor: pointer;
-        }
-
-        .rating-stars ul > li.star {
-            display: inline-block;
-
-        }
-
-        /* Idle State of the stars */
-        .rating-stars ul > li.star > i.fa {
-            font-size: 1.5em; /* Change the size of the stars */
-            color: #ccc; /* Color on idle state */
-        }
-
-        /* Hover state of the stars */
-        .rating-stars ul > li.star.hover > i.fa {
-            color: #FFCC36;
-        }
-
-        /* Selected state of the stars */
-        .rating-stars ul > li.star.selected > i.fa {
-            color: #FF912C;
-        }
-
-
-    </style>
 
 @endsection
 
@@ -60,7 +18,7 @@
     <div class="card col-sm-8 ">
         <div class="card-body">
 
-            <p class="h4 text-center py-4">Compra de {{$producto->nombre}}</p>
+            <p class="titulo_h4 h4 text-center py-4">Compra de {{$producto->nombre}}</p>
 
             <div class="mt-3 col-sm-5 ml-4 ">
                 <h6>Valoracion Compra</h6>

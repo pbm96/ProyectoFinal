@@ -1,44 +1,6 @@
 @extends('templates.main')
 @section('titulo_pagina', 'escribir-mensaje')
 @section('estilos')
-    <style>
-        .chat {
-            max-height: 500px;
-            overflow-y: auto;
-
-        }
-
-        .fecha_recibidos {
-            margin-right: 60%;
-            margin-top: -1.5%;
-        }
-
-        .chat::-webkit-scrollbar-track,.usuarios::-webkit-scrollbar-track  {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            background-color: #F5F5F5;
-        }
-
-        .chat::-webkit-scrollbar, .usuarios::-webkit-scrollbar {
-            width: 10px;
-            background-color: #F5F5F5;
-        }
-
-        .chat::-webkit-scrollbar-thumb ,.usuarios::-webkit-scrollbar-thumb{
-            background-color: #0ae;
-
-            background-image: -webkit-gradient(linear, 0 0, 0 100%,
-            color-stop(.5, rgba(255, 255, 255, .2)),
-            color-stop(.5, transparent), to(transparent));
-        }
-        .usuarios{
-            max-height: 525px;
-            overflow-y: auto;
-            margin-top: 3.1%;
-
-
-        }
-
-    </style>
 @endsection
 @section('contenido')
 
