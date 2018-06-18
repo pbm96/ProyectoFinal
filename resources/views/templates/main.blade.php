@@ -28,14 +28,16 @@
 <body>
 <header class="bg-primary">
     @include('templates.assets.header')
-    <div class="container text-center">
-        <div class="row justify-content-sm-center">
-            @include('flash::message')
-        </div>
-    </div>
+    @include('cookieConsent::index')
 </header>
 
-<main class="container">
+<div class="  row justify-content-sm-end mr-4 p-2 font-weight-bold text-center  ">
+    <div class="position-absolute"  id="mensaje_flash">
+        @include('flash::message')
+    </div>
+</div>
+
+<main class="container ">
     <div id="sidenav" class="sidenav p-4">
         <div class="text-right"><a href="#" id="closeIcon" class="close-icon" data-toggle="popover" data-trigger="hover"
                                    data-placement="right"
@@ -58,6 +60,8 @@
                 <section class="lead">
                     <a class="nav-link text-dark" href="{{ route('ver_productos_usuario',auth()->user()->id)}}"> <span
                                 class="fa fa-clipboard-list text-primary"></span> Mis Productos</a>
+                    <a class="nav-link text-dark" href="{{ route('mis_mensajes',auth()->user()->id)}}"> <span
+                                class="fas fa-comments text-primary"></span> Mis Mensajes</a>
                     <a class="nav-link text-dark"
                        href="{{ route('ver_productos_usuario_favoritos',auth()->user()->id)}}"> <span
                                 class="fa fa-heart text-danger"></span> Mis Favoritos</a>
@@ -74,7 +78,7 @@
                 </section>
                 @endguest
     </div>
-    <div class="wrapper mt-4">
+    <div class="wrapper mt-2 ">
         <div class="content">@yield('contenido')</div>
         <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;" data-toggle="popover"
              data-trigger="hover"
@@ -104,7 +108,6 @@
     @auth()
     $(document).ready(function ()
     {
-
         var route= "{{route('notificaciones')}}";
 
         $.ajax({
@@ -159,6 +162,18 @@
     $('#navButton').click(function () {
         $('#mySidenav').slideToggle();
     });
+    // popovers Initialization
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
+    if ($('#mensaje_flash').children().length >0 ){
+        setTimeout(function () {
+            $("#mensaje_flash").remove();
+        }, 5000);
+    }else{
+        $("#mensaje_flash").remove();
+    }
 </script>
 
 @yield('scripts')

@@ -181,7 +181,7 @@
                                 <div class="col-md-6">
                                     <div class="md-form form-sm mb-2 ">
                                         {!! Form::label('telefono','Telefono') !!}
-                                        {!! Form::Text('telefono',$usuario->telefono,['id'=>'direccion','class'=>'form-control form-control-sm ']) !!}
+                                        {!! Form::Text('telefono',$usuario->telefono,['id'=>'telefono','class'=>'form-control form-control-sm ']) !!}
                                     </div>
                                 </div>
                             </div>

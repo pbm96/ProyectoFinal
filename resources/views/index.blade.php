@@ -7,7 +7,7 @@
 
 @section('contenido')
 
-    <div class="row justify-content-around mb-4">
+    <div class="row justify-content-around mb-4 mt-4">
         <div class="card col-lg-12" style="padding: 0">
             <div class="card-header text-right" onclick="$('#filtro').slideToggle()">
                 <h3>Filtrar productos <span class="fa fa-caret-down"></span></h3>

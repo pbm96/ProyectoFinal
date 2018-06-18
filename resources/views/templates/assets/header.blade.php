@@ -20,7 +20,7 @@
         </ul>
     </div>
     <div class="md-form my-0 d-sm-none d-none d-sm-block">
-        {{ Form::text('buscar', old('buscar'), array('placeholder'=>'Buscar...','class'=>'form-control mr-sm-2','aria-label'=>'buscar'))
+        {{ Form::text('buscar', old('buscar'), array('placeholder'=>'Buscar...','class'=>'form-control mr-sm-2','aria-label'=>'buscar' ,'id'=>'buscador'))
         }}
         <button class="btn btn-outline-light btn-sm" type="submit">Buscar</button>
     </div>
