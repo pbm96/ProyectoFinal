@@ -28,6 +28,7 @@
 <body>
 <header class="bg-primary">
     @include('templates.assets.header')
+    @include('cookieConsent::index')
     <div class="container text-center">
         <div class="row justify-content-sm-center">
             @include('flash::message')
@@ -104,7 +105,6 @@
     @auth()
     $(document).ready(function ()
     {
-
         var route= "{{route('notificaciones')}}";
 
         $.ajax({
@@ -159,6 +159,10 @@
     $('#navButton').click(function () {
         $('#mySidenav').slideToggle();
     });
+    // popovers Initialization
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
 </script>
 
 @yield('scripts')
