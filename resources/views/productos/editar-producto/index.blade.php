@@ -4,39 +4,6 @@
 
 @extends('templates.main') 
 @section('titulo_pagina', 'ver-'.$producto->nombre) 
-@section('estilos')
-<style>
-    .carousel {
-        box-shadow: #aeb9cc 5px 5px 5px;
-    }
-
-    h4 {
-        display: inline;
-    }
-
-    .imagenes ol {
-        padding-left: 0;
-    }
-
-    .imagenes li,
-    div.preview>p {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        list-style-type: none;
-    }
-
-    .imagenes img {
-        height: 64px;
-        order: 1;
-    }
-
-    .imagenes p {
-        line-height: 32px;
-        padding-left: 10px;
-    }
-</style>
-@endsection
  
 @section('contenido') @if($producto!=null) {!! Form::Open(['route'=>['modificar_producto',$producto->id],'method'=>'PUT','files'=>true,
 'class'=>'row justify-content-center']) !!}

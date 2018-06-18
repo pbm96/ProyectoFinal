@@ -4,8 +4,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contenido')
-
-
     <div class="container-fluid mt-5">
         <div class="row justify-content-end mb-2 mr-3">
             <a href="{{route('perfil_publico',$usuario->id)}}" class='btn btn-primary'>Perfil Publico</a>
