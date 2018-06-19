@@ -2,22 +2,7 @@
 @section('titulo_pagina', 'Login')
 @section('estilos')
     <style>
-        .card .form-header {
-            color: #fff;
-            text-align: center;
-            margin-top: -40px;
-            margin-bottom: 3rem;
-            padding: 1rem;
-            border-radius: 2px;
-        }
-        .blue-gradient {
-            background: -webkit-linear-gradient(50deg,#45cafc,#303f9f)!important;
-            background: -o-linear-gradient(50deg,#45cafc,#303f9f)!important;
-            background: linear-gradient(40deg,#45cafc,#303f9f)!important;
-        }
-        .login{
-            margin-top: 6em;
-        }
+
     </style>
 @endsection
 @section('contenido')
@@ -28,7 +13,7 @@
         <div class="card-block ">
 
             <!--Header-->
-            <div class="form-header  blue-gradient ">
+            <div class="form-header cabezera_login blue-gradient ">
                 <h3><i class="fa fa-lock"></i> Login</h3>
             </div>
 
@@ -38,7 +23,7 @@
                 <i class="fa fa-envelope prefix"></i>
 
                 <input id="form2" type="email"
-                       class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                       class="form-control{{ $errors->has('email') ? ' invalid' : '' }}"
                        name="email" value="{{ old('email') }}" required autofocus>
 
                 <label for="form2">Your email</label>
@@ -53,7 +38,7 @@
                 <i class="fa fa-lock prefix"></i>
 
                 <input id="form4" type="password"
-                       class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                       class="form-control{{ $errors->has('password') ? ' invalid' : '' }}"
                        name="password" required>
                 <label for="form4">password</label>
 
@@ -64,7 +49,7 @@
                 @endif
             </div>
 
-            <div class="text-center">
+            <div class="text-center ">
                 <button class="btn btn-primary">Login</button>
             </div>
             </form>
@@ -72,8 +57,13 @@
 
         <!--Footer-->
         <div class="modal-footer">
-            <div class="options">
-                <p>No estás Registrado?<a href="{{route('register')}}"> Registrate</a></p>
+            <div class="options row">
+                <div class="checkbox  justify-content-start">
+                    <label>
+                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recuerdame
+                    </label>
+                </div>
+                <p >No estás Registrado?<a href="{{route('register')}}"> Registrate</a></p>
             </div>
         </div>
 

@@ -1,4 +1,5 @@
 @extends('templates.main')
+@section('titulo_pagina', 'mapa-web')
 @section('contenido')
     <h1 class="text-center mb-5">Mapa web</h1>
     <div class="row text-center mb-5">

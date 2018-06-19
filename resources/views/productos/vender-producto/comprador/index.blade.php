@@ -3,13 +3,24 @@
 
 @section('titulo_pagina', 'valoracion-compra')
 
+@section('estilos')
+
+@endsection
+
+
 @section('contenido')
+    <div class="row justify-content-end mb-2" style="margin-right: 16%" >
+        <a href="{{route('cancelar_valoracion',$venta->id)}}" class="btn btn-warning">No valorar</a>
+    </div>
 
-    <a href="{{route('cancelar_valoracion',$venta->id)}}" class="btn btn-warning">No valorar</a>
-        {!! Form::Open(['route'=>['guardar_valoracion_comprador',$venta->id],'method'=>'POST', 'class'=>'row justify-content-center']) !!}
-        <div class="col-lg-8">
+    {!! Form::Open(['route'=>['guardar_valoracion_comprador',$venta->id],'method'=>'POST', 'class'=>'row justify-content-center']) !!}
 
-            <div class="md-form">
+    <div class="card col-sm-8 ">
+        <div class="card-body">
+
+            <p class="titulo_h4 h4 text-center py-4">Compra de {{$producto->nombre}}</p>
+
+            <div class="mt-3 col-sm-5 ml-4 ">
                 <h6>Valoracion Compra</h6>
                 <div class='rating-stars '>
                     <ul id='stars'>
@@ -32,17 +43,23 @@
                     {!! Form::hidden('valoracion_compra',null,['id'=>'valoracion_venta']) !!}
                 </div>
             </div>
-            <div class="md-form">
-                {!! Form::textarea('comentario_compra',null,['class'=>'form-control md-textarea','required','placeholder'=>'Comentario Venta']) !!}
+
+            <div class="md-form ">
+
+                <div class="form-group shadow-textarea">
+                    <i class=" fas fa-comments prefix grey-text"></i>
+                    <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
+                              placeholder="Escribir comentario compra..." name="comentario_compra"></textarea>
+                </div>
             </div>
 
-            <div class="md-form text-center">
+            <div class="text-center py-4 mt-3">
                 {!!Form::submit('Valorar',['class'=>'btn btn-outline-primary'])!!}
             </div>
             {!! Form::close() !!}
-
-
         </div>
+    </div>
+
 
 @endsection
 
@@ -50,14 +67,14 @@
 <!-- seccion  de los enlaces de scripts-->
 @section('scripts')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             /* 1. Visualizing things on Hover - See next part for action on click */
-            $('#stars li').on('mouseover', function(){
+            $('#stars li').on('mouseover', function () {
                 var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
 
                 // Now highlight all the stars that's not after the current hovered star
-                $(this).parent().children('li.star').each(function(e){
+                $(this).parent().children('li.star').each(function (e) {
                     if (e < onStar) {
                         $(this).addClass('hover');
                     }
@@ -66,15 +83,15 @@
                     }
                 });
 
-            }).on('mouseout', function(){
-                $(this).parent().children('li.star').each(function(e){
+            }).on('mouseout', function () {
+                $(this).parent().children('li.star').each(function (e) {
                     $(this).removeClass('hover');
                 });
             });
 
 
             /* 2. Action to perform on click */
-            $('#stars li').on('click', function(){
+            $('#stars li').on('click', function () {
                 var onStar = parseInt($(this).data('value'), 10); // The star currently selected
                 var stars = $(this).parent().children('li.star');
 
@@ -90,6 +107,7 @@
 
 
         });
+
         function valoracion(valoracion) {
             $('#valoracion_venta').val(valoracion)
         }

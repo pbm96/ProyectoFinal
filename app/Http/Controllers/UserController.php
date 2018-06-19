@@ -26,6 +26,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion que devuelve la vista de editar perfil
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
@@ -52,6 +53,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion qu edita los datos de un usuario
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
@@ -60,6 +62,14 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'password' => 'confirmed|string|min:6|max:191',
+            'nombre' => 'required|string|max:30',
+            'apellido1'=>'required|string|max:30',
+            'apellido2'=>'string|max:30',
+            'nombre_usuario'=>'required|alpha_num|max:30|unique:users,nombre_usuario,'.$id,
+            'email' => 'required|string|email|max:191|unique:users,email,'.$id,
+            'direccion' => 'nullable|string',
+            'telefono' => 'numeric|digits:9|nullable',
+
         ]);
         try {
             $usuario = User::find($id);
@@ -80,19 +90,18 @@ class UserController extends Controller
 
 
             }
-            $request->password = Hash::make($request->password);
-
             $usuario->fill($request->all());
+            if ($request->password){
+
+                $usuario->password = Hash::make($request->password);
+
+            }
+
             if($nombre_imagen!=''){
 
                 $usuario->imagen = $nombre_imagen;
 
             }
-
-
-            $usuario->password = $request->password;
-
-
 
 
             if ($usuario->isDirty()) {
@@ -117,6 +126,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion para la direccion del usuario
      * @param $direccion
      * @param $latitud
      * @param $longitud
@@ -138,6 +148,7 @@ class UserController extends Controller
     }
 
     /**
+     * funcion para borrar el perfil del usuario
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -159,14 +170,21 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * funcion del perfil publico del usuario
+     * @param $id
+     * @return mixed
+     */
     public function perfil_publico($id)
     {
 
 
         //usuario del perfil
         $usuario = User::find($id);
+
         $direccion = $usuario->direccion;
 
+        // sacar fecha de la creacion del usuario
         $ano = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->year;
 
         $mes = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->month;
@@ -232,6 +250,12 @@ class UserController extends Controller
 
     }
 
+    /**
+     * fucion que comprueba que la contraseña introducida para cambiar es la misma que la actual del usuario
+     * @param Request $request
+     * @param $id
+     * @return string
+     */
     public function comprobar_password(Request $request, $id)
     {
         if (auth()->user()->id == $id) {
@@ -248,6 +272,12 @@ class UserController extends Controller
             }
         }
     }
+
+    /**
+     * funcion para mostrar un autocomplete con los usuarios para vender el producto
+     * @param Request $request
+     * @return array|string
+     */
 
     public function autocomplete_usuarios(Request $request)
     {

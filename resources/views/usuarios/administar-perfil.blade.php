@@ -13,9 +13,15 @@
                 <div class="col-md-4 mb-4">
                     <div class="card profile-card">
                         <div class=" mt-3 mb-4 ">
+                            @if($usuario->imagen !=null)
                             <img src="{{ asset('imagenes/perfil/'.$usuario->imagen)}}" class="rounded-circle"
                                  width="250" height="250"
                                  alt="First sample avatar image">
+                                @else
+                                <img src="{{ asset('imagenes/perfil/user-default.png')}}" class="rounded-circle"
+                                     width="250" height="250"
+                                     alt="First sample avatar image">
+                            @endif
                         </div>
                         <h3 class="mb-3 font-weight-bold"><strong>{{$usuario->nombre_usuario}}</strong></h3>
 
@@ -166,10 +172,16 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="md-form form-sm mb-2 ">
                                         {!! Form::label('direccion','Direccion') !!}
                                         {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control form-control-sm ','required']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form form-sm mb-2 ">
+                                        {!! Form::label('telefono','Telefono') !!}
+                                        {!! Form::Text('telefono',$usuario->telefono,['id'=>'telefono','class'=>'form-control form-control-sm ']) !!}
                                     </div>
                                 </div>
                             </div>

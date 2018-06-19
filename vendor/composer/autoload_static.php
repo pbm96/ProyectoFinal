@@ -54,6 +54,7 @@ class ComposerStaticInit04f74c3e8517678ec653be55edbcaf31
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Spatie\\CookieConsent\\' => 21,
         ),
         'R' => 
         array (
@@ -191,6 +192,10 @@ class ComposerStaticInit04f74c3e8517678ec653be55edbcaf31
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Spatie\\CookieConsent\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-cookie-consent/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -335,6 +340,7 @@ class ComposerStaticInit04f74c3e8517678ec653be55edbcaf31
     public static $classMap = array (
         'App\\Categoria' => __DIR__ . '/../..' . '/app/Categoria.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Conversacion' => __DIR__ . '/../..' . '/app/Conversacion.php',
         'App\\Direccion' => __DIR__ . '/../..' . '/app/Direccion.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -344,6 +350,7 @@ class ComposerStaticInit04f74c3e8517678ec653be55edbcaf31
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\ErrorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ErrorsController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\MensajesController' => __DIR__ . '/../..' . '/app/Http/Controllers/MensajesController.php',
         'App\\Http\\Controllers\\ProductosController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductosController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -353,6 +360,7 @@ class ComposerStaticInit04f74c3e8517678ec653be55edbcaf31
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Imagen' => __DIR__ . '/../..' . '/app/Imagen.php',
+        'App\\Mensaje' => __DIR__ . '/../..' . '/app/Mensaje.php',
         'App\\Producto' => __DIR__ . '/../..' . '/app/Producto.php',
         'App\\ProductoFavorito' => __DIR__ . '/../..' . '/app/ProductoFavorito.php',
         'App\\ProductoVendido' => __DIR__ . '/../..' . '/app/ProductoVendido.php',
@@ -3004,6 +3012,8 @@ class ComposerStaticInit04f74c3e8517678ec653be55edbcaf31
         'SebastianBergmann\\Timer\\RuntimeException' => __DIR__ . '/..' . '/phpunit/php-timer/src/RuntimeException.php',
         'SebastianBergmann\\Timer\\Timer' => __DIR__ . '/..' . '/phpunit/php-timer/src/Timer.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'Spatie\\CookieConsent\\CookieConsentMiddleware' => __DIR__ . '/..' . '/spatie/laravel-cookie-consent/src/CookieConsentMiddleware.php',
+        'Spatie\\CookieConsent\\CookieConsentServiceProvider' => __DIR__ . '/..' . '/spatie/laravel-cookie-consent/src/CookieConsentServiceProvider.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
         'Symfony\\Component\\Console\\CommandLoader\\ContainerCommandLoader' => __DIR__ . '/..' . '/symfony/console/CommandLoader/ContainerCommandLoader.php',

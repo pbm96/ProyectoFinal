@@ -5,6 +5,12 @@
 
 @section('estilos')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+
+    <style>
+
+
+    </style>
+
 @endsection
 
 
@@ -150,9 +156,9 @@
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
             var img_src;
 
-                img_src = '{{ asset('imagenes/perfil/:imagen') }}';
+            img_src = '{{ asset('imagenes/perfil/:imagen') }}';
 
-                img_src = img_src.replace(':imagen', item.imagen);
+            img_src = img_src.replace(':imagen', item.imagen);
 
 
             return $('<li class="lista_nombres">')
