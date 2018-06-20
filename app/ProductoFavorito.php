@@ -12,7 +12,9 @@ class ProductoFavorito extends Model
     ];
 
     public function producto(){
-        return $this->belongsToMany('App\Producto');
+        return   $this->belongsTo('App\Producto','producto_id','id');
+
+
     }
     public function user(){
         return $this->belongsToMany('App\Users');

@@ -38,28 +38,60 @@ justify-content-center']) !!}
 
             </div>
         </div>
+        @if ($errors->has('imagen'))
+            <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('imagen') }}</strong>
+                                    </span>
+        @endif
         <div class="row justify-content-around text-center">
-            <div class="md-form col-sm-8">
-                {!! Form::Text('nombre',null,['class'=>'form-control','required','name' => 'nombre']) !!} {!! Form::label('nombre','Nombre
-                Producto') !!}
+            <div class="md-form col-sm-7  pl-0  ">
+
+            <input type="text" class="form-control {{ $errors->has('nombre') ? ' invalid' : '' }}"  name="nombre" value="{{old('nombre')}}" required>
+
+                {!! Form::label('nombre','Producto') !!}
+
+            @if ($errors->has('nombre'))
+                    <span class="invalid-feedback mr-5">
+                                        <strong>{{ $errors->first('nombre') }}</strong>
+                                    </span>
+                @endif
             </div>
-            <div class="md-form col-sm-3">
-                {!! Form::number('precio',null,['class'=>'form-control','required','min' => 0,'name' => 'precio']) !!} {!! Form::label('precio','Precio')
+
+            <div class="md-form col-sm-3 offset-1 pl-0">
+                <input type="number" class="form-control {{ $errors->has('precio') ? ' invalid' : '' }}" min="0" name="precio" value="{{old('precio')}} " required>
+                {!! Form::label('precio','Precio')
+               !!}
+                @if ($errors->has('precio'))
+                    <span class="invalid-feedback  ">
+                                        <strong>{{ $errors->first('precio') }}</strong>
+                                    </span>
+                @endif
+            </div>
+
+        </div>
+        <div class="form-group form-row mt-4 ">
+            <div class="col-sm-4 ">
+                {!! Form::select('categoria_id',$categorias,null,['class'=>'form-control mt-2','required'])
                 !!}
             </div>
+            @if ($errors->has('categoria'))
+                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('categoria') }}</strong>
+                                    </span>
+            @endif
         </div>
-        <div class="form-group form-row mt-4">
-            <div class="col-sm-4 ">
-                {!! Form::select('categoria_id',$categorias,null,['class'=>'form-control h-75 mt-2','required','name' => 'categoria_id',
-                'id' => 'categoria', 'onchange' => 'mostrar()']) !!}
-            </div>
-        </div>
+
 
         <div class="md-form">
             <div class="form-group shadow-textarea">
-                <textarea class="form-control z-depth-1" id="descripcion" required rows="8" placeholder="Escribir descripción del producto"
-                    name="descripcion"></textarea>
+                <textarea class="form-control z-depth-1 {{ $errors->has('descripcion') ? ' invalid' : '' }}" id="descripcion" required rows="8" placeholder="Escribir descripción del producto"
+                    name="descripcion">{{ old('descripcion') }}</textarea>
             </div>
+            @if ($errors->has('descripcion'))
+                <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('descripcion') }}</strong>
+                                    </span>
+            @endif
         </div>
 
         <div class="text-center py-4 mt-3">

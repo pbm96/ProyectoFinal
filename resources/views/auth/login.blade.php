@@ -26,7 +26,7 @@
                        class="form-control{{ $errors->has('email') ? ' invalid' : '' }}"
                        name="email" value="{{ old('email') }}" required autofocus>
 
-                <label for="form2">Your email</label>
+                <label for="form2">Email</label>
                 @if ($errors->has('email'))
                     <span class="invalid-feedback ml-5">
                                         <strong>{{ $errors->first('email') }}</strong>
