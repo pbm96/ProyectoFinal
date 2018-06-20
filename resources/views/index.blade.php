@@ -88,7 +88,7 @@
     @endforeach
 </div>
 @endforeach
-<div class="row justify-content-center">{{ $productos->render() }}</div>
+<div class="row justify-content-center">{{ $productos->appends(Request::only(['categoriasSeleccionadas','slider','orden', 'buscar']))->links() }}</div>
 @endsection
 
 
