@@ -83,7 +83,7 @@
         <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;" data-toggle="popover"
              data-trigger="hover"
              data-placement="right" data-content="Crear producto">
-            <a href="{{ route('crear_producto') }}" class="btn-floating btn-large bg-primary waves-effect waves-light">
+            <a href="{{ route('crear_producto') }}" class="btn-floating btn-large bg-info waves-effect waves-light">
                 <i class="fa fa-plus"></i>
             </a>
         </div>
