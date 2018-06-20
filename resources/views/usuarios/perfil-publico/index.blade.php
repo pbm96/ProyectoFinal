@@ -98,10 +98,10 @@
                                                 <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}"
                                                      alt="Imagen del producto" style="width:100%;border-radius: 1em"
                                                      height="160"
-                                                     class="card-img-top mt-2 ml-2 img-responsive"> @else
+                                                     class="card-img-top mt-2 ml-2 mb-2 img-responsive"> @else
                                                 <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}"
                                                      alt="Imagen del producto" style="width:100%;border-radius: 1em"
-                                                     height="160" class="img-responsive  mt-2 ml-2">
+                                                     height="160" class="img-responsive mb-2  mt-2 ml-2">
                                             @endif
                                         </div>
                                         <div class=" col-md-8">
@@ -139,10 +139,10 @@
                                                 <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}"
                                                      alt="Imagen del producto" style="width:100%;border-radius: 1em"
                                                      height="160"
-                                                     class="card-img-top mt-2 ml-2 img-responsive"> @else
+                                                     class="card-img-top mt-2 ml-2 img-responsive mb-2"> @else
                                                 <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}"
                                                      alt="Imagen del producto" style="width:100%;border-radius: 1em"
-                                                     height="160" class="img-responsive  mt-2 ml-2">
+                                                     height="160" class="img-responsive  mt-2 ml-2 mb-2">
                                             @endif
                                         </div>
                                         <div class=" col-md-8">

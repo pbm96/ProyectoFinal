@@ -564,7 +564,7 @@ class ProductosController extends Controller
      */
     public function guardar_venta_producto(Request $request, $id)
     {
-        try {
+
             $this->validate($request, [
                 'nombre_usuario' => 'string|required|max:191',
                 'precio_venta' => 'numeric|required',
@@ -572,7 +572,7 @@ class ProductosController extends Controller
                 'comentario_venta' =>'string|max:191|nullable'
 
             ]);
-
+        try {
             $producto = Producto::find($id);
             if ($producto != null) {
 
@@ -667,26 +667,31 @@ class ProductosController extends Controller
             'comentario_venta' =>'string|max:191|nullable'
 
         ]);
-        $venta = ProductoVendido::find($id);
+        try {
+            $venta = ProductoVendido::find($id);
 
-        $user_comprador = User::where('id', '=', $venta->user_id)->first();
+            $user_comprador = User::where('id', '=', $venta->user_id)->first();
 
-        $user = User::where('id', '=', $venta->vendido_a)->first();
+            $user = User::where('id', '=', $venta->vendido_a)->first();
 
 
-        $venta->valoracion_venta_comprador = $request->valoracion_compra;
+            $venta->valoracion_venta_comprador = $request->valoracion_compra;
 
-        if ($request->valoracion_compra != null) {
-            self::calcular_valoracion_usuario($request->valoracion_compra, $user_comprador);
+            if ($request->valoracion_compra != null) {
+                self::calcular_valoracion_usuario($request->valoracion_compra, $user_comprador);
+            }
+
+            $venta->comentario_venta_comprador = $request->comentario_compra;
+
+            $venta->notificacion = 'false';
+
+            $venta->save();
+
+            return redirect()->route('perfil_publico', $user->id);
+        }catch (Excption $exception){
+            Flash::error('Ha ocurrido un error al guardar la valoracion');
+            return redirect()->route('index');
         }
-
-        $venta->comentario_venta_comprador = $request->comentario_compra;
-
-        $venta->notificacion = 'false';
-
-        $venta->save();
-
-        return redirect()->route('perfil_publico', $user->id);
     }
 
     /**
