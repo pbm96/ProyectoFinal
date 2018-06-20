@@ -11,12 +11,12 @@
     @foreach($productChunk as $producto)
     <div class="col-lg-3 col-md-6 col-sm-12 mb-5">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header imagenes_productos">
                 @if(count($producto->imagen)>0)
 
-                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="160"
+                <img src="{{ asset('imagenes/productos/'.$producto->imagen[0]->nombre) }}" alt="Imagen del producto" style="width:100%" height="200"
                     class="card-img-top"> @else
-                <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" class="card-img-top">                @endif
+                <img src="{{ asset('imagenes/productos/fakeapop_default.png') }}" alt="Imagen del producto" style="width:100%" height="200" class="card-img-top">                @endif
             </div>
 
             <div class="card-body">

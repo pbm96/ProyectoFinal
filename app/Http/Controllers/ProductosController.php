@@ -28,6 +28,7 @@ class ProductosController extends Controller
         $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
 
         $productos = $productos->paginate(8);
+        
 
         self::creado_desde($productos);
 
@@ -186,8 +187,6 @@ class ProductosController extends Controller
      */
     public function modificar_producto(Request $request, $id)
     {
-        try {
-
             $this->validate($request, [
                 'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
                 'nombre' => 'string|required|max:191',
@@ -195,8 +194,9 @@ class ProductosController extends Controller
                 'descripcion'=> 'string|required|max:500'
 
             ]);
-
+        try {
             $producto = Producto::find($id);
+
 
             Imagen::where('producto_id', '=', $id)->delete();
 
@@ -226,14 +226,16 @@ class ProductosController extends Controller
                 }
             }
 
-            Flash::success('El Producto ' . $producto->nombre . ' se actualizo correctamente');
+            Flash::success('El Producto ' . $producto->nombre . ' se actualizó correctamente');
 
             return redirect()->route('ver_productos_usuario', \Auth::user()->id);
 
         } catch (Exception $exception) {
-
+            dd($exception);
             Flash::error('No se ha podido actualizar el Producto');
-            return redirect()->route('ver_productos_usuario',\Auth::user()->id);
+
+            return redirect()->route('ver_productos_usuario',auth()->user()->id);
+
         }
     }
 
@@ -417,14 +419,17 @@ class ProductosController extends Controller
                 if (count($productos_favoritos) > 0) {
 
                     foreach ($productos_favoritos as $producto) {
-                        $product = Producto::where('id', '=', $producto->producto_id)->first();
 
-                        $producto->nombre = $product->nombre;
+                        $producto->nombre = $producto->producto->nombre;
 
-                        $producto->precio = $product->precio;
+                        $producto->precio = $producto->producto->precio;
+
+                        $producto->created_at = $producto->producto->created_at;
 
                     }
+
                     self::creado_desde($productos_favoritos);
+
 
                     return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
 
