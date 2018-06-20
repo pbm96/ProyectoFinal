@@ -121,10 +121,9 @@ class ProductosController extends Controller
 
         $this->validate($request, [
             'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'nombre' => 'alpha_num|required|max:191',
+            'nombre' => 'string|required|max:191',
             'precio' => 'numeric|required',
-            'descripcion'=> 'alpha_num|required|max:500'
-
+            'descripcion'=> 'string|required|max:500'
         ]);
         $producto = new Producto($request->all());
         // introducir id de usuario autentificado en tabla productos
@@ -191,9 +190,9 @@ class ProductosController extends Controller
 
             $this->validate($request, [
                 'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-                'nombre' => 'alpha_num|required|max:191',
+                'nombre' => 'string|required|max:191',
                 'precio' => 'numeric|required',
-                'descripcion'=> 'alpha_num|required|max:500'
+                'descripcion'=> 'string|required|max:500'
 
             ]);
 
@@ -229,12 +228,12 @@ class ProductosController extends Controller
 
             Flash::success('El Producto ' . $producto->nombre . ' se actualizo correctamente');
 
-            return redirect()->route('ver_productos_usuario', $producto->user_id);
+            return redirect()->route('ver_productos_usuario', \Auth::user()->id);
 
         } catch (Exception $exception) {
 
             Flash::error('No se ha podido actualizar el Producto');
-            return redirect()->route('ver_productos_usuario');
+            return redirect()->route('ver_productos_usuario',\Auth::user()->id);
         }
     }
 
@@ -562,10 +561,10 @@ class ProductosController extends Controller
     {
         try {
             $this->validate($request, [
-                'nombre_usuario' => 'alpha_num|required|max:191',
+                'nombre_usuario' => 'string|required|max:191',
                 'precio_venta' => 'numeric|required',
                 'valoracion_venta'=> 'numeric|nullable|digits:1|max:5|min:0',
-                'comentario_venta' =>'alpha_num|max:191|nullable'
+                'comentario_venta' =>'string|max:191|nullable'
 
             ]);
 
@@ -660,7 +659,7 @@ class ProductosController extends Controller
 
         $this->validate($request, [
             'valoracion_venta'=> 'numeric|nullable|digits:1|max:5|min:0',
-            'comentario_venta' =>'alpha_num|max:191|nullable'
+            'comentario_venta' =>'string|max:191|nullable'
 
         ]);
         $venta = ProductoVendido::find($id);
