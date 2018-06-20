@@ -119,10 +119,6 @@ main, nav.simpleNav {
 
 /* Vender Producto Vendedor */
 
-h4 {
-    display: inline;
-}
-
 .rating-stars ul {
     list-style-type: none;
     padding: 0;
@@ -177,7 +173,7 @@ h4 {
 
 /* Productos favoritos */
 
-.card-title {
+.card-body > .card-title {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -332,7 +328,7 @@ chat
     white-space: nowrap;
 }
 
-. {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box

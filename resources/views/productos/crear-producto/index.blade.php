@@ -1,8 +1,26 @@
 @extends('templates.main') 
 @section('titulo_pagina', 'crear-producto') 
- 
-@section('contenido') {!! Form::Open(['route' => 'guardar_producto','method'=>'POST', 'enctype'=> 'multipart/data', 'files' => true ,'class'=>'row justify-content-center'])
-!!}
+@section('contenido') 
+
+@if ($errors->has('imagen[]'))
+<span class="invalid-feedback ml-5" style="display:block">
+    <strong>{{ $errors->first('imagen[]') }}</strong>
+</span> @endif
+@if ($errors->has('nombre'))
+<span class="invalid-feedback ml-5" style="display:block">
+    <strong>{{ $errors->first('nombre') }}</strong>
+</span> @endif
+@if ($errors->has('precio'))
+<span class="invalid-feedback ml-5" style="display:block">
+    <strong>{{ $errors->first('precio') }}</strong>
+</span> @endif
+@if ($errors->has('descripcion'))
+<span class="invalid-feedback ml-5" style="display:block">
+    <strong>{{ $errors->first('descripcion') }}</strong>
+</span> @endif
+
+{!! Form::Open(['route' => 'guardar_producto','method'=>'POST', 'enctype'=> 'multipart/data', 'files' => true ,'class'=>'row
+justify-content-center']) !!}
 <div class="card col-sm-8 ">
     <div class="card-body">
         <p class="h4 text-center py-4">Crear Producto</p>
@@ -123,6 +141,5 @@
 
 
     });
-
     </script>
 @endsection
