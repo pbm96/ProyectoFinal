@@ -89,7 +89,10 @@ Route::group(['prefix' => 'errores'], function () {
     Route::get('403', ['as' => 'error_403', 'uses' => 'ErrorsController@error_403']);
 
     Route::get('404', ['as' => 'error_404', 'uses' => 'ErrorsController@error_404']);
+
     Route::get('405', ['as' => 'error_405', 'uses' => 'ErrorsController@error_405']);
+
+    Route::get('500', ['as' => 'error_500', 'uses' => 'ErrorsController@error_500']);
 
 });
 
