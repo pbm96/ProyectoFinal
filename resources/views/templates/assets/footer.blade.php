@@ -1,4 +1,4 @@
-<footer class="bg-primary pt-4 pb-2">
+<footer class="footer bg-primary pt-4 pb-2" id="footer">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-8 text-white pb-2 text-justify">
