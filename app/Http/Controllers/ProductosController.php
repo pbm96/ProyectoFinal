@@ -28,6 +28,7 @@ class ProductosController extends Controller
         $productos = ($request->query()) ? $this->filtrarProductos($request->query()) : Producto::where('vendido', '=', 'false')->orderBy('created_at', 'desc');
 
         $productos = $productos->paginate(8);
+        
 
         self::creado_desde($productos);
 
@@ -418,14 +419,17 @@ class ProductosController extends Controller
                 if (count($productos_favoritos) > 0) {
 
                     foreach ($productos_favoritos as $producto) {
-                        $product = Producto::where('id', '=', $producto->producto_id)->first();
 
-                        $producto->nombre = $product->nombre;
+                        $producto->nombre = $producto->producto->nombre;
 
-                        $producto->precio = $product->precio;
+                        $producto->precio = $producto->producto->precio;
+
+                        $producto->created_at = $producto->producto->created_at;
 
                     }
+
                     self::creado_desde($productos_favoritos);
+
 
                     return view('productos.productos-usuario-favoritos.index')->with('productos_favoritos', $productos_favoritos);
 
