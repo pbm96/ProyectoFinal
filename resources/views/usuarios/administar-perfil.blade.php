@@ -80,12 +80,22 @@
                                         {!! Form::label('nombre_usuario','Usuario') !!}
                                         {!! Form::Text('nombre_usuario',$usuario->nombre_usuario,['class'=>'form-control form-control-sm ','required']) !!}
                                     </div>
+                                    @if ($errors->has('nombre_usuario'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('nombre_usuario') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="col-sm-6 ">
                                     <div class="md-form form-sm mb-2">
-                                        {!! Form::label('nombre_usuario','Email') !!}
+                                        {!! Form::label('email','Email') !!}
                                         {!! Form::Email('email',$usuario->email,['class'=>'form-control form-control-sm ','required']) !!}
                                     </div>
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -103,6 +113,11 @@
                                             </div>
                                         </div>
                                     </form>
+                                    @if ($errors->has('imagen'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('imagen') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="row ">
@@ -130,7 +145,7 @@
 
                                     @if ($errors->has('password'))
                                         <span >
-                                        <strong class="invalid-feedback" style="display: block" >{{ $errors->first('password') }}</strong>
+                                        <strong class="invalid-feedback" >{{ $errors->first('password') }}</strong>
                                         </span>
                                     @endif
                                     </div>
@@ -150,6 +165,11 @@
                                         {!! Form::label('nombre','Nombre') !!}
                                         {!! Form::Text('nombre',$usuario->nombre,['class'=>'form-control form-control-sm','required']) !!}
                                     </div>
+                                    @if ($errors->has('nombre'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('nombre') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                                 <!-- Grid column -->
 
@@ -159,7 +179,11 @@
                                         {!! Form::label('apellido1','Apellido1') !!}
                                         {!! Form::Text('apellido1',$usuario->apellido1,['class'=>'form-control form-control-sm','required']) !!}
                                     </div>
-
+                                    @if ($errors->has('apellido1'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('apellido1') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="col-sm-4">
 
@@ -168,6 +192,11 @@
                                             {!! Form::label('apellido2','Apellido2') !!}
                                             {!! Form::Text('apellido2',$usuario->apellido2,['class'=>'form-control form-control-sm','required']) !!}
                                         </div>
+                                        @if ($errors->has('apellido2'))
+                                            <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('apellido2') }}</strong>
+                                    </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -177,12 +206,22 @@
                                         {!! Form::label('direccion','Direccion') !!}
                                         {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control form-control-sm ','required']) !!}
                                     </div>
+                                    @if ($errors->has('direccion'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('direccion') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <div class="md-form form-sm mb-2 ">
                                         {!! Form::label('telefono','Telefono') !!}
                                         {!! Form::Text('telefono',$usuario->telefono,['id'=>'telefono','class'=>'form-control form-control-sm ']) !!}
                                     </div>
+                                    @if ($errors->has('telefono'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('telefono') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 

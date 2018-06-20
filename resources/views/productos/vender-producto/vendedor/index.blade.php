@@ -28,7 +28,7 @@
                     <div class="md-form col-sm-8 pl-0">
                         <i class="fa fa-user prefix grey-text pl-2"></i>
                         <input type="text" class="form-control" required id="usuarios" autocomplete="on"
-                               name="nombre_usuario">
+                               name="nombre_usuario" value="{{old('nombre_usuario')}}">
                         {!! Form::label('usuario','Usuario al que se lo vendiste') !!}
                     </div>
 
@@ -37,6 +37,12 @@
 
                         {!! Form::number('precio_venta',null,['class'=>'form-control','required','placeholder'=>$producto->precio,'min'=>0]) !!}
                         {!! Form::label('precio','Precio de venta final') !!}
+
+                        @if ($errors->has('precio_venta'))
+                            <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('precio_venta') }}</strong>
+                                    </span>
+                        @endif
                     </div>
                 </div>
                 <div class="mt-3 col-sm-5 ">
@@ -63,13 +69,18 @@
                     </div>
                 </div>
 
-                <div class="md-form">
+                <div class="md-form mr-3">
 
                     <div class="form-group shadow-textarea">
                         <i class=" fas fa-comments prefix grey-text"></i>
                         <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
-                                  placeholder="Escribir comentario venta..." name="comentario_venta"></textarea>
+                                  placeholder="Escribir comentario venta..." name="comentario_venta">{{old('comentario_venta')}}</textarea>
                     </div>
+                    @if ($errors->has('comentario_venta'))
+                        <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('comentario_venta') }}</strong>
+                                    </span>
+                    @endif
                 </div>
 
                 <div class="text-center py-4 mt-3">

@@ -59,9 +59,10 @@
         <div class="modal-footer">
             <div class="options row">
                 <div class="checkbox  justify-content-start">
-                    <label>
-                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recuerdame
-                    </label>
+
+                        <input  class="checkbox__input" type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}/>
+                    <label class="checkbox__label" for="remember">remember</label>
+
                 </div>
                 <p >No estás Registrado?<a href="{{route('register')}}"> Registrate</a></p>
             </div>
