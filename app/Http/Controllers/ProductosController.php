@@ -188,8 +188,6 @@ class ProductosController extends Controller
      */
     public function modificar_producto(Request $request, $id)
     {
-        try {
-
             $this->validate($request, [
                 'imagen.*' => 'image|mimes:jpeg,png,jpg|max:2048',
                 'nombre' => 'alpha_num|required|max:191',
@@ -197,8 +195,9 @@ class ProductosController extends Controller
                 'descripcion'=> 'alpha_num|required|max:500'
 
             ]);
-
+        try {
             $producto = Producto::find($id);
+
 
             Imagen::where('producto_id', '=', $id)->delete();
 
@@ -228,14 +227,14 @@ class ProductosController extends Controller
                 }
             }
 
-            Flash::success('El Producto ' . $producto->nombre . ' se actualizo correctamente');
+            Flash::success('El Producto ' . $producto->nombre . ' se actualizó correctamente');
 
             return redirect()->route('ver_productos_usuario', $producto->user_id);
 
         } catch (Exception $exception) {
-
+            dd($exception);
             Flash::error('No se ha podido actualizar el Producto');
-            return redirect()->route('ver_productos_usuario');
+            return redirect()->route('ver_productos_usuario',auth()->user()->id);
         }
     }
 

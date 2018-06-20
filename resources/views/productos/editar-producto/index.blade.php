@@ -12,7 +12,7 @@
         <p class="h4 text-center py-4">Editar Producto</p>
         <div class="row justify-content-around">
             <div class="col-sm-12">
-                <div class="card imagenes container p-4">
+                <div class="card contenedorImagenes container p-4">
                     <div class="form-group">
                         <label class="btn btn-outline-info" for="image_uploads">Choose images to upload (PNG, JPG)</label>
                         <input type="file" id="image_uploads" name="imagen[]" accept=".jpg, .jpeg, .png" multiple>
@@ -23,15 +23,25 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="md-form col-sm-8 pl-0">
-                <i class="fas fa-mobile-alt prefix grey-text pl-2"></i> {!! Form::Text('nombre',$producto->nombre,['class'=>'form-control','required'])
+        <div class="row mt-2">
+            <div class="md-form col-sm-7 ml-3 pl-0  ">
+               {!! Form::Text('nombre',$producto->nombre,['class'=>'form-control','required'])
                 !!} {!! Form::label('nombre','Nombre Producto') !!}
+                @if ($errors->has('nombre'))
+                    <span class="invalid-feedback mr-5">
+                                        <strong>{{ $errors->first('nombre') }}</strong>
+                                    </span>
+                @endif
             </div>
 
             <div class="md-form col-sm-3 offset-1 pl-0">
-                <i class="fa fa-euro-sign prefix grey-text"></i> {!! Form::number('precio',$producto->precio,['class'=>'form-control','required','min'=>0])
+              {!! Form::number('precio',$producto->precio,['class'=>'form-control','required','min'=>0])
                 !!} {!! Form::label('precio','Precio') !!}
+                @if ($errors->has('precio'))
+                    <span class="invalid-feedback  ">
+                                        <strong>{{ $errors->first('precio') }}</strong>
+                                    </span>
+                @endif
             </div>
         </div>
         <div class="form-group form-row mt-4">
@@ -39,15 +49,26 @@
                 {!! Form::select('categoria_id',$categorias,$producto->categoria->nombre,['class'=>'form-control mt-2','required'])
                 !!}
             </div>
+            @if ($errors->has('categoria'))
+                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('categoria') }}</strong>
+                                    </span>
+            @endif
         </div>
 
         <div class="md-form">
 
             <div class="form-group shadow-textarea">
-                <i class=" fas fa-pencil-alt prefix grey-text"></i> {!! Form::textarea('descripcion',$producto->descripcion,['class'=>'form-control
+                {!! Form::textarea('descripcion',$producto->descripcion,['class'=>'form-control
                 z-depth-1','required','placeholder'=>'Escribir descripción del producto...','rows'=>'8']) !!}
             </div>
+            @if ($errors->has('descripcion'))
+                <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('descripcion') }}</strong>
+                                    </span>
+            @endif
         </div>
+
 
         <div class="text-center py-4 mt-3">
             {!!Form::submit('Editar Producto',['class'=>'btn btn-outline-primary'])!!}
