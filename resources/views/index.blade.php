@@ -7,13 +7,13 @@
 @endsection
  
 @section('contenido')
-<div class="row justify-content-around mb-4 d-none d-xs-block d-md-none">
+<div class="row justify-content-around mb-4 d-block d-sm-none ">
     <div class="col-lg-4">
         {{ Form::open(['route' => ['buscador'], 'method' => 'GET', 'class' => 'form-inline']) }}
-        <div class="md-form my-0 d-sm-none d-none d-sm-block">
+        <div class="md-form my-0 ">
             {{ Form::text('buscar', old('buscar'), array('placeholder'=>'Buscar...','class'=>'form-control mr-sm-2','aria-label'=>'buscar'))
             }}
-            <button class="btn btn-outline-primary btn-sm" type="submit">Buscar</button>
+            <button class="btn btn-outline-primary btn-sm d-inline" type="submit">Buscar</button>
         </div>
         {{ Form::close() }}
     </div>

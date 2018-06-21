@@ -17,6 +17,8 @@ Route::get('/about', ['as' => 'about', 'uses' => 'HomeController@about']);
 
 Route::get('/contacto', ['as' => 'contact', 'uses' => 'HomeController@contact']);
 
+Route::POST('/enviar-peticion', ['as' => 'mensaje_contacto', 'uses' => 'HomeController@mensaje_contacto']);
+
 Route::get('/mapa-web', ['as' => 'mapa', 'uses' => 'HomeController@mapaweb']);
 
 Route::get('ver-producto/{id}', array('as' => 'ver_producto', 'uses' => 'ProductosController@ver_producto_completo'));

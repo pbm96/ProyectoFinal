@@ -165,11 +165,11 @@
                     if(data!=='' && data=='si') {
                        $('#poner_favorito').empty();
                        $('#poner_favorito').append("<i class='far fa-2x fa-heart text-danger icono-rojo'></i>Quitar de  favoritos")
+
                     }else{
                         $('#poner_favorito').empty();
                         $('#poner_favorito').append("<i class='far fa-2x fa-heart text-dark icono-negro '></i>Añadir a favoritos")
                     }
-
                 }
             })
 

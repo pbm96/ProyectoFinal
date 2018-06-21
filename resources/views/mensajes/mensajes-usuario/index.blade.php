@@ -57,10 +57,11 @@
                                 <div class="fade tab-pane  @if(isset($conversacion->activo))in show  active @endif"
                                      role="tabpanel" id="conversacion{{$conversacion->id}}">
                                     <div class="row justify-content-end mr-1 mb-0">
-                                        <a id="borrar_conversacion_{{$conversacion->id}}"
+                                        <a id="borrar_conversacion_{{$conversacion->id}}" data-toggle="popover" data-trigger="hover"
+                                           data-placement="right" data-content="Borrar conversacion"
                                            href="{{route('eliminar_conversacion',$conversacion->id)}}"
                                            onclick="borrar_conversacion({{$conversacion->id}})" class="text-danger "  ><i
-                                                    class="fas fa-2x fa-window-close " title="Borrar Conversacion"></i></a>
+                                                    class="fas fa-2x fa-window-close "   ></i></a>
                                     </div>
                                     <div class="border border-dark border-bottom-0 p-4 mt-0 chat"
                                          id="chat_{{$conversacion->id}}">
@@ -175,7 +176,7 @@
                         $('#enviar_' + id).prop("disabled", true);
                         $('#ultimo_mensaje_user_' + data.conversacion).text('Tú: ' + data.mensaje);
 
-                        $('#chat_' + id).append(" <div class='d-flex justify-content-end'><p class='primary-color rounded p-3 text-white w-75 mb-0 '>" + data.mensaje + "</p></div><div class='text-right mr-4'><p><small>" + data.hora + " " + data.mes + "," + data.hora + ":" + data.minutos + "</small></p></div>");
+                        $('#chat_' + id).append(" <div class='d-flex justify-content-end'><p class='primary-color rounded p-3 text-white w-75 mb-0 '>" + data.mensaje + "</p></div><div class='text-right mr-4'><p><small>" + data.dia+ " " + data.mes + "," + data.hora + ":" + data.minutos + "</small></p></div>");
 
                         $('#chat_' + id).scrollTop($('#chat_' + id)[0].scrollHeight);
                     } else {

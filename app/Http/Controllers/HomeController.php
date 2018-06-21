@@ -6,6 +6,7 @@ use App\Mensaje;
 use App\Producto;
 use App\ProductoVendido;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 
 class HomeController extends Controller
 {
@@ -81,5 +82,11 @@ class HomeController extends Controller
     public function mapaweb()
     {
         return view('/MapaWeb');
+    }
+    public function mensaje_contacto(Request $request){
+
+        Flash::success('Tu propuesta se ha enviado correctamente ');
+
+            return view('/contact');
     }
 }

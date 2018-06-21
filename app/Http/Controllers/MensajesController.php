@@ -278,6 +278,7 @@ class MensajesController extends Controller
         if (count($mensajes_nuevos) > 0) {
             foreach ($mensajes_nuevos as $mensaje) {
                 $mensaje->ha_llegado = 'true';
+
                 $mensaje->save();
 
                 $fecha = $mensaje->created_at;
@@ -289,6 +290,7 @@ class MensajesController extends Controller
                 $mensaje->dia = $fecha->day;
 
                 $mensaje->mes = self::sacar_mes_string($fecha->month);
+
 
                 $mensaje->user_enviado;
                 if ($mensaje->user_enviado->imagen == null) {

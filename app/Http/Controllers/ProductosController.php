@@ -335,8 +335,6 @@ class ProductosController extends Controller
                     return view('productos.productos-usuario.index')->with('productos', $productos);
                 } else {
 
-                    Flash::error(' No tienes ningún producto subido');
-
                     return view('productos.productos-usuario.index')->with('productos', $productos);
                 }
             } catch (Exception $exception) {

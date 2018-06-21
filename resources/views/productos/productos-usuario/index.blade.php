@@ -50,7 +50,6 @@
     <div class="">{{ $productos->render() }}</div>
 </div>
 @else
-<h1>No tienes productos</h1>
 @endif
 @endsection
 

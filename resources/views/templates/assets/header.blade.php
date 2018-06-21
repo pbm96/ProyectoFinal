@@ -1,7 +1,7 @@
 <!--Navbar-->
 <nav class="navbar navbar-dark primary-color">
     <a id="menuIcon" class="menu-icon text-white"> &#9776; </a>
-    <a class="navbar-brand" href="{{ route('index') }}">Fakeapop</a> {{ Form::open(['route' => ['buscador'], 'method' => 'GET', 'class' =>
+    <a class="navbar-brand " href="{{ route('index') }}"><h2 class="h2">Fakeapop</h2></a> {{ Form::open(['route' => ['buscador'], 'method' => 'GET', 'class' =>
     'form-inline']) }}
     <div class="my-0">
         <ul class="nav navbar-rigth mr-5 list-group-flush">

@@ -17,10 +17,17 @@ body {
 #notificaciones::after {
     display: none
 }
-
-#descripcion_notificacion {
-    left: -120%;
-    min-width: 14rem;
+@media (min-width:700px) {
+    #descripcion_notificacion {
+        left: -120% ;
+        min-width: 14rem;
+    }
+}
+@media (max-width:800px) {
+    #descripcion_notificacion {
+        left: -430% ;
+        min-width: 14rem;
+    }
 }
 
 * {
