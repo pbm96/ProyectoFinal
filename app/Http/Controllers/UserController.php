@@ -62,13 +62,15 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'password' => 'confirmed|string|min:6|max:191',
-            'nombre' => 'required|string|max:30',
-            'apellido1'=>'required|string|max:30',
-            'apellido2'=>'string|max:30',
+            'nombre' => 'required|alpha|max:30',
+            'apellido1'=>'required|alpha|max:30',
+            'apellido2'=>'alpha|max:30',
             'nombre_usuario'=>'required|alpha_num|max:30|unique:users,nombre_usuario,'.$id,
-            'email' => 'required|string|email|max:191|unique:users,email,'.$id,
+            'email' => 'required|email|max:191|unique:users,email,'.$id,
             'direccion' => 'nullable|string',
             'telefono' => 'numeric|digits:9|nullable',
+            'cityLat' =>'required_with:direccion',
+            'cityLng' => 'required_with:direccion',
 
         ]);
         try {
@@ -178,75 +180,84 @@ class UserController extends Controller
     public function perfil_publico($id)
     {
 
+        try {
+            //usuario del perfil
+            $usuario = User::find($id);
 
-        //usuario del perfil
-        $usuario = User::find($id);
+            if ($usuario != null) {
+                $direccion = $usuario->direccion;
 
-        $direccion = $usuario->direccion;
+                // sacar fecha de la creacion del usuario
+                $ano = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->year;
 
-        // sacar fecha de la creacion del usuario
-        $ano = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->year;
+                $mes = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->month;
 
-        $mes = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->month;
+                $dia = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->day;
 
-        $dia = Carbon::createFromFormat('Y-m-d H:i:s', $usuario->created_at)->day;
+                $mes = $mes < 10 ? '0' . $mes : $mes;
+                $dia = $dia < 10 ? '0' . $dia : $dia;
 
-        $mes = $mes < 10 ? '0' . $mes : $mes;
-        $dia = $dia < 10 ? '0' . $dia : $dia;
-
-        $fecha_user = $dia . '-' . $mes . '-' . $ano;
-
-
-        // productos del usuario que no se han vendido todavia
-        $productos_user = Producto::where('user_id', '=', $usuario->id)->where('vendido', '=', 'false')->orderBy('created_at', 'desc')->get();
-
-        $this->productosController->creado_desde($productos_user);
-
-        //productos del usuario que se han vendido
-        $productos_vendidos_user = Producto::where('user_id', '=', $id)->where('vendido', '=', 'true')->orderBy('created_at', 'desc')->get();
-
-        $productos_comprados_user = ProductoVendido::where('vendido_a', '=', $usuario->id)->get();
+                $fecha_user = $dia . '-' . $mes . '-' . $ano;
 
 
-        $this->productosController->creado_desde($productos_vendidos_user);
+                // productos del usuario que no se han vendido todavia
+                $productos_user = Producto::where('user_id', '=', $usuario->id)->where('vendido', '=', 'false')->orderBy('created_at', 'desc')->get();
+
+                $this->productosController->creado_desde($productos_user);
+
+                //productos del usuario que se han vendido
+                $productos_vendidos_user = Producto::where('user_id', '=', $id)->where('vendido', '=', 'true')->orderBy('created_at', 'desc')->get();
+
+                $productos_comprados_user = ProductoVendido::where('vendido_a', '=', $usuario->id)->get();
 
 
-        //sacar los datos de la venta de los productos
+                $this->productosController->creado_desde($productos_vendidos_user);
 
-        if (count($productos_vendidos_user) > 0) {
-            $datos_venta_producto = $usuario->vendedor;
 
-            // se necesitan sacar los datos del usuario al que se le ha vendido el producto y el comentario y valoracion
+                //sacar los datos de la venta de los productos
 
-            foreach ($datos_venta_producto as $datos) {
+                if (count($productos_vendidos_user) > 0) {
+                    $datos_venta_producto = $usuario->vendedor;
 
-                $datos_user_venta[] = User::where('id', '=', $datos->vendido_a)->first();
+                    // se necesitan sacar los datos del usuario al que se le ha vendido el producto y el comentario y valoracion
+
+                    foreach ($datos_venta_producto as $datos) {
+
+                        $datos_user_venta[] = User::where('id', '=', $datos->vendido_a)->first();
+                    }
+                } else {
+                    $datos_venta_producto = null;
+                    $datos_user_venta = '';
+                }
+                if (count($productos_comprados_user) > 0) {
+
+                    foreach ($productos_comprados_user as $producto) {
+
+                        $datos_user_compra[] = User::where('id', '=', $producto->user_id)->first();
+                    }
+                } else {
+                    $productos_comprados_user = '';
+                    $datos_user_compra = '';
+                }
+
+
+                return view('usuarios.perfil-publico.index')->with('usuario', $usuario)
+                    ->with('productos_user', $productos_user)
+                    ->with('productos_vendidos_user', $productos_vendidos_user)
+                    ->with('datos_venta_producto', $datos_venta_producto)
+                    ->with('productos_comprados_user', $productos_comprados_user)
+                    ->with('datos_user_venta', $datos_user_venta)
+                    ->with('datos_user_compra', $datos_user_compra)
+                    ->with('direccion', $direccion)
+                    ->with('fecha_user', $fecha_user);
+            } else {
+                Flash::error('No existe el usuario');
+                return redirect()->route('index');
             }
-        } else {
-            $datos_venta_producto = null;
-            $datos_user_venta = '';
+        }catch (Exception $exception){
+            Flash::error('Ha ocurrido un error');
+            return redirect()->route('index');
         }
-        if (count($productos_comprados_user) > 0) {
-
-            foreach ($productos_comprados_user as $producto) {
-
-                $datos_user_compra[] = User::where('id', '=', $producto->user_id)->first();
-            }
-        } else {
-            $productos_comprados_user = '';
-            $datos_user_compra = '';
-        }
-
-
-        return view('usuarios.perfil-publico.index')->with('usuario', $usuario)
-            ->with('productos_user', $productos_user)
-            ->with('productos_vendidos_user', $productos_vendidos_user)
-            ->with('datos_venta_producto', $datos_venta_producto)
-            ->with('productos_comprados_user', $productos_comprados_user)
-            ->with('datos_user_venta', $datos_user_venta)
-            ->with('datos_user_compra', $datos_user_compra)
-            ->with('direccion', $direccion)
-            ->with('fecha_user', $fecha_user);
 
     }
 

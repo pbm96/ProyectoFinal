@@ -64,20 +64,31 @@
                         </div>
                     </div>
 
-                    <div class="card-body">
-                        <div class="row mb-5">
-                            <div class="col-sm-4 ">
-                                <div class="md-form form-sm mb-2">
-                                    {!! Form::label('nombre_usuario','Usuario') !!} {!! Form::Text('nombre_usuario',$usuario->nombre_usuario,['class'=>'form-control
+                        <div class="card-body">
+                            <div class="row mb-5">
+                                <div class="col-sm-4 ">
+                                    <div class="md-form form-sm mb-2">
+                                        {!! Form::label('nombre_usuario','Usuario') !!} {!! Form::Text('nombre_usuario',$usuario->nombre_usuario,['class'=>'form-control
                                     form-control-sm ','required', "pattern" => "^[a-zA-Z0-9_-]{3,30}$", "oninvalid" => "this.setCustomValidity('El
                                     username solo puede contener letras y numeros y (_-), con una longitud minima de 3 y
                                     maxima de 30 caracteres')", "oninput" => "this.setCustomValidity('')"]) !!}
+                                    </div>
+                                    @if ($errors->has('nombre_usuario'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('nombre_usuario') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <div class="md-form form-sm mb-2">
-                                    {!! Form::label('nombre_usuario','Email') !!} {!! Form::Email('email',$usuario->email,['class'=>'form-control form-control-sm
-                                    ','required']) !!}
+                                <div class="col-sm-6 ">
+                                    <div class="md-form form-sm mb-2">
+                                        {!! Form::label('email','Email') !!}
+                                        {!! Form::Email('email',$usuario->email,['class'=>'form-control form-control-sm ','required']) !!}
+                                    </div>
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -94,8 +105,13 @@
                                         <div class="btn btn-primary btn-sm float-left">
                                             <input type="file" name="imagen">
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                    @if ($errors->has('imagen'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('imagen') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         <div class="row ">
@@ -111,17 +127,21 @@
                                     <input type="password" class="form-control form-control-sm " id="contraseña_actual" onkeyup="habilitar(this.value)">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-5">
-                            <div class="col-sm-6 ">
-                                <div class="md-form form-sm mb-2">
-                                    {!! Form::label('password','Contraseña Nueva') !!}
+
+                            <div class="row mb-5">
+                                <div class="col-sm-6 ">
+                                    <div class="md-form form-sm mb-2">
+                                        {!! Form::label('password','Contraseña Nueva') !!}
                                     <input type="password" class="form-control form-control-sm {{ $errors->has('password') ? ' invalid' : '' }}" id="contraseña_nueva"
                                         name="password" disabled
-                                        pattern="^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$"> @if ($errors->has('password'))
-                                    <span>
-                                        <strong class="invalid-feedback" style="display: block" >{{ $errors->first('password') }}</strong>
-                                        </span> @endif
+                                        pattern="^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$">
+
+                                    @if ($errors->has('password'))
+                                        <span >
+                                        <strong class="invalid-feedback" >{{ $errors->first('password') }}</strong>
+                                        </span>
+                                    @endif
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 ">
@@ -133,52 +153,77 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4">
-                                <div class="md-form form-sm mb-2">
-                                    {!! Form::label('nombre','Nombre') !!} {!! Form::Text('nombre',$usuario->nombre,['class'=>'form-control form-control-sm','required',
+                            <div class="row mb-3">
+                                <div class="col-sm-4">
+                                    <div class="md-form form-sm mb-2">
+                                        {!! Form::label('nombre','Nombre') !!} {!! Form::Text('nombre',$usuario->nombre,['class'=>'form-control form-control-sm','required',
                                     "pattern" => "^[a-z A-Z]{3,16}$", "oninvalid" => "this.setCustomValidity('El nombre solo
                                     puede contener letras y espacios, con una longitud minima de 3 y maxima de 16 caracteres')",
                                     "oninput" => "this.setCustomValidity('')"]) !!}
+                                    </div>
+                                    @if ($errors->has('nombre'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('nombre') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                            </div>
-                            <!-- Grid column -->
+                                <!-- Grid column -->
 
-                            <!-- Grid column -->
-                            <div class="col-sm-4">
-                                <div class="md-form form-sm mb-2">
-                                    {!! Form::label('apellido1','Apellido1') !!} {!! Form::Text('apellido1',$usuario->apellido1,['class'=>'form-control form-control-sm','required',
+                                <!-- Grid column -->
+                                <div class="col-sm-4">
+                                    <div class="md-form form-sm mb-2">
+                                        {!! Form::label('apellido1','Apellido1') !!} {!! Form::Text('apellido1',$usuario->apellido1,['class'=>'form-control form-control-sm','required',
                                     "pattern" => "^[a-z A-Z]{3,16}$", "oninvalid" => "this.setCustomValidity('El apellido
                                     solo puede contener letras y espacios, con una longitud minima de 3 y maxima de 16 caracteres')",
                                     "oninput" => "this.setCustomValidity('')"]) !!}
+                                    </div>
+                                    @if ($errors->has('apellido1'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('apellido1') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
 
-                            </div>
-                            <div class="col-sm-4">
-
-                                <div class="md-form form-sm mb-2">
-                                    <div class="form-group">
-                                        {!! Form::label('apellido2','Apellido2') !!} {!! Form::Text('apellido2',$usuario->apellido2,['class'=>'form-control form-control-sm','required',
+                                    <div class="md-form form-sm mb-2">
+                                        <div class="form-group">
+                                            {!! Form::label('apellido2','Apellido2') !!} {!! Form::Text('apellido2',$usuario->apellido2,['class'=>'form-control form-control-sm','required',
                                         "pattern" => "^[a-z A-Z]{3,16}$", "oninvalid" => "this.setCustomValidity('El apellido
                                         solo puede contener letras y espacios, con una longitud minima de 3 y maxima de 16
                                         caracteres')", "oninput" => "this.setCustomValidity('')"]) !!}
+                                        </div>
+                                        @if ($errors->has('apellido2'))
+                                            <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('apellido2') }}</strong>
+                                    </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="md-form form-sm mb-2 ">
-                                    {!! Form::label('direccion','Direccion') !!} {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control
-                                    form-control-sm ','required']) !!}
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="md-form form-sm mb-2 ">
+                                        {!! Form::label('direccion','Direccion') !!}
+                                        {!! Form::Text('direccion',isset($direccion->nombre)?$direccion->nombre:null,['id'=>'direccion','class'=>'form-control form-control-sm ','required']) !!}
+                                    </div>
+                                    @if ($errors->has('direccion'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('direccion') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="md-form form-sm mb-2 ">
-                                    {!! Form::label('telefono','Telefono') !!} {!! Form::Text('telefono',$usuario->telefono,['id'=>'telefono','class'=>'form-control
+                                <div class="col-md-6">
+                                    <div class="md-form form-sm mb-2 ">
+                                        {!! Form::label('telefono','Telefono') !!} {!! Form::Text('telefono',$usuario->telefono,['id'=>'telefono','class'=>'form-control
                                     form-control-sm ', "pattern" => "^[9|6]\d{8}$", "oninvalid" => "this.setCustomValidity('El
                                     numero ha de empezar por 6 ó 9, seguido de 8 numeros')", "oninput" => "this.setCustomValidity('')"])
                                     !!}
+                                    </div>
+                                    @if ($errors->has('telefono'))
+                                        <span class="invalid-feedback ">
+                                        <strong>{{ $errors->first('telefono') }}</strong>
+                                    </span>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>

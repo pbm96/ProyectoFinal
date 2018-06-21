@@ -36,4 +36,14 @@ class ErrorsController extends Controller
         return view('errores.error-405');
 
     }
+
+    /**
+     * vista error 405
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function error_500(){
+
+        return view('errores.error-500');
+
+    }
 }

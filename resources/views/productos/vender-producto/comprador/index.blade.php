@@ -49,8 +49,13 @@
                 <div class="form-group shadow-textarea">
                     <i class=" fas fa-comments prefix grey-text"></i>
                     <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
-                              placeholder="Escribir comentario compra..." name="comentario_compra"></textarea>
+                              placeholder="Escribir comentario compra..." name="comentario_compra">{{old('comentario_compra')}}</textarea>
                 </div>
+                @if ($errors->has('comentario_compra'))
+                    <span class="invalid-feedback ml-5">
+                                        <strong>{{ $errors->first('comentario_compra') }}</strong>
+                                    </span>
+                @endif
             </div>
 
             <div class="text-center py-4 mt-3">
