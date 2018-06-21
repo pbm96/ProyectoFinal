@@ -5,6 +5,8 @@
 
 {!! Form::Open(['route' => 'guardar_producto','method'=>'POST', 'enctype'=> 'multipart/data', 'files' => true ,'class'=>'row
 justify-content-center']) !!}
+
+
 <div class="card col-sm-8 ">
     <div class="card-body">
         <p class="h4 text-center py-4">Crear Producto</p>
@@ -23,59 +25,50 @@ justify-content-center']) !!}
             </div>
         </div>
         @if ($errors->has('imagen'))
-            <span class="invalid-feedback ">
-                                        <strong>{{ $errors->first('imagen') }}</strong>
-                                    </span>
-        @endif
+        <span class="invalid-feedback ">
+            <strong>{{ $errors->first('imagen') }}</strong>
+        </span> @endif
         <div class="row justify-content-around text-center">
             <div class="md-form col-sm-7  pl-0  ">
 
-            <input type="text" class="form-control {{ $errors->has('nombre') ? ' invalid' : '' }}"  name="nombre" value="{{old('nombre')}}" required>
-
-                {!! Form::label('nombre','Producto') !!}
-
-            @if ($errors->has('nombre'))
-                    <span class="invalid-feedback mr-5">
-                                        <strong>{{ $errors->first('nombre') }}</strong>
-                                    </span>
-                @endif
+                <input type="text" class="form-control {{ $errors->has('nombre') ? ' invalid' : '' }}" name="nombre" value="{{old('nombre')}}"
+                    required pattern="^[a-z A-Z0-9.]{3,191}$" oninvalid="this.setCustomValidity('El producto solo puede contener numero, letras y espacios y una longitud minima de 3 y maxima de 191 caracteres')"
+                    oninput="this.setCustomValidity('')"> {!! Form::label('nombre','Producto') !!} @if ($errors->has('nombre'))
+                <span class="invalid-feedback mr-5">
+                    <strong>{{ $errors->first('nombre') }}</strong>
+                </span> @endif
             </div>
 
             <div class="md-form col-sm-3 offset-1 pl-0">
-                <input type="number" class="form-control {{ $errors->has('precio') ? ' invalid' : '' }}" min="0" name="precio" value="{{old('precio')}} " required>
-                {!! Form::label('precio','Precio')
-               !!}
-                @if ($errors->has('precio'))
-                    <span class="invalid-feedback  ">
-                                        <strong>{{ $errors->first('precio') }}</strong>
-                                    </span>
-                @endif
+                <input type="number" class="form-control {{ $errors->has('precio') ? ' invalid' : '' }}" min="0" max="20000" name="precio"
+                    value="{{old('precio')}} " required> {!! Form::label('precio','Precio') !!} @if ($errors->has('precio'))
+                <span class="invalid-feedback  ">
+                    <strong>{{ $errors->first('precio') }}</strong>
+                </span> @endif
             </div>
 
         </div>
         <div class="form-group form-row mt-4 ">
             <div class="col-sm-4 ">
-                {!! Form::select('categoria_id',$categorias,null,['class'=>'form-control mt-2','required'])
-                !!}
+                {!! Form::select('categoria_id',$categorias,null,['class'=>'form-control mt-2','required']) !!}
             </div>
             @if ($errors->has('categoria'))
-                <span class="invalid-feedback">
+            <span class="invalid-feedback">
                                         <strong>{{ $errors->first('categoria') }}</strong>
-                                    </span>
-            @endif
+                                    </span> @endif
         </div>
 
 
         <div class="md-form">
             <div class="form-group shadow-textarea">
-                <textarea class="form-control z-depth-1 {{ $errors->has('descripcion') ? ' invalid' : '' }}" id="descripcion" required rows="8" placeholder="Escribir descripción del producto"
-                    name="descripcion">{{ old('descripcion') }}</textarea>
+                <textarea class="form-control z-depth-1 {{ $errors->has('descripcion') ? ' invalid' : '' }}" id="descripcion" required rows="8"
+                    placeholder="Escribir descripción del producto" name="descripcion" maxlength="500" oninvalid="this.setCustomValidity('Longitud maxima de 500 caracteres')"
+                    oninput="this.setCustomValidity('')">{{ old('descripcion') }}</textarea>
             </div>
             @if ($errors->has('descripcion'))
-                <span class="invalid-feedback ">
+            <span class="invalid-feedback ">
                                         <strong>{{ $errors->first('descripcion') }}</strong>
-                                    </span>
-            @endif
+                                    </span> @endif
         </div>
 
         <div class="text-center py-4 mt-3">
