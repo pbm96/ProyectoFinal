@@ -2,11 +2,12 @@
 
 
 
+
 @extends('templates.main') 
 @section('titulo_pagina', 'ver-'.$producto->nombre) 
- 
-@section('contenido') @if($producto!=null) {!! Form::Open(['route'=>['modificar_producto',$producto->id],'method'=>'PUT','files'=>true,
-'class'=>'row justify-content-center']) !!}
+@section('contenido') @if($producto!=null)
+{!! Form::Open(['route'=>['modificar_producto',$producto->id],'method'=>'PUT','files'=>true, 'class'=>'row justify-content-center'])
+!!}
 <div class="card col-sm-8 ">
     <div class="card-body">
         <p class="h4 text-center py-4">Editar Producto</p>
@@ -25,48 +26,45 @@
         </div>
         <div class="row mt-2">
             <div class="md-form col-sm-7 ml-3 pl-0  ">
-               {!! Form::Text('nombre',$producto->nombre,['class'=>'form-control','required'])
-                !!} {!! Form::label('nombre','Nombre Producto') !!}
-                @if ($errors->has('nombre'))
-                    <span class="invalid-feedback mr-5">
+                {!! Form::Text('nombre',$producto->nombre,['class'=>'form-control','required',
+                "pattern"=>"^[a-z A-Z0-9.]{3,191}$",
+                "oninvalid"=>"this.setCustomValidity('El producto solo puede contener numero, letras y espacios y una longitud minima de 3 y maxima de 191 caracteres')",
+                "oninput"=>"this.setCustomValidity('')"]) !!} {!! Form::label('nombre','Nombre Producto')
+                !!} @if ($errors->has('nombre'))
+                <span class="invalid-feedback mr-5">
                                         <strong>{{ $errors->first('nombre') }}</strong>
-                                    </span>
-                @endif
+                                    </span> @endif
             </div>
 
             <div class="md-form col-sm-3 offset-1 pl-0">
-              {!! Form::number('precio',$producto->precio,['class'=>'form-control','required','min'=>0])
-                !!} {!! Form::label('precio','Precio') !!}
-                @if ($errors->has('precio'))
-                    <span class="invalid-feedback  ">
+                {!! Form::number('precio',$producto->precio,['class'=>'form-control','required','min'=>0, 'max'=>20222]) !!} {!! Form::label('precio','Precio')
+                !!} @if ($errors->has('precio'))
+                <span class="invalid-feedback  ">
                                         <strong>{{ $errors->first('precio') }}</strong>
-                                    </span>
-                @endif
+                                    </span> @endif
             </div>
         </div>
         <div class="form-group form-row mt-4">
             <div class="col-sm-4 ">
-                {!! Form::select('categoria_id',$categorias,$producto->categoria->nombre,['class'=>'form-control mt-2','required'])
-                !!}
+                {!! Form::select('categoria_id',$categorias,$producto->categoria->nombre,['class'=>'form-control mt-2','required']) !!}
             </div>
             @if ($errors->has('categoria'))
-                <span class="invalid-feedback">
+            <span class="invalid-feedback">
                                         <strong>{{ $errors->first('categoria') }}</strong>
-                                    </span>
-            @endif
+                                    </span> @endif
         </div>
 
         <div class="md-form">
 
             <div class="form-group shadow-textarea">
-                {!! Form::textarea('descripcion',$producto->descripcion,['class'=>'form-control
-                z-depth-1','required','placeholder'=>'Escribir descripción del producto...','rows'=>'8']) !!}
+                <textarea class="form-control z-depth-1 {{ $errors->has('descripcion') ? ' invalid' : '' }}" id="descripcion" required rows="8"
+                    placeholder="Escribir descripción del producto" name="descripcion" maxlength="500" oninvalid="this.setCustomValidity('Longitud maxima de 500 caracteres')"
+                    oninput="this.setCustomValidity('')">{{ old('descripcion') }}</textarea>
             </div>
             @if ($errors->has('descripcion'))
-                <span class="invalid-feedback ">
+            <span class="invalid-feedback ">
                                         <strong>{{ $errors->first('descripcion') }}</strong>
-                                    </span>
-            @endif
+                                    </span> @endif
         </div>
 
 
@@ -85,6 +83,7 @@
 </div>
 @endif
 @endsection
+
 
 
 <script>
@@ -161,6 +160,7 @@
     };
 
 </script>
+
 
 
 @section('scripts')
