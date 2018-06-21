@@ -100,16 +100,6 @@
 
     $(document).ready(function ()
     {
-        $(window).resize(function(){
-			    var footerHeight = $('.footer').outerHeight();
-			    var stickFooterPush = $('.push').height(footerHeight);
-		
-    			$('main').css({'marginBottom':'-' + footerHeight + 'px'});
-		    });
-		
-    		$(window).resize();
-            
-        var route= "{{route('notificaciones')}}";
 
         $.ajax({
             type: "GET",
@@ -150,6 +140,16 @@
                 }
             }
         })
+        $(window).resize(function(){
+			    var footerHeight = $('.footer').outerHeight();
+			    var stickFooterPush = $('.push').height(footerHeight);
+		
+    			$('main').css({'marginBottom':'-' + footerHeight + 'px'});
+		    });
+		
+    		$(window).resize();
+            
+        var route= "{{route('notificaciones')}}";
     })
     @endauth
 
